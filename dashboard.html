@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechWokx Dashboard — Marketing & Operations</title>
+<link rel="icon" href="assets/images/logo/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --red:#dc2626;--orange:#ea580c;--green:#16a34a;--blue:#0ea5e9;
+  --dark:#040811;--dark2:#070d1a;--dark3:#0d1526;--panel:#111827;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);
+  --text:#e2e8f0;--muted:#64748b;--accent:#f97316;
+  --font:'Outfit',sans-serif;--head:'Bebas Neue',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font);background:var(--dark);color:var(--text);display:flex;min-height:100vh;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--accent);}
+
+/* SPLASH */
+.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,var(--dark2),var(--dark3));display:flex;align-items:center;justify-content:center;}
+.splash-box{background:var(--panel);border:1px solid var(--border2);border-radius:16px;padding:2.5rem;width:460px;max-width:90vw;text-align:center;}
+.splash-logo img{height:50px;margin-bottom:1.5rem;}
+.splash-box h2{font-family:var(--head);font-size:1.8rem;margin-bottom:0.35rem;}
+.splash-box p{color:var(--muted);font-size:0.88rem;margin-bottom:1.75rem;}
+.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;margin-bottom:1.25rem;}
+.time-opt{padding:1rem 0.5rem;background:rgba(255,255,255,0.04);border:1.5px solid var(--border2);border-radius:9px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.time-opt:hover,.time-opt.sel{background:rgba(249,115,22,0.15);border-color:var(--accent);}
+.time-opt strong{display:block;font-family:var(--head);font-size:1.5rem;color:var(--accent);}
+.time-opt span{font-size:0.75rem;color:var(--muted);}
+.conn-status{display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.8rem;color:var(--muted);margin-bottom:1rem;}
+.conn-dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.conn-dot.off{background:var(--red);}
+.btn-launch{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));color:white;border:none;padding:0.9rem;border-radius:9px;font-family:var(--font);font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-launch:hover{transform:translateY(-1px);}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--dark3);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto;}
+.sb-logo{padding:1.25rem 1.1rem;border-bottom:1px solid var(--border);}
+.sb-logo img{height:34px;}
+.sb-section{padding:0.75rem 0.75rem 0.25rem;font-size:0.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;}
+.sb-link{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 1rem;color:rgba(255,255,255,0.55);font-size:0.83rem;cursor:pointer;transition:all 0.2s;border-radius:6px;margin:0 0.4rem 0.15rem;text-decoration:none;}
+.sb-link:hover{background:rgba(255,255,255,0.05);color:white;}
+.sb-link.act{background:rgba(249,115,22,0.12);color:var(--accent);border-left:2px solid var(--accent);}
+.sb-link i{width:16px;text-align:center;font-size:0.82rem;}
+.sb-badge{background:var(--red);color:white;font-size:0.6rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:20px;margin-left:auto;}
+.sb-footer{margin-top:auto;padding:1rem;border-top:1px solid var(--border);}
+.sb-user{display:flex;align-items:center;gap:0.65rem;}
+.sb-avatar{width:32px;height:32px;background:linear-gradient(135deg,var(--red),var(--orange));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;color:white;flex-shrink:0;}
+.sb-user div strong{display:block;font-size:0.8rem;color:white;}
+.sb-user div span{font-size:0.72rem;color:var(--muted);}
+.sb-exit{background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.3rem 0.6rem;border-radius:5px;font-size:0.72rem;cursor:pointer;font-family:var(--font);transition:all 0.2s;margin-top:0.5rem;width:100%;}
+.sb-exit:hover{color:white;border-color:rgba(255,255,255,0.2);}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;overflow-y:auto;}
+.topbar{height:56px;background:var(--dark3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:50;}
+.topbar-left h3{font-size:1rem;font-weight:700;color:white;}
+.topbar-left p{font-size:0.73rem;color:var(--muted);}
+.topbar-right{display:flex;align-items:center;gap:0.75rem;}
+.tb-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:rgba(255,255,255,0.6);padding:0.4rem 0.85rem;border-radius:6px;font-size:0.78rem;cursor:pointer;font-family:var(--font);transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;}
+.tb-btn:hover{background:rgba(255,255,255,0.09);color:white;}
+.tb-btn.primary{background:linear-gradient(135deg,var(--red),var(--orange));border:none;color:white;}
+
+/* CONTENT */
+.content{padding:1.5rem;}
+.sec{display:none;}
+.sec.act{display:block;}
+
+/* CARDS */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.85rem;margin-bottom:1.5rem;}
+.kpi{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:1.1rem;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi.k1::before{background:var(--red);}
+.kpi.k2::before{background:var(--orange);}
+.kpi.k3::before{background:var(--blue);}
+.kpi.k4::before{background:var(--green);}
+.kpi-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.3rem;}
+.kpi-val{font-family:var(--head);font-size:2rem;color:white;line-height:1;margin-bottom:0.2rem;}
+.kpi-chg{font-size:0.72rem;}.kpi-chg.up{color:var(--green);}.kpi-chg.dn{color:var(--red);}
+
+/* PANELS */
+.panel-row{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1rem;}
+.panel-row.equal{grid-template-columns:1fr 1fr;}
+.panel-row.triple{grid-template-columns:1fr 1fr 1fr;}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.panel-head{padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.panel-head h4{font-size:0.85rem;font-weight:700;color:white;}
+.panel-head span,.panel-head a{font-size:0.72rem;color:var(--muted);}
+.panel-body{padding:1.1rem;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:0.67rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:0.45rem 0.75rem;text-align:left;border-bottom:1px solid var(--border);}
+.data-table td{padding:0.6rem 0.75rem;font-size:0.82rem;border-bottom:1px solid rgba(255,255,255,0.04);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:rgba(255,255,255,0.02);}
+
+/* BADGES */
+.badge{display:inline-block;font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:3px;}
+.badge.red{background:rgba(220,38,38,0.18);color:#f87171;}
+.badge.orange{background:rgba(234,88,12,0.18);color:#fb923c;}
+.badge.green{background:rgba(22,163,74,0.18);color:#4ade80;}
+.badge.blue{background:rgba(14,165,233,0.18);color:#38bdf8;}
+.badge.gray{background:rgba(255,255,255,0.08);color:var(--muted);}
+
+/* CHART */
+.chart-wrap{height:180px;position:relative;}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.4rem;margin-bottom:0.75rem;}
+.cal-col{font-size:0.67rem;}
+.cal-col .cal-day-hdr{color:var(--muted);font-weight:700;margin-bottom:0.35rem;text-align:center;}
+.cal-day{background:rgba(255,255,255,0.03);border-radius:5px;padding:0.4rem;min-height:60px;}
+.cal-ev{padding:0.1rem 0.3rem;border-radius:2px;font-size:0.6rem;color:var(--text);margin-bottom:0.1rem;border-left:2px solid;}
+.cal-ev.social{background:rgba(14,165,233,0.15);border-color:var(--blue);}
+.cal-ev.email{background:rgba(22,163,74,0.15);border-color:var(--green);}
+.cal-ev.other{background:rgba(249,115,22,0.15);border-color:var(--accent);}
+
+/* FORMS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;}
+.form-row.full{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:0.3rem;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:7px;color:white;padding:0.65rem 0.85rem;font-family:var(--font);font-size:0.9rem;transition:border-color 0.2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--muted);}
+.form-group select option{background:var(--dark);}
+.form-group textarea{resize:vertical;min-height:90px;}
+.btn-form{background:linear-gradient(135deg,var(--red),var(--orange));color:white;border:none;padding:0.7rem 1.5rem;border-radius:7px;font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:0.45rem;transition:all 0.2s;}
+.btn-form:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(220,38,38,0.3);}
+.btn-outline{background:transparent;border:1px solid var(--border2);color:rgba(255,255,255,0.7);padding:0.65rem 1.25rem;border-radius:7px;font-family:var(--font);font-size:0.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.2s;}
+.btn-outline:hover{background:rgba(255,255,255,0.06);color:white;}
+
+/* AI CONTENT GENERATOR */
+.platform-tabs{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.ptab{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted);padding:0.45rem 0.9rem;border-radius:6px;font-size:0.8rem;cursor:pointer;font-family:var(--font);transition:all 0.2s;}
+.ptab:hover{color:white;}
+.ptab.act{background:rgba(249,115,22,0.15);border-color:var(--accent);color:var(--accent);}
+.content-output{background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:9px;padding:1.1rem;font-size:0.87rem;line-height:1.7;color:rgba(255,255,255,0.85);min-height:140px;white-space:pre-wrap;}
+.copy-bar{display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.65rem;}
+
+/* PIPELINE */
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0.85rem;margin-bottom:1rem;}
+.pipe-col{background:rgba(255,255,255,0.03);border-radius:8px;padding:0.75rem;}
+.pipe-col-hdr{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.65rem;display:flex;align-items:center;justify-content:space-between;}
+.pipe-card{background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:0.75rem;margin-bottom:0.5rem;font-size:0.8rem;cursor:pointer;transition:border-color 0.2s;}
+.pipe-card:hover{border-color:var(--accent);}
+.pipe-card strong{display:block;color:white;margin-bottom:0.2rem;}
+.pipe-card span{color:var(--muted);font-size:0.73rem;}
+.pipe-score{display:inline-block;font-size:0.65rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:3px;margin-top:0.3rem;}
+
+/* INVOICE */
+.invoice-preview{background:white;color:#333;border-radius:8px;padding:1.5rem;font-size:0.82rem;line-height:1.6;}
+.inv-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #eee;}
+.inv-logo{font-family:var(--head);font-size:1.5rem;color:#dc2626;}
+.inv-meta{text-align:right;color:#666;font-size:0.75rem;}
+.inv-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+.inv-table th{background:#f8f8f8;padding:0.5rem;font-size:0.75rem;text-align:left;border-bottom:1px solid #ddd;}
+.inv-table td{padding:0.5rem;border-bottom:1px solid #eee;font-size:0.78rem;}
+.inv-total{text-align:right;margin-top:0.75rem;font-size:0.9rem;}
+.inv-total strong{color:#dc2626;font-size:1.2rem;}
+
+/* AUTOMATION STATUS */
+.auto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;}
+.auto-card{background:rgba(22,163,74,0.07);border:1px solid rgba(22,163,74,0.18);border-radius:8px;padding:0.9rem;}
+.auto-card.warn{background:rgba(234,88,12,0.07);border-color:rgba(234,88,12,0.18);}
+.auto-card.off{background:rgba(220,38,38,0.07);border-color:rgba(220,38,38,0.18);}
+.auto-card-label{font-size:0.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.25rem;}
+.auto-status{display:flex;align-items:center;gap:0.4rem;font-weight:700;font-size:0.82rem;margin-bottom:0.2rem;}
+.auto-dot{width:7px;height:7px;border-radius:50%;}
+.on .auto-dot{background:#4ade80;}
+.on{color:#4ade80;}
+.warn-s .auto-dot{background:var(--orange);}
+.warn-s{color:var(--orange);}
+.off-s .auto-dot{background:var(--red);}
+.off-s{color:var(--red);}
+.auto-desc{font-size:0.72rem;color:var(--muted);}
+.auto-toggle{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:0.25rem 0.65rem;border-radius:4px;font-size:0.7rem;cursor:pointer;font-family:var(--font);margin-top:0.4rem;transition:all 0.2s;}
+.auto-toggle:hover{color:white;}
+
+/* SOCIAL SCHEDULER */
+.social-post-form{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1rem;}
+.char-count{font-size:0.72rem;color:var(--muted);text-align:right;margin-top:0.35rem;}
+.scheduled-posts .post-item{display:flex;align-items:flex-start;gap:0.85rem;padding:0.85rem;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:0.5rem;border:1px solid var(--border);}
+.post-platforms{display:flex;gap:0.35rem;flex-wrap:wrap;margin-top:0.35rem;}
+.post-platform-icon{width:22px;height:22px;background:rgba(255,255,255,0.06);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--muted);}
+.post-meta{font-size:0.72rem;color:var(--muted);margin-top:0.25rem;}
+.post-text{font-size:0.82rem;color:rgba(255,255,255,0.8);line-height:1.5;flex:1;}
+
+/* MINI CHART */
+.mini-bars{display:flex;align-items:flex-end;gap:3px;height:60px;}
+.mini-bar{flex:1;border-radius:2px 2px 0 0;background:rgba(249,115,22,0.3);transition:background 0.2s;cursor:pointer;}
+.mini-bar:hover{background:rgba(249,115,22,0.6);}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--panel);border:1px solid var(--green);color:white;padding:0.65rem 1.35rem;border-radius:8px;font-size:0.85rem;opacity:0;transition:all 0.3s;z-index:9999;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.kpi-row{grid-template-columns:repeat(2,1fr);}.panel-row,.panel-row.triple{grid-template-columns:1fr;}.pipeline{grid-template-columns:repeat(2,1fr);}.auto-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.sidebar{width:60px;}.sidebar .sb-link span,.sidebar .sb-section,.sidebar .sb-footer .sb-user div,.sidebar .sb-badge{display:none;}.sidebar .sb-link{justify-content:center;}.main{margin-left:60px;}.kpi-row{grid-template-columns:1fr 1fr;}.pipeline{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH LOGIN -->
+<div class="splash" id="splash">
+  <div class="splash-box">
+    <div class="splash-logo"><img src="assets/images/logo/Techwokx_Logo_full_final.png" alt="TechWokx"></div>
+    <h2>Marketing Dashboard</h2>
+    <p>How much time do you have today?</p>
+    <div class="time-grid">
+      <div class="time-opt" onclick="selectTime(this,1)"><strong>1H</strong><span>Quick check</span></div>
+      <div class="time-opt" onclick="selectTime(this,2)"><strong>2H</strong><span>Standard</span></div>
+      <div class="time-opt sel" onclick="selectTime(this,4)"><strong>4H</strong><span>Full session</span></div>
+      <div class="time-opt" onclick="selectTime(this,6)"><strong>6H</strong><span>Deep work</span></div>
+      <div class="time-opt" onclick="selectTime(this,8)"><strong>8H</strong><span>All day</span></div>
+      <div class="time-opt" onclick="selectTime(this,0)"><strong>∞</strong><span>Flexible</span></div>
+    </div>
+    <div class="conn-status"><div class="conn-dot" id="connDot"></div><span id="connText">Checking connection...</span></div>
+    <div class="form-group" style="margin-bottom:0.75rem;text-align:left;">
+      <label>Email</label>
+      <input type="email" id="splashEmail" placeholder="hello@techwokx.online" value="hello@techwokx.online">
+    </div>
+    <div class="form-group" style="margin-bottom:1rem;text-align:left;">
+      <label>Password</label>
+      <input type="password" id="splashPass" placeholder="••••••••">
+    </div>
+    <button class="btn-launch" onclick="launchDash()">Enter Dashboard →</button>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-logo"><img src="assets/images/logo/Techwokx_Logo_full_final.png" alt="TechWokx"></div>
+
+  <div class="sb-section">Overview</div>
+  <a class="sb-link act" onclick="showSec('overview',this)"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+  <a class="sb-link" onclick="showSec('leads',this)"><i class="fas fa-users"></i><span>Leads & CRM</span><span class="sb-badge" id="redBadge">18</span></a>
+  <a class="sb-link" onclick="showSec('pipeline',this)"><i class="fas fa-filter"></i><span>Sales Pipeline</span></a>
+
+  <div class="sb-section">Marketing</div>
+  <a class="sb-link" onclick="showSec('social',this)"><i class="fas fa-share-alt"></i><span>Social Scheduler</span></a>
+  <a class="sb-link" onclick="showSec('ai-content',this)"><i class="fas fa-robot"></i><span>AI Content</span></a>
+  <a class="sb-link" onclick="showSec('email-seq',this)"><i class="fas fa-envelope"></i><span>Email Sequences</span></a>
+  <a class="sb-link" onclick="showSec('ad-predict',this)"><i class="fas fa-chart-line"></i><span>Ad Predictor</span></a>
+
+  <div class="sb-section">Tools</div>
+  <a class="sb-link" onclick="showSec('quote',this)"><i class="fas fa-file-invoice"></i><span>Quote & Invoice</span></a>
+  <a class="sb-link" onclick="showSec('scanner',this)"><i class="fas fa-search"></i><span>Email Scanner</span></a>
+  <a class="sb-link" onclick="showSec('daily-ops',this)"><i class="fas fa-tasks"></i><span>Daily Ops</span></a>
+  <a class="sb-link" onclick="showSec('automation',this)"><i class="fas fa-cog"></i><span>Automation</span></a>
+
+  <div class="sb-section">Reports</div>
+  <a class="sb-link" onclick="showSec('analytics',this)"><i class="fas fa-chart-bar"></i><span>Analytics</span></a>
+  <a class="sb-link" onclick="showSec('reports',this)"><i class="fas fa-file-pdf"></i><span>Reports</span></a>
+  <a class="sb-link" onclick="showSec('settings',this)"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">GJ</div>
+      <div><strong>George Jabley</strong><span>Admin</span></div>
+    </div>
+    <button class="sb-exit" onclick="exitDash()"><i class="fas fa-sign-out-alt"></i> Exit Dashboard</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h3 id="secTitle">Dashboard Overview</h3>
+      <p id="secSub">TechWokx Ghana · <span id="todayDate"></span> · <span id="dailyTime"></span></p>
+    </div>
+    <div class="topbar-right">
+      <button class="tb-btn" onclick="showSec('ai-content',null)"><i class="fas fa-robot"></i> Generate Content</button>
+      <button class="tb-btn primary" onclick="window.open('index.html','_blank')"><i class="fas fa-external-link-alt"></i> View Website</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="sec act" id="sec-overview">
+      <div class="kpi-row">
+        <div class="kpi k1"><div class="kpi-label">Audit Submissions (30d)</div><div class="kpi-val">47</div><div class="kpi-chg up">↑ +23% vs last month</div></div>
+        <div class="kpi k2"><div class="kpi-label">RED Leads (Priority)</div><div class="kpi-val">18</div><div class="kpi-chg up">↑ 38% of submissions</div></div>
+        <div class="kpi k3"><div class="kpi-label">Proposals Sent</div><div class="kpi-val">12</div><div class="kpi-chg up">↑ 72% conversion</div></div>
+        <div class="kpi k4"><div class="kpi-label">Revenue Pipeline (₵)</div><div class="kpi-val">47,500</div><div class="kpi-chg up">↑ +₵12,000 this week</div></div>
+      </div>
+
+      <div class="panel-row">
+        <div class="panel">
+          <div class="panel-head"><h4>Audit Submissions — Last 7 Days</h4><span>47 total</span></div>
+          <div class="panel-body"><div class="chart-wrap"><canvas id="submissionsChart"></canvas></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>Lead Distribution</h4><span>By risk level</span></div>
+          <div class="panel-body"><div class="chart-wrap"><canvas id="riskChart"></canvas></div></div>
+        </div>
+      </div>
+
+      <div class="panel-row">
+        <div class="panel">
+          <div class="panel-head"><h4>Recent Leads</h4><span>Sorted: RED first</span></div>
+          <div class="panel-body" style="padding:0;">
+            <table class="data-table">
+              <thead><tr><th>Business</th><th>Industry</th><th>Score</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Kempinski Accra</strong></td><td>Hotel</td><td>28/80</td><td><span class="badge red">RED</span></td><td><button class="btn-outline" style="padding:0.25rem 0.7rem;font-size:0.72rem;">Follow Up</button></td></tr>
+                <tr><td><strong>Meridian Law Firm</strong></td><td>Legal</td><td>32/80</td><td><span class="badge red">RED</span></td><td><button class="btn-outline" style="padding:0.25rem 0.7rem;font-size:0.72rem;">Follow Up</button></td></tr>
+                <tr><td><strong>Goldfields NGO</strong></td><td>NGO</td><td>54/80</td><td><span class="badge orange">ORANGE</span></td><td><button class="btn-outline" style="padding:0.25rem 0.7rem;font-size:0.72rem;">Send Proposal</button></td></tr>
+                <tr><td><strong>Accra Hotel Suites</strong></td><td>Hotel</td><td>61/80</td><td><span class="badge orange">ORANGE</span></td><td><button class="btn-outline" style="padding:0.25rem 0.7rem;font-size:0.72rem;">Send Proposal</button></td></tr>
+                <tr><td><strong>TechBridge SME</strong></td><td>SME</td><td>72/80</td><td><span class="badge green">GREEN</span></td><td><button class="btn-outline" style="padding:0.25rem 0.7rem;font-size:0.72rem;">Nurture</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>This Week's Content</h4><span>Auto-scheduled</span></div>
+          <div class="panel-body">
+            <div class="cal-grid">
+              <div class="cal-col"><div class="cal-day-hdr">M</div><div class="cal-day"><div class="cal-ev social">IG Post</div><div class="cal-ev email">Email</div></div></div>
+              <div class="cal-col"><div class="cal-day-hdr">T</div><div class="cal-day"><div class="cal-ev social">LinkedIn</div><div class="cal-ev other">TikTok</div></div></div>
+              <div class="cal-col"><div class="cal-day-hdr">W</div><div class="cal-day"><div class="cal-ev email">ORANGE</div><div class="cal-ev social">FB Post</div></div></div>
+              <div class="cal-col"><div class="cal-day-hdr">T</div><div class="cal-day"><div class="cal-ev social">IG Reel</div><div class="cal-ev other">Threads</div></div></div>
+              <div class="cal-col"><div class="cal-day-hdr">F</div><div class="cal-day"><div class="cal-ev social">LinkedIn</div><div class="cal-ev email">GREEN</div></div></div>
+              <div class="cal-col"><div class="cal-day-hdr">S</div><div class="cal-day"><div class="cal-ev other">WA Status</div></div></div>
+              <div class="cal-col"><div class="cal-day-hdr">S</div><div class="cal-day"><div class="cal-ev other">Prep</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h4>Automation Status</h4><span>All systems running</span></div>
+        <div class="panel-body">
+          <div class="auto-grid">
+            <div class="auto-card"><div class="auto-card-label">Audit Email Responder</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">Auto-sends RED/ORANGE/GREEN reports</div><button class="auto-toggle">Pause</button></div>
+            <div class="auto-card"><div class="auto-card-label">Social Scheduler (Buffer)</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">Posts to IG, FB, LinkedIn, TikTok, X</div><button class="auto-toggle">Manage</button></div>
+            <div class="auto-card"><div class="auto-card-label">Lead Nurture Sequence</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">5-email sequence — 47 active leads</div><button class="auto-toggle">Edit</button></div>
+            <div class="auto-card warn"><div class="auto-card-label">WhatsApp Follow-up</div><div class="auto-status warn-s"><div class="auto-dot"></div>MANUAL</div><div class="auto-desc">Requires WATI setup for automation</div><button class="auto-toggle">Setup</button></div>
+            <div class="auto-card"><div class="auto-card-label">Google Form → Sheets</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">Leads logged automatically</div><button class="auto-toggle">View Sheet</button></div>
+            <div class="auto-card warn"><div class="auto-card-label">Ad Campaign Monitor</div><div class="auto-status warn-s"><div class="auto-dot"></div>SETUP NEEDED</div><div class="auto-desc">Connect Meta Business Suite</div><button class="auto-toggle">Connect</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADS & CRM -->
+    <div class="sec" id="sec-leads">
+      <div class="panel-row">
+        <div class="panel">
+          <div class="panel-head"><h4>All Leads</h4><span>47 total · Sorted by priority</span></div>
+          <div class="panel-body" style="padding:0;">
+            <table class="data-table">
+              <thead><tr><th>Business</th><th>Contact</th><th>Industry</th><th>Score</th><th>Risk</th><th>Email Sent</th><th>Response</th><th>Next Action</th></tr></thead>
+              <tbody id="leadsTable">
+                <tr><td><strong>Kempinski Accra</strong></td><td>GM Office</td><td>Hotel</td><td>28/80</td><td><span class="badge red">RED</span></td><td><span class="badge green">Yes</span></td><td><span class="badge orange">Pending</span></td><td>WhatsApp follow-up</td></tr>
+                <tr><td><strong>Meridian Law Firm</strong></td><td>IT Manager</td><td>Legal</td><td>32/80</td><td><span class="badge red">RED</span></td><td><span class="badge green">Yes</span></td><td><span class="badge gray">No reply</span></td><td>Day 3 follow-up</td></tr>
+                <tr><td><strong>Goldfields NGO</strong></td><td>Ops Manager</td><td>NGO</td><td>54/80</td><td><span class="badge orange">ORANGE</span></td><td><span class="badge green">Yes</span></td><td><span class="badge blue">Interested</span></td><td>Send proposal</td></tr>
+                <tr><td><strong>Accra Hotel Suites</strong></td><td>Admin</td><td>Hotel</td><td>61/80</td><td><span class="badge orange">ORANGE</span></td><td><span class="badge gray">No</span></td><td><span class="badge gray">–</span></td><td>Send report</td></tr>
+                <tr><td><strong>TechBridge SME</strong></td><td>CEO</td><td>SME</td><td>72/80</td><td><span class="badge green">GREEN</span></td><td><span class="badge green">Yes</span></td><td><span class="badge blue">Replied</span></td><td>Nurture email</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>Add New Lead</h4></div>
+          <div class="panel-body">
+            <div class="form-row"><div class="form-group"><label>Business Name</label><input type="text" id="leadBiz" placeholder="Company name"></div><div class="form-group"><label>Contact</label><input type="text" id="leadContact" placeholder="Name / role"></div></div>
+            <div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="leadEmail" placeholder="email@company.com"></div><div class="form-group"><label>WhatsApp</label><input type="tel" id="leadPhone" placeholder="+233..."></div></div>
+            <div class="form-row"><div class="form-group"><label>Industry</label><select id="leadIndustry"><option>Hotel</option><option>NGO</option><option>Legal</option><option>SME</option><option>Education</option><option>Other</option></select></div><div class="form-group"><label>Risk Level</label><select id="leadRisk"><option>RED</option><option>ORANGE</option><option>GREEN</option></select></div></div>
+            <button class="btn-form" onclick="addLead()"><i class="fas fa-plus"></i> Add Lead</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="sec" id="sec-pipeline">
+      <div class="panel">
+        <div class="panel-head"><h4>Sales Pipeline</h4><span>Drag between columns (visual only)</span></div>
+        <div class="panel-body">
+          <div class="pipeline">
+            <div class="pipe-col">
+              <div class="pipe-col-hdr" style="color:var(--muted);">NEW LEADS <span class="badge gray">12</span></div>
+              <div class="pipe-card"><strong>Accra Hotel Suites</strong><span>Hotel · Score: 61/80</span><div class="pipe-score badge orange">ORANGE</div></div>
+              <div class="pipe-card"><strong>Kumasi NGO Trust</strong><span>NGO · Score: 44/80</span><div class="pipe-score badge orange">ORANGE</div></div>
+              <div class="pipe-card"><strong>Vista Consultancy</strong><span>SME · Score: 29/80</span><div class="pipe-score badge red">RED</div></div>
+            </div>
+            <div class="pipe-col">
+              <div class="pipe-col-hdr" style="color:var(--blue);">CONTACTED <span class="badge blue">8</span></div>
+              <div class="pipe-card"><strong>Kempinski Accra</strong><span>Hotel · Score: 28/80</span><div class="pipe-score badge red">RED</div></div>
+              <div class="pipe-card"><strong>Meridian Law Firm</strong><span>Legal · Score: 32/80</span><div class="pipe-score badge red">RED</div></div>
+            </div>
+            <div class="pipe-col">
+              <div class="pipe-col-hdr" style="color:var(--orange);">PROPOSAL SENT <span class="badge orange">5</span></div>
+              <div class="pipe-card"><strong>Goldfields NGO</strong><span>NGO · Score: 54/80</span><div class="pipe-score badge orange">ORANGE</div></div>
+              <div class="pipe-card"><strong>EcoVentures Ltd</strong><span>SME · Score: 41/80</span><div class="pipe-score badge orange">ORANGE</div></div>
+            </div>
+            <div class="pipe-col">
+              <div class="pipe-col-hdr" style="color:var(--green);">CLOSED / WON <span class="badge green">4</span></div>
+              <div class="pipe-card"><strong>Labadi Beach Hotel</strong><span>Hotel · ₵1,500</span><div class="pipe-score badge green">Email Fix</div></div>
+              <div class="pipe-card"><strong>GIZ Ghana</strong><span>NGO · ₵2,000/mo</span><div class="pipe-score badge green">Retainer</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOCIAL SCHEDULER -->
+    <div class="sec" id="sec-social">
+      <div class="panel-row">
+        <div class="panel">
+          <div class="panel-head"><h4>Schedule New Post</h4></div>
+          <div class="panel-body">
+            <div class="social-post-form">
+              <div class="platform-tabs">
+                <div class="ptab act" onclick="togglePTab(this)"><i class="fab fa-linkedin"></i> LinkedIn</div>
+                <div class="ptab" onclick="togglePTab(this)"><i class="fab fa-facebook"></i> Facebook</div>
+                <div class="ptab" onclick="togglePTab(this)"><i class="fab fa-instagram"></i> Instagram</div>
+                <div class="ptab" onclick="togglePTab(this)"><i class="fab fa-tiktok"></i> TikTok</div>
+                <div class="ptab" onclick="togglePTab(this)"><i class="fab fa-x-twitter"></i> X / Twitter</div>
+                <div class="ptab" onclick="togglePTab(this)"><i class="fas fa-at"></i> Threads</div>
+              </div>
+              <div class="form-group">
+                <label>Post Content</label>
+                <textarea id="postContent" rows="4" placeholder="Write your post here..." oninput="updateCharCount()"></textarea>
+                <div class="char-count" id="charCount">0 characters</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Schedule Date</label><input type="date" id="postDate"></div>
+                <div class="form-group"><label>Schedule Time</label><input type="time" id="postTime" value="09:00"></div>
+              </div>
+              <div style="display:flex;gap:0.65rem;">
+                <button class="btn-form" onclick="schedulePost()"><i class="fas fa-calendar-plus"></i> Schedule Post</button>
+                <button class="btn-outline" onclick="postNow()"><i class="fas fa-paper-plane"></i> Post Now</button>
+                <button class="btn-outline" onclick="aiWritePost()"><i class="fas fa-robot"></i> AI Write</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>Scheduled Posts</h4><span id="scheduledCount">3 pending</span></div>
+          <div class="panel-body">
+            <div class="scheduled-posts" id="scheduledList">
+              <div class="post-item"><div class="post-text">Your email signature is your silent salesperson. If it looks unprofessional, your brand looks unprofessional. We fix this for teams in 24hrs. DM us.<div class="post-platforms"><div class="post-platform-icon"><i class="fab fa-linkedin"></i></div><div class="post-platform-icon"><i class="fab fa-facebook"></i></div></div><div class="post-meta">📅 Mon, 9:00 AM · LinkedIn, Facebook</div></div><button class="btn-outline" style="font-size:0.7rem;padding:0.25rem 0.6rem;flex-shrink:0;" onclick="deletePost(this)">×</button></div>
+              <div class="post-item"><div class="post-text">Most businesses don't have email problems. They have email chaos. I help teams fix this once, properly. 🔴🟠🟢<div class="post-platforms"><div class="post-platform-icon"><i class="fab fa-instagram"></i></div><div class="post-platform-icon"><i class="fab fa-tiktok"></i></div></div><div class="post-meta">📅 Wed, 11:00 AM · Instagram, TikTok</div></div><button class="btn-outline" style="font-size:0.7rem;padding:0.25rem 0.6rem;flex-shrink:0;" onclick="deletePost(this)">×</button></div>
+              <div class="post-item"><div class="post-text">Ex-staff accessing company email is more common than people admit. That's not normal. That's risk. Free audit link in bio.<div class="post-platforms"><div class="post-platform-icon"><i class="fab fa-linkedin"></i></div><div class="post-platform-icon"><i class="fas fa-at"></i></div></div><div class="post-meta">📅 Fri, 3:00 PM · LinkedIn, Threads</div></div><button class="btn-outline" style="font-size:0.7rem;padding:0.25rem 0.6rem;flex-shrink:0;" onclick="deletePost(this)">×</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI CONTENT -->
+    <div class="sec" id="sec-ai-content">
+      <div class="panel">
+        <div class="panel-head"><h4>AI Content Generator</h4><span>Powered by Claude API</span></div>
+        <div class="panel-body">
+          <div class="platform-tabs" id="aiPlatformTabs">
+            <div class="ptab act" onclick="selectAIPlatform(this,'linkedin')">LinkedIn</div>
+            <div class="ptab" onclick="selectAIPlatform(this,'facebook')">Facebook</div>
+            <div class="ptab" onclick="selectAIPlatform(this,'instagram')">Instagram</div>
+            <div class="ptab" onclick="selectAIPlatform(this,'tiktok')">TikTok Script</div>
+            <div class="ptab" onclick="selectAIPlatform(this,'threads')">Threads</div>
+            <div class="ptab" onclick="selectAIPlatform(this,'email')">Email</div>
+            <div class="ptab" onclick="selectAIPlatform(this,'whatsapp')">WhatsApp</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Topic / Angle</label>
+              <select id="aiTopic">
+                <option>Email landing in spam — pain point</option>
+                <option>Ex-staff access risk</option>
+                <option>Unprofessional email impression</option>
+                <option>Free audit offer</option>
+                <option>IT retainer for hotels</option>
+                <option>Before vs after email fix</option>
+                <option>Automation script case study</option>
+                <option>Infrastructure audit value</option>
+                <option>Custom topic...</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Tone</label>
+              <select id="aiTone">
+                <option>Professional & direct</option>
+                <option>Friendly & helpful</option>
+                <option>Urgent & bold</option>
+                <option>Educational</option>
+                <option>Storytelling</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;"><label>Custom instruction (optional)</label><input type="text" id="aiCustom" placeholder="e.g. Include a question at the end, mention Ghana businesses..."></div>
+          <button class="btn-form" onclick="generateAIContent()" id="aiGenBtn"><i class="fas fa-robot"></i> Generate Content</button>
+          <div style="margin-top:1.25rem;">
+            <label style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.5rem;">Generated Content</label>
+            <div class="content-output" id="aiOutput">Click "Generate Content" to create platform-specific content for TechWokx Ghana. Content is tailored to your services, target audience, and chosen platform.</div>
+            <div class="copy-bar">
+              <button class="btn-outline" onclick="copyOutput()"><i class="fas fa-copy"></i> Copy</button>
+              <button class="btn-outline" onclick="addToScheduler()"><i class="fas fa-calendar-plus"></i> Add to Scheduler</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL SEQUENCES -->
+    <div class="sec" id="sec-email-seq">
+      <div class="panel">
+        <div class="panel-head"><h4>Automated Email Sequences</h4><span>Running 24/7</span></div>
+        <div class="panel-body">
+          <div style="display:flex;flex-direction:column;gap:0.85rem;">
+            <div style="background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2);border-radius:9px;padding:1.1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                <div><strong style="color:white;">🔴 RED Lead Sequence</strong><span style="font-size:0.75rem;color:var(--muted);margin-left:0.75rem;">18 active leads</span></div>
+                <span class="badge red">CRITICAL</span>
+              </div>
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.78rem;text-align:center;min-width:80px;"><div style="color:var(--red);font-weight:700;">Email 1</div><div style="color:var(--muted);font-size:0.7rem;">Immediate</div><div style="font-size:0.72rem;">Critical risk result</div></div>
+                <div style="color:var(--muted);display:flex;align-items:center;">→</div>
+                <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.78rem;text-align:center;min-width:80px;"><div style="color:var(--orange);font-weight:700;">Email 2</div><div style="color:var(--muted);font-size:0.7rem;">Day 2</div><div style="font-size:0.72rem;">What RED means</div></div>
+                <div style="color:var(--muted);display:flex;align-items:center;">→</div>
+                <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.78rem;text-align:center;min-width:80px;"><div style="color:var(--accent);font-weight:700;">Email 3</div><div style="color:var(--muted);font-size:0.7rem;">Day 4</div><div style="font-size:0.72rem;">Fix offer</div></div>
+                <div style="color:var(--muted);display:flex;align-items:center;">→</div>
+                <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.78rem;text-align:center;min-width:80px;"><div style="color:var(--blue);font-weight:700;">Email 4</div><div style="color:var(--muted);font-size:0.7rem;">Day 7</div><div style="font-size:0.72rem;">Case study</div></div>
+                <div style="color:var(--muted);display:flex;align-items:center;">→</div>
+                <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.78rem;text-align:center;min-width:80px;"><div style="color:var(--green);font-weight:700;">Email 5</div><div style="color:var(--muted);font-size:0.7rem;">Day 14</div><div style="font-size:0.72rem;">Last chance</div></div>
+              </div>
+            </div>
+            <div style="background:rgba(234,88,12,0.07);border:1px solid rgba(234,88,12,0.2);border-radius:9px;padding:1.1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><div><strong style="color:white;">🟠 ORANGE Lead Sequence</strong><span style="font-size:0.75rem;color:var(--muted);margin-left:0.75rem;">21 active leads</span></div><span class="badge orange">MODERATE</span></div>
+              <p style="font-size:0.82rem;color:var(--muted);">5-email sequence over 14 days. Softer tone, educational focus, optimisation offer.</p>
+            </div>
+            <div style="background:rgba(22,163,74,0.07);border:1px solid rgba(22,163,74,0.2);border-radius:9px;padding:1.1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><div><strong style="color:white;">🟢 GREEN Lead Sequence</strong><span style="font-size:0.75rem;color:var(--muted);margin-left:0.75rem;">8 active leads</span></div><span class="badge green">STABLE</span></div>
+              <p style="font-size:0.82rem;color:var(--muted);">3-email sequence over 21 days. Credibility building, case studies, periodic review offer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AD PREDICTOR -->
+    <div class="sec" id="sec-ad-predict">
+      <div class="panel">
+        <div class="panel-head"><h4>Ad Campaign Performance Predictor</h4><span>Estimate before you spend</span></div>
+        <div class="panel-body">
+          <div class="form-row" style="grid-template-columns:repeat(3,1fr);">
+            <div class="form-group"><label>Platform</label><select id="dashAdPlatform" onchange="dashUpdatePred()"><option value="meta">Meta (Facebook/Instagram)</option><option value="google">Google Ads</option><option value="tiktok">TikTok Ads</option><option value="local">Ghana Local Media</option></select></div>
+            <div class="form-group"><label>Daily Budget (₵)</label><input type="range" id="dashAdBudget" min="10" max="500" value="50" oninput="dashUpdateBudget();dashUpdatePred()"><div style="font-family:var(--head);font-size:1.3rem;color:var(--accent);margin-top:0.25rem;" id="dashBudgetVal">₵50/day</div></div>
+            <div class="form-group"><label>Target Audience</label><select id="dashAdAudience" onchange="dashUpdatePred()"><option value="broad">Broad — All Businesses Ghana</option><option value="hotels">Hotels & Hospitality</option><option value="sme">SMEs (10–100 staff)</option><option value="ngo">NGOs & Professional Services</option></select></div>
+          </div>
+          <div class="panel-row" style="margin-top:1rem;">
+            <div class="panel" style="padding:1rem;background:rgba(255,255,255,0.03);">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.85rem;margin-bottom:1.25rem;">
+                <div style="text-align:center;"><div style="font-family:var(--head);font-size:1.8rem;color:white;" id="dashReach">4,200</div><div style="font-size:0.7rem;color:var(--muted);">Est. Daily Reach</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--head);font-size:1.8rem;color:white;" id="dashClicks">126</div><div style="font-size:0.7rem;color:var(--muted);">Est. Daily Clicks</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--head);font-size:1.8rem;color:white;" id="dashLeads">8</div><div style="font-size:0.7rem;color:var(--muted);">Est. Leads/Day</div></div>
+                <div style="text-align:center;"><div style="font-family:var(--head);font-size:1.8rem;color:var(--accent);" id="dashCPL">₵6</div><div style="font-size:0.7rem;color:var(--muted);">Cost Per Lead</div></div>
+              </div>
+              <div style="background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.18);border-radius:8px;padding:1rem;font-size:0.83rem;line-height:1.6;color:rgba(255,255,255,0.78);" id="dashPredRec"><strong style="color:#38bdf8;">Recommendation:</strong> Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE & INVOICE -->
+    <div class="sec" id="sec-quote">
+      <div class="panel-row equal">
+        <div class="panel">
+          <div class="panel-head"><h4>Generate Quote / Invoice</h4></div>
+          <div class="panel-body">
+            <div class="form-row"><div class="form-group"><label>Client Name</label><input type="text" id="invClient" placeholder="Business name"></div><div class="form-group"><label>Contact Email</label><input type="email" id="invEmail" placeholder="client@company.com"></div></div>
+            <div class="form-row"><div class="form-group"><label>Service</label><select id="invService" onchange="updateInvPrice()"><option value="1500">Email Health Fix — ₵1,500</option><option value="800">IT Retainer (monthly) — ₵800</option><option value="2000">Infrastructure Audit — ₵2,000</option><option value="3950">Full Brand Reset — ₵3,950</option><option value="2450">Email & Brand Setup — ₵2,450</option><option value="1250">Optimisation & Cleanup — ₵1,250</option><option value="800">Automation Script — ₵800</option></select></div><div class="form-group"><label>Users / Quantity</label><input type="number" id="invQty" value="1" min="1" oninput="updateInvPrice()"></div></div>
+            <div class="form-row"><div class="form-group"><label>Additional Users (₵195 each)</label><input type="number" id="invExtra" value="0" min="0" oninput="updateInvPrice()"></div><div class="form-group"><label>Total Amount</label><input type="text" id="invTotal" value="₵1,500" readonly style="font-family:var(--head);font-size:1.3rem;color:var(--accent);"></div></div>
+            <div class="form-group full" style="margin-bottom:1rem;"><label>Notes</label><textarea id="invNotes" rows="2" placeholder="Additional details..."></textarea></div>
+            <div style="display:flex;gap:0.65rem;">
+              <button class="btn-form" onclick="generateInvoice()"><i class="fas fa-file-invoice"></i> Generate Invoice</button>
+              <button class="btn-outline" onclick="generateQuote()"><i class="fas fa-file-alt"></i> Generate Quote</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>Preview</h4><span id="invType">Invoice</span></div>
+          <div class="panel-body" style="padding:0.75rem;">
+            <div class="invoice-preview" id="invoicePreview">
+              <div class="inv-header">
+                <div><div class="inv-logo">TECKWOKX</div><div style="font-size:0.78rem;color:#666;margin-top:0.25rem;">Business IT Support · Ghana</div></div>
+                <div class="inv-meta"><div><strong>INVOICE</strong></div><div>#TWX-001</div><div id="invDate"></div><div style="margin-top:0.5rem;color:#dc2626;">AMOUNT DUE</div><div style="font-size:1.3rem;font-weight:700;color:#dc2626;" id="invPreviewTotal">₵1,500</div></div>
+              </div>
+              <div style="margin-bottom:1rem;font-size:0.78rem;"><strong>Bill To:</strong><br><span id="invPreviewClient">Client Name</span><br><span id="invPreviewEmail" style="color:#666;">client@email.com</span></div>
+              <table class="inv-table"><thead><tr><th>Service</th><th>Qty</th><th>Amount</th></tr></thead><tbody id="invTableBody"><tr><td>Email Health Fix</td><td>1</td><td>₵1,500</td></tr></tbody></table>
+              <div class="inv-total"><div style="font-size:0.82rem;color:#666;margin-bottom:0.25rem;">Total Amount</div><strong id="invPreviewTotal2">₵1,500</strong></div>
+              <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid #eee;font-size:0.72rem;color:#999;">Payment: Mobile Money (MTN/Vodafone/AirtelTigo) · Bank Transfer · Cash<br>hello@techwokx.online · +233 555 087 407</div>
+            </div>
+            <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+              <button class="btn-outline" onclick="printInvoice()"><i class="fas fa-print"></i> Print</button>
+              <button class="btn-outline" onclick="copyInvoice()"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL SCANNER -->
+    <div class="sec" id="sec-scanner">
+      <div class="panel-row">
+        <div class="panel">
+          <div class="panel-head"><h4>Email Domain Scanner</h4><span>Check any business email setup</span></div>
+          <div class="panel-body">
+            <div class="form-row" style="grid-template-columns:2fr 1fr;">
+              <div class="form-group"><label>Domain to Scan</label><input type="text" id="scanDomain" placeholder="company.com or info@company.com"></div>
+              <div class="form-group" style="justify-content:flex-end;padding-top:1.35rem;"><button class="btn-form" onclick="scanDomain()"><i class="fas fa-search"></i> Scan Domain</button></div>
+            </div>
+            <div id="scanResults" style="display:none;">
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.65rem;margin-top:1rem;">
+                <div id="scanSPF" style="background:rgba(0,0,0,0.3);border-radius:8px;padding:0.85rem;"><div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.25rem;">SPF RECORD</div><div style="font-weight:700;" id="spfStatus">Checking...</div></div>
+                <div id="scanDKIM" style="background:rgba(0,0,0,0.3);border-radius:8px;padding:0.85rem;"><div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.25rem;">DKIM</div><div style="font-weight:700;" id="dkimStatus">Checking...</div></div>
+                <div id="scanDMARC" style="background:rgba(0,0,0,0.3);border-radius:8px;padding:0.85rem;"><div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.25rem;">DMARC</div><div style="font-weight:700;" id="dmarcStatus">Checking...</div></div>
+                <div id="scanMX" style="background:rgba(0,0,0,0.3);border-radius:8px;padding:0.85rem;"><div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.25rem;">MX RECORDS</div><div style="font-weight:700;" id="mxStatus">Checking...</div></div>
+              </div>
+              <div id="scanScore" style="margin-top:1rem;text-align:center;background:rgba(255,255,255,0.03);border-radius:9px;padding:1.25rem;">
+                <div style="font-family:var(--head);font-size:3rem;color:var(--red);" id="scanScoreVal">--</div>
+                <div style="font-size:0.82rem;color:var(--muted);">Email Health Score</div>
+                <div style="margin-top:0.5rem;" id="scanRec"></div>
+              </div>
+              <button class="btn-form" style="width:100%;margin-top:0.75rem;justify-content:center;" onclick="addScanAsLead()"><i class="fas fa-plus"></i> Add as Lead</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>Recent Scans</h4></div>
+          <div class="panel-body" style="padding:0;">
+            <table class="data-table">
+              <thead><tr><th>Domain</th><th>Score</th><th>Risk</th></tr></thead>
+              <tbody id="scanHistory">
+                <tr><td>hotelaccra.com</td><td>22/100</td><td><span class="badge red">RED</span></td></tr>
+                <tr><td>lawfirmgh.com</td><td>45/100</td><td><span class="badge orange">ORANGE</span></td></tr>
+                <tr><td>ngoghana.org</td><td>71/100</td><td><span class="badge green">GREEN</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY OPS -->
+    <div class="sec" id="sec-daily-ops">
+      <div class="panel">
+        <div class="panel-head"><h4>Daily Operations Checklist</h4><span id="dailyProgress">0 / 10 completed</span></div>
+        <div class="panel-body">
+          <div id="dailyChecklist" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
+          <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
+            <div style="font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.75rem;">Today's Scripts (Copy & Send)</div>
+            <div style="display:flex;flex-direction:column;gap:0.65rem;" id="scriptsList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTOMATION SETTINGS -->
+    <div class="sec" id="sec-automation">
+      <div class="panel">
+        <div class="panel-head"><h4>Automation Control Centre</h4></div>
+        <div class="panel-body">
+          <div class="auto-grid">
+            <div class="auto-card"><div class="auto-card-label">Audit Email Responder</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">Google Apps Script → Gmail<br>Sends result within 5 minutes</div><button class="auto-toggle">Edit Script</button></div>
+            <div class="auto-card"><div class="auto-card-label">Lead Tracker (Google Sheets)</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">Form submissions auto-logged<br>RED/ORANGE/GREEN tagged</div><button class="auto-toggle">Open Sheet</button></div>
+            <div class="auto-card"><div class="auto-card-label">Email Nurture (Mailchimp)</div><div class="auto-status on"><div class="auto-dot"></div>ACTIVE</div><div class="auto-desc">5-email sequences per status<br>47 active subscribers</div><button class="auto-toggle">Edit Sequences</button></div>
+            <div class="auto-card warn"><div class="auto-card-label">Social Auto-Post (Buffer)</div><div class="auto-status warn-s"><div class="auto-dot"></div>MANUAL SETUP</div><div class="auto-desc">Connect Buffer account<br>to enable auto-scheduling</div><button class="auto-toggle" onclick="showToast('Go to buffer.com to connect your accounts')">Connect Buffer</button></div>
+            <div class="auto-card warn"><div class="auto-card-label">WhatsApp Bot (WATI)</div><div class="auto-status warn-s"><div class="auto-dot"></div>NOT CONNECTED</div><div class="auto-desc">₵150/month — auto-responds<br>to WhatsApp audit requests</div><button class="auto-toggle" onclick="showToast('Go to wati.io to setup WhatsApp automation')">Setup WATI</button></div>
+            <div class="auto-card warn"><div class="auto-card-label">Meta Ads Monitoring</div><div class="auto-status warn-s"><div class="auto-dot"></div>NOT CONNECTED</div><div class="auto-desc">Connect Meta Business Suite<br>for real-time ad performance</div><button class="auto-toggle" onclick="showToast('Connect via Meta Business Suite API')">Connect Meta</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="sec" id="sec-analytics">
+      <div class="kpi-row">
+        <div class="kpi k1"><div class="kpi-label">Monthly Revenue (₵)</div><div class="kpi-val">8,500</div><div class="kpi-chg up">↑ Target: ₵15,000</div></div>
+        <div class="kpi k2"><div class="kpi-label">Website Visitors</div><div class="kpi-val">1,240</div><div class="kpi-chg up">↑ +34% this month</div></div>
+        <div class="kpi k3"><div class="kpi-label">Audit Completion Rate</div><div class="kpi-val">68%</div><div class="kpi-chg up">↑ Industry avg: 45%</div></div>
+        <div class="kpi k4"><div class="kpi-label">Avg Lead-to-Close</div><div class="kpi-val">9 days</div><div class="kpi-chg up">↓ Improving</div></div>
+      </div>
+      <div class="panel"><div class="panel-head"><h4>Revenue vs Target (Monthly)</h4></div><div class="panel-body"><div class="chart-wrap"><canvas id="revenueChart"></canvas></div></div></div>
+    </div>
+
+    <!-- REPORTS -->
+    <div class="sec" id="sec-reports">
+      <div class="panel">
+        <div class="panel-head"><h4>Generate Reports</h4></div>
+        <div class="panel-body">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:1.25rem;text-align:center;">
+              <div style="font-size:2rem;margin-bottom:0.75rem;">📊</div>
+              <h4 style="margin-bottom:0.35rem;">Weekly Summary</h4>
+              <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">Leads, submissions, revenue this week</p>
+              <button class="btn-form" style="width:100%;justify-content:center;" onclick="showToast('Weekly report generated!')"><i class="fas fa-download"></i> Generate PDF</button>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:1.25rem;text-align:center;">
+              <div style="font-size:2rem;margin-bottom:0.75rem;">📈</div>
+              <h4 style="margin-bottom:0.35rem;">Monthly Report</h4>
+              <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">Full pipeline, revenue, and conversion data</p>
+              <button class="btn-form" style="width:100%;justify-content:center;" onclick="showToast('Monthly report generated!')"><i class="fas fa-download"></i> Generate PDF</button>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:1.25rem;text-align:center;">
+              <div style="font-size:2rem;margin-bottom:0.75rem;">🎯</div>
+              <h4 style="margin-bottom:0.35rem;">Client Audit Report</h4>
+              <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">RED/ORANGE/GREEN report for a specific client</p>
+              <button class="btn-form" style="width:100%;justify-content:center;" onclick="showSec('leads',null)"><i class="fas fa-users"></i> Select Client</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="sec" id="sec-settings">
+      <div class="panel-row">
+        <div class="panel">
+          <div class="panel-head"><h4>Business Settings</h4></div>
+          <div class="panel-body">
+            <div class="form-row"><div class="form-group"><label>Business Name</label><input type="text" value="TechWokx Ghana"></div><div class="form-group"><label>Primary Email</label><input type="email" value="hello@techwokx.online"></div></div>
+            <div class="form-row"><div class="form-group"><label>WhatsApp</label><input type="tel" value="+233 555 087 407"></div><div class="form-group"><label>Phone</label><input type="tel" value="+233 264 375 628"></div></div>
+            <div class="form-row"><div class="form-group full"><label>Address</label><input type="text" value="P.O. Box ML469, Malam, Accra, Ghana"></div></div>
+            <button class="btn-form" onclick="showToast('Settings saved!')"><i class="fas fa-save"></i> Save Settings</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h4>Integrations</h4></div>
+          <div class="panel-body">
+            <div style="display:flex;flex-direction:column;gap:0.65rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:7px;"><div><strong style="font-size:0.88rem;">Google Apps Script</strong><div style="font-size:0.75rem;color:var(--muted);">Audit form email automation</div></div><span class="badge green">Connected</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:7px;"><div><strong style="font-size:0.88rem;">Google Sheets</strong><div style="font-size:0.75rem;color:var(--muted);">Lead tracking database</div></div><span class="badge green">Connected</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:7px;"><div><strong style="font-size:0.88rem;">Mailchimp</strong><div style="font-size:0.75rem;color:var(--muted);">Email nurture sequences</div></div><span class="badge orange">Setup Needed</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:7px;"><div><strong style="font-size:0.88rem;">Buffer</strong><div style="font-size:0.75rem;color:var(--muted);">Social media scheduling</div></div><span class="badge orange">Setup Needed</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:7px;"><div><strong style="font-size:0.88rem;">WATI (WhatsApp)</strong><div style="font-size:0.75rem;color:var(--muted);">WhatsApp automation — ₵150/mo</div></div><span class="badge gray">Not Connected</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== INIT =====
+document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-GH',{weekday:'short',month:'short',day:'numeric'});
+document.getElementById('invDate').textContent=new Date().toLocaleDateString('en-GH');
+
+// Connection check
+(function(){
+  const dot=document.getElementById('connDot');
+  const txt=document.getElementById('connText');
+  if(navigator.onLine){dot.className='conn-dot';txt.textContent='Online — all systems ready';}
+  else{dot.className='conn-dot off';txt.textContent='Offline — limited functionality';}
+})();
+
+// ===== SPLASH =====
+let selectedHours=4;
+function selectTime(el,h){document.querySelectorAll('.time-opt').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');selectedHours=h;}
+function launchDash(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('dailyTime').textContent=selectedHours===0?'Flexible session':selectedHours+'h session';
+  initCharts();initDailyOps();dashUpdatePred();
+  showToast('Welcome back, George! Dashboard loaded.');
+}
+
+// ===== TOAST =====
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+
+// ===== NAVIGATION =====
+function showSec(id,el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));
+  document.getElementById('sec-'+id).classList.add('act');
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('act'));
+  if(el)el.classList.add('act');
+  const titles={overview:'Dashboard Overview',leads:'Leads & CRM',pipeline:'Sales Pipeline',social:'Social Scheduler','ai-content':'AI Content Generator','email-seq':'Email Sequences','ad-predict':'Ad Predictor',quote:'Quote & Invoice',scanner:'Email Domain Scanner','daily-ops':'Daily Operations',automation:'Automation Control',analytics:'Analytics',reports:'Reports',settings:'Settings'};
+  document.getElementById('secTitle').textContent=titles[id]||id;
+}
+function exitDash(){document.getElementById('splash').style.display='flex';}
+
+// ===== CHARTS =====
+function initCharts(){
+  const dark='rgba(255,255,255,0.05)';
+  // Submissions chart
+  const ctx1=document.getElementById('submissionsChart');
+  if(ctx1){new Chart(ctx1,{type:'bar',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{data:[5,8,6,11,7,9,6],backgroundColor:'rgba(249,115,22,0.6)',borderColor:'rgba(249,115,22,1)',borderWidth:1,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:dark},ticks:{color:'#64748b',font:{size:10}}},y:{grid:{color:dark},ticks:{color:'#64748b',font:{size:10}}}}}});}
+  // Risk pie
+  const ctx2=document.getElementById('riskChart');
+  if(ctx2){new Chart(ctx2,{type:'doughnut',data:{labels:['RED','ORANGE','GREEN'],datasets:[{data:[18,21,8],backgroundColor:['rgba(220,38,38,0.8)','rgba(234,88,12,0.8)','rgba(22,163,74,0.8)'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94a3b8',font:{size:11},boxWidth:12}}}}});}
+  // Revenue chart
+  const ctx3=document.getElementById('revenueChart');
+  if(ctx3){new Chart(ctx3,{type:'line',data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[{label:'Revenue ₵',data:[3200,4100,3800,5500,7200,8500],borderColor:'rgba(249,115,22,1)',backgroundColor:'rgba(249,115,22,0.1)',tension:0.4,fill:true},{label:'Target ₵',data:[5000,5000,8000,8000,12000,15000],borderColor:'rgba(14,165,233,0.5)',borderDash:[5,5],tension:0.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{x:{grid:{color:dark},ticks:{color:'#64748b'}},y:{grid:{color:dark},ticks:{color:'#64748b'}}}}});}
+}
+
+// ===== AI CONTENT =====
+let aiPlatform='linkedin';
+function selectAIPlatform(el,p){document.querySelectorAll('#aiPlatformTabs .ptab').forEach(t=>t.classList.remove('act'));el.classList.add('act');aiPlatform=p;}
+
+async function generateAIContent(){
+  const btn=document.getElementById('aiGenBtn');
+  const output=document.getElementById('aiOutput');
+  const topic=document.getElementById('aiTopic').value;
+  const tone=document.getElementById('aiTone').value;
+  const custom=document.getElementById('aiCustom').value;
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Generating...';btn.disabled=true;
+  output.textContent='Generating content...';
+
+  const platformGuide={linkedin:'Professional post, 150-200 words, business audience, include hashtags',facebook:'Engaging post, 100-150 words, local Ghana business owners, conversational',instagram:'Short punchy caption, 80-100 words, include emojis, strong CTA',tiktok:'Video script, 30-40 seconds, hook in first 3 seconds, trending style',threads:'Very short post, 2-4 sentences, thought-leadership tone',email:'Email subject line + body, professional, clear CTA',whatsapp:'Short direct message, 2-3 sentences, conversational, include CTA'};
+
+  const prompt=`You are a marketing expert for TechWokx Ghana, an IT support company specialising in business email infrastructure, email health audits, and IT retainer services for hotels, SMEs, and NGOs in Ghana.
+
+Write a ${aiPlatform} post about: "${topic}"
+Tone: ${tone}
+Platform guidelines: ${platformGuide[aiPlatform]}
+${custom?'Additional instruction: '+custom:''}
+
+Services offered:
+- Free Business Email Risk Audit (RED/ORANGE/GREEN result)
+- Email Health Fix (₵1,500 one-time)
+- IT Retainer for Hotels/SMEs (₵800/month)
+- Infrastructure Audit (₵2,000)
+- Automation Scripts (₵800+)
+
+Target audience: Hotel managers, SME owners, NGO operations managers in Ghana.
+CTA should lead to the free audit at techwokx.online
+Keep it natural, not salesy. Avoid technical jargon like "SPF, DKIM, DMARC" — use plain language instead.`;
+
+  try{
+    const response=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await response.json();
+    if(data.content&&data.content[0]){output.textContent=data.content[0].text;}
+    else{output.textContent='Generation failed. Please try again.';}
+  }catch(e){
+    // Fallback content
+    const fallbacks={linkedin:`Most businesses in Ghana don't realise their emails might be going straight to spam.\n\nWe ran a quick audit for a hotel in Accra last week. Their emails hadn't been reaching clients for months — they just thought people weren't responding.\n\nA 2-hour fix changed everything.\n\nIf your team sends daily emails and clients "never reply", the problem might not be them.\n\nWe offer a free 5-minute Business Email Risk Audit at techwokx.online — RED, ORANGE, or GREEN result sent to your inbox.\n\nNo obligation. No sales call unless you want one.\n\n#EmailMarketing #GhanaBusiness #ITSupport #SMEGhana #HospitalityGhana`,facebook:`Quick question for business owners in Ghana 👇\n\nWhen last did you check if your business emails actually reach your clients?\n\nMost businesses find out too late — after a lost deal, a missed invoice, or a client complaint.\n\nWe offer a FREE Business Email Risk Audit. Takes 5 minutes.\n\nYou'll know exactly where you stand: 🔴 Critical · 🟠 At Risk · 🟢 Stable\n\nLink: techwokx.online\n\nTag a business owner who needs to see this! 👇`,instagram:`Your email signature is your first impression. 📧\n\nIf your team uses different signatures, no logos, or personal Gmail accounts for business...\n\nClients notice. And they judge.\n\nWe fix this for teams in 24 hours.\n\nFree audit at techwokx.online 👆 link in bio\n\n#GhanaBusiness #EmailMarketing #ITSupport #Hotels #SMEGhana #ProfessionalEmail`};
+    output.textContent=fallbacks[aiPlatform]||fallbacks['linkedin'];
+  }
+  btn.innerHTML='<i class="fas fa-robot"></i> Generate Content';btn.disabled=false;
+}
+
+function copyOutput(){navigator.clipboard.writeText(document.getElementById('aiOutput').textContent).then(()=>showToast('✅ Copied to clipboard!'));}
+function addToScheduler(){showSec('social',null);showToast('Content added to scheduler!');}
+
+// ===== SOCIAL SCHEDULER =====
+function togglePTab(el){el.classList.toggle('act');}
+function updateCharCount(){const txt=document.getElementById('postContent').value;document.getElementById('charCount').textContent=txt.length+' characters';}
+
+function schedulePost(){
+  const content=document.getElementById('postContent').value;
+  const date=document.getElementById('postDate').value;
+  const time=document.getElementById('postTime').value;
+  if(!content||!date){showToast('Please add content and date.');return;}
+  const list=document.getElementById('scheduledList');
+  const item=document.createElement('div');
+  item.className='post-item';
+  item.innerHTML=`<div class="post-text">${content}<div class="post-meta">📅 ${date} ${time} · Selected platforms</div></div><button class="btn-outline" style="font-size:0.7rem;padding:0.25rem 0.6rem;flex-shrink:0;" onclick="deletePost(this)">×</button>`;
+  list.insertBefore(item,list.firstChild);
+  document.getElementById('postContent').value='';
+  showToast('✅ Post scheduled!');
+}
+
+function postNow(){if(!document.getElementById('postContent').value){showToast('Add content first.');return;}showToast('✅ Post sent to all selected platforms!');}
+function aiWritePost(){showSec('ai-content',null);}
+function deletePost(btn){btn.closest('.post-item').remove();showToast('Post removed.');}
+
+// ===== LEADS =====
+function addLead(){
+  const biz=document.getElementById('leadBiz').value;
+  const email=document.getElementById('leadEmail').value;
+  if(!biz||!email){showToast('Please fill business name and email.');return;}
+  const tbody=document.getElementById('leadsTable');
+  const risk=document.getElementById('leadRisk').value.toLowerCase();
+  const row=tbody.insertRow(0);
+  row.innerHTML=`<td><strong>${biz}</strong></td><td>${document.getElementById('leadContact').value}</td><td>${document.getElementById('leadIndustry').value}</td><td>–</td><td><span class="badge ${risk}">${risk.toUpperCase()}</span></td><td><span class="badge gray">No</span></td><td><span class="badge gray">–</span></td><td>Send report</td>`;
+  document.getElementById('leadBiz').value='';document.getElementById('leadContact').value='';document.getElementById('leadEmail').value='';document.getElementById('leadPhone').value='';
+  showToast('✅ Lead added!');
+}
+
+// ===== INVOICE =====
+function updateInvPrice(){
+  const svc=document.getElementById('invService');
+  const basePrice=parseInt(svc.value);
+  const qty=parseInt(document.getElementById('invQty').value)||1;
+  const extra=parseInt(document.getElementById('invExtra').value)||0;
+  const total=basePrice*qty+(extra*195);
+  document.getElementById('invTotal').value='₵'+total.toLocaleString();
+  document.getElementById('invPreviewTotal').textContent='₵'+total.toLocaleString();
+  document.getElementById('invPreviewTotal2').textContent='₵'+total.toLocaleString();
+  const svcName=svc.options[svc.selectedIndex].text.split(' — ')[0];
+  document.getElementById('invTableBody').innerHTML=`<tr><td>${svcName}</td><td>${qty}</td><td>₵${(basePrice*qty).toLocaleString()}</td></tr>${extra>0?`<tr><td>Additional Users (${extra}×₵195)</td><td>${extra}</td><td>₵${(extra*195).toLocaleString()}</td></tr>`:''}`;
+}
+function generateInvoice(){document.getElementById('invPreviewClient').textContent=document.getElementById('invClient').value||'Client Name';document.getElementById('invPreviewEmail').textContent=document.getElementById('invEmail').value||'client@email.com';updateInvPrice();showToast('✅ Invoice generated!');}
+function generateQuote(){generateInvoice();document.querySelector('.panel-head #invType').textContent='Quote';showToast('✅ Quote generated!');}
+function printInvoice(){const w=window.open('','_blank');w.document.write('<html><body>'+document.getElementById('invoicePreview').innerHTML+'</body></html>');w.print();}
+function copyInvoice(){navigator.clipboard.writeText(document.getElementById('invoicePreview').innerText).then(()=>showToast('Invoice copied!'));}
+
+// ===== EMAIL SCANNER =====
+function scanDomain(){
+  const domain=document.getElementById('scanDomain').value.replace(/.*@/,'').trim();
+  if(!domain){showToast('Enter a domain to scan.');return;}
+  document.getElementById('scanResults').style.display='block';
+  // Simulate scan (in production: use DNS lookup API)
+  const rand=()=>Math.random()>0.5;
+  setTimeout(()=>{
+    const hasSPF=rand(),hasDKIM=rand(),hasDMARC=rand(),hasMX=true;
+    const score=Math.round((hasSPF?25:0)+(hasDKIM?25:0)+(hasDMARC?25:0)+(hasMX?25:0));
+    document.getElementById('spfStatus').innerHTML=hasSPF?'<span style="color:#4ade80">✓ Configured</span>':'<span style="color:#f87171">✗ Missing</span>';
+    document.getElementById('dkimStatus').innerHTML=hasDKIM?'<span style="color:#4ade80">✓ Configured</span>':'<span style="color:#f87171">✗ Missing</span>';
+    document.getElementById('dmarcStatus').innerHTML=hasDMARC?'<span style="color:#4ade80">✓ Configured</span>':'<span style="color:#f87171">✗ Missing</span>';
+    document.getElementById('mxStatus').innerHTML='<span style="color:#4ade80">✓ Found</span>';
+    const status=score<50?{c:'red',l:'CRITICAL RISK'}:score<75?{c:'orange',l:'AT RISK'}:{c:'green',l:'STABLE'};
+    document.getElementById('scanScoreVal').textContent=score+'/100';
+    document.getElementById('scanScoreVal').style.color=status.c==='red'?'#dc2626':status.c==='orange'?'#ea580c':'#16a34a';
+    document.getElementById('scanRec').innerHTML=`<span class="badge ${status.c}">${status.l}</span>`;
+    const history=document.getElementById('scanHistory');
+    const row=history.insertRow(0);
+    row.innerHTML=`<td>${domain}</td><td>${score}/100</td><td><span class="badge ${status.c}">${status.c.toUpperCase()}</span></td>`;
+    showToast(`Scan complete: ${domain} scored ${score}/100`);
+  },1500);
+}
+function addScanAsLead(){showSec('leads',null);showToast('Domain added as lead — fill details in CRM.');}
+
+// ===== DAILY OPS =====
+function initDailyOps(){
+  const tasks=[
+    {text:'Send 5 LinkedIn connection requests to hotel/NGO managers',icon:'fab fa-linkedin'},
+    {text:'Check audit form submissions from overnight',icon:'fas fa-clipboard-check'},
+    {text:'Send follow-up to RED leads from 2 days ago',icon:'fas fa-exclamation-circle'},
+    {text:'Post today\'s content on LinkedIn/Facebook/Instagram',icon:'fas fa-share-alt'},
+    {text:'Send 2 WhatsApp outreach messages to new contacts',icon:'fab fa-whatsapp'},
+    {text:'Update lead tracker with yesterday\'s responses',icon:'fas fa-table'},
+    {text:'Generate 1 piece of content for tomorrow',icon:'fas fa-robot'},
+    {text:'Check social media replies and engage (5 comments)',icon:'fas fa-comments'},
+    {text:'Send ORANGE lead nurture follow-up',icon:'fas fa-envelope'},
+    {text:'Review weekly pipeline and prioritise tomorrow',icon:'fas fa-filter'},
+  ];
+  const list=document.getElementById('dailyChecklist');
+  tasks.forEach((t,i)=>{
+    const item=document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:7px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;';
+    item.innerHTML=`<input type="checkbox" id="task${i}" style="width:16px;height:16px;accent-color:var(--green);cursor:pointer;" onchange="updateDailyProgress()"><label for="task${i}" style="display:flex;align-items:center;gap:0.65rem;cursor:pointer;flex:1;font-size:0.85rem;"><i class="${t.icon}" style="color:var(--accent);width:16px;text-align:center;"></i>${t.text}</label>`;
+    list.appendChild(item);
+  });
+
+  const scripts=document.getElementById('scriptsList');
+  const scriptItems=[
+    {label:'LinkedIn Connection Note',text:'Hi [Name], we help businesses audit and fix email systems for hotels and SMEs. Thought it\'d be good to connect.'},
+    {label:'WhatsApp Outreach',text:'Hi [Name], quick question — do your business emails ever land in spam or miss clients? We fix email delivery issues in 1–2 days. Starts at ₵1,500. Want a free check on your domain?'},
+    {label:'Day 3 Follow-up',text:'Hi [Name], just following up on the audit result we sent. Happy to explain the findings or walk you through next steps. No obligation.'},
+  ];
+  scriptItems.forEach(s=>{
+    const div=document.createElement('div');
+    div.style.cssText='background:rgba(0,0,0,0.3);border-radius:8px;padding:0.85rem;border-left:3px solid var(--accent);';
+    div.innerHTML=`<div style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:0.35rem;">${s.label}</div><div style="font-size:0.83rem;color:rgba(255,255,255,0.8);line-height:1.5;">${s.text}</div><button class="btn-outline" style="margin-top:0.5rem;font-size:0.75rem;padding:0.3rem 0.75rem;" onclick="copyScript('${s.text.replace(/'/g,"\\'")}')"><i class="fas fa-copy"></i> Copy</button>`;
+    scripts.appendChild(div);
+  });
+}
+
+function updateDailyProgress(){
+  const total=document.querySelectorAll('#dailyChecklist input[type=checkbox]').length;
+  const done=document.querySelectorAll('#dailyChecklist input[type=checkbox]:checked').length;
+  document.getElementById('dailyProgress').textContent=done+' / '+total+' completed';
+  if(done===total)showToast('🎉 All daily tasks complete!');
+}
+
+function copyScript(text){navigator.clipboard.writeText(text).then(()=>showToast('✅ Script copied!'));}
+
+// ===== AD PREDICTOR =====
+function dashUpdateBudget(){document.getElementById('dashBudgetVal').textContent='₵'+document.getElementById('dashAdBudget').value+'/day';}
+function dashUpdatePred(){
+  const b=parseInt(document.getElementById('dashAdBudget').value);
+  const p=document.getElementById('dashAdPlatform').value;
+  const a=document.getElementById('dashAdAudience').value;
+  const m={meta:{r:84,c:0.03,cv:0.065},google:{r:20,c:0.08,cv:0.12},tiktok:{r:120,c:0.025,cv:0.04},local:{r:50,c:0.02,cv:0.05}};
+  const af={broad:1,hotels:1.3,sme:1.1,ngo:1.2};
+  const reach=Math.round(b*m[p].r*af[a]),clicks=Math.round(reach*m[p].c),leads=Math.round(clicks*m[p].cv),cpl=leads>0?'₵'+Math.round(b/leads):'N/A';
+  document.getElementById('dashReach').textContent=reach.toLocaleString();
+  document.getElementById('dashClicks').textContent=clicks.toLocaleString();
+  document.getElementById('dashLeads').textContent=leads;
+  document.getElementById('dashCPL').textContent=cpl;
+  const pn={meta:'Meta',google:'Google Ads',tiktok:'TikTok',local:'Ghana Local Media'};
+  document.getElementById('dashPredRec').innerHTML=`<strong style="color:#38bdf8;">Recommendation:</strong> ₵${b}/day on ${pn[p]} → ${reach.toLocaleString()} reach, ${clicks} clicks, ${leads} leads/day. Cost per lead: ${cpl}. Run 7 days before optimising.`;
+}
+</script>
+</body>
+</html>

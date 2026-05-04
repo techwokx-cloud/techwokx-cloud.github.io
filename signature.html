@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Email Signature Generator — TechWokx Ghana</title>
+<meta name="description" content="Create a professional HTML email signature in minutes. Choose from 9 templates. Works with Gmail, Outlook, Zoho, Apple Mail.">
+<link rel="icon" href="assets/images/logo/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --red:#dc2626;--orange:#ea580c;--green:#16a34a;--blue:#0ea5e9;
+  --dark:#040811;--dark2:#070d1a;--dark3:#0d1526;--panel:#111827;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);
+  --text:#e2e8f0;--muted:#64748b;--accent:#f97316;
+  --font:'Outfit',sans-serif;--head:'Bebas Neue',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:var(--dark);color:var(--text);min-height:100vh;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--accent);}
+
+/* NAV */
+nav{height:64px;background:rgba(4,8,17,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 4%;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);}
+nav img{height:36px;}
+.nav-back{color:rgba(255,255,255,0.6);font-size:0.85rem;display:flex;align-items:center;gap:0.5rem;text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:white;}
+.nav-links-sm{display:flex;gap:1rem;align-items:center;}
+.nav-links-sm a{color:rgba(255,255,255,0.6);font-size:0.83rem;text-decoration:none;transition:color 0.2s;}
+.nav-links-sm a:hover{color:white;}
+.btn-nav-cta{background:linear-gradient(135deg,var(--red),var(--orange));color:white!important;padding:0.45rem 1.1rem;border-radius:6px;font-weight:700!important;font-size:0.8rem!important;}
+
+/* HERO */
+.sig-hero{padding:3.5rem 4% 2.5rem;text-align:center;background:linear-gradient(180deg,rgba(220,38,38,0.06) 0%,transparent 100%);}
+.hero-tag{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.3);color:#fca5a5;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.85rem;border-radius:4px;margin-bottom:1rem;}
+.sig-hero h1{font-family:var(--head);font-size:clamp(2.5rem,5vw,4rem);line-height:1;margin-bottom:0.75rem;}
+.sig-hero h1 span{color:var(--accent);}
+.sig-hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 1.5rem;line-height:1.7;}
+.hero-badges{display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap;}
+.hbadge{display:flex;align-items:center;gap:0.35rem;font-size:0.78rem;color:rgba(255,255,255,0.55);}
+.hbadge i{color:var(--green);}
+
+/* MAIN LAYOUT */
+.sig-main{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 64px - 180px);}
+
+/* LEFT PANEL — FORM */
+.sig-form-panel{background:var(--dark3);border-right:1px solid var(--border);padding:1.5rem;overflow-y:auto;max-height:calc(100vh - 64px);position:sticky;top:64px;}
+.form-section{margin-bottom:1.5rem;}
+.form-section h4{font-size:0.75rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:0.85rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+.fg{display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.65rem;}
+.fg label{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);border-radius:7px;color:white;padding:0.6rem 0.8rem;font-family:var(--font);font-size:0.88rem;transition:border-color 0.2s;width:100%;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--accent);}
+.fg input::placeholder{color:var(--muted);}
+.fg select option{background:var(--dark);}
+.fg textarea{resize:vertical;min-height:70px;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.color-row{display:flex;gap:0.5rem;align-items:center;}
+.color-row input[type=color]{width:40px;height:36px;border:1px solid var(--border2);border-radius:6px;cursor:pointer;background:transparent;}
+.color-label{font-size:0.78rem;color:rgba(255,255,255,0.7);}
+
+/* TEMPLATE SELECTOR */
+.tmpl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;margin-bottom:1rem;}
+.tmpl-item{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:7px;padding:0.5rem;cursor:pointer;transition:all 0.2s;text-align:center;position:relative;}
+.tmpl-item:hover{background:rgba(249,115,22,0.08);border-color:rgba(249,115,22,0.3);}
+.tmpl-item.sel{background:rgba(249,115,22,0.12);border-color:var(--accent);}
+.tmpl-item .tmpl-preview{height:40px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:var(--muted);margin-bottom:0.25rem;overflow:hidden;}
+.tmpl-item .tmpl-name{font-size:0.68rem;font-weight:600;color:rgba(255,255,255,0.7);}
+.tmpl-item .new-badge{position:absolute;top:3px;right:3px;background:var(--green);color:white;font-size:0.55rem;font-weight:700;padding:0.1rem 0.3rem;border-radius:3px;}
+
+/* RIGHT PANEL */
+.sig-right{display:flex;flex-direction:column;}
+.preview-bar{background:var(--panel);border-bottom:1px solid var(--border);padding:0.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;}
+.preview-bar h3{font-size:0.9rem;font-weight:700;color:white;}
+.preview-bar-actions{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.btn-action{background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:rgba(255,255,255,0.75);padding:0.45rem 1rem;border-radius:6px;font-size:0.8rem;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:0.4rem;transition:all 0.2s;}
+.btn-action:hover{background:rgba(255,255,255,0.1);color:white;}
+.btn-action.primary{background:linear-gradient(135deg,var(--red),var(--orange));border:none;color:white;font-weight:700;}
+.btn-action.green{background:rgba(22,163,74,0.15);border-color:rgba(22,163,74,0.3);color:#4ade80;}
+
+/* EMAIL PREVIEW FRAME */
+.email-preview-wrap{flex:1;padding:1.5rem;background:var(--dark2);}
+.email-frame{background:#f8f8f8;border-radius:10px;overflow:hidden;box-shadow:0 4px 30px rgba(0,0,0,0.4);}
+.email-chrome{background:#e5e7eb;padding:0.6rem 0.85rem;display:flex;align-items:center;gap:0.5rem;}
+.email-dots{display:flex;gap:5px;}
+.email-dot{width:10px;height:10px;border-radius:50%;}
+.email-dot.r{background:#ff5f57;}
+.email-dot.y{background:#febc2e;}
+.email-dot.g{background:#28c840;}
+.email-chrome-bar{flex:1;background:white;border-radius:4px;padding:0.25rem 0.75rem;font-size:0.72rem;color:#999;}
+.email-body{padding:1.5rem;background:white;}
+.email-sample-text{font-family:Arial,sans-serif;font-size:13px;color:#333;margin-bottom:1rem;line-height:1.6;}
+.email-divider{border:none;border-top:1px solid #e5e7eb;margin:1rem 0;}
+.sig-output{padding:0;}
+
+/* INSTALL GUIDES */
+.install-guides{padding:1.5rem;border-top:1px solid var(--border);background:var(--dark3);}
+.install-tabs{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
+.itab{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted);padding:0.4rem 0.85rem;border-radius:6px;font-size:0.78rem;cursor:pointer;font-family:var(--font);transition:all 0.2s;}
+.itab:hover{color:white;}
+.itab.act{background:rgba(249,115,22,0.12);border-color:var(--accent);color:var(--accent);}
+.install-content{background:rgba(0,0,0,0.3);border-radius:8px;padding:1.1rem;font-size:0.83rem;line-height:1.7;color:rgba(255,255,255,0.8);display:none;}
+.install-content.act{display:block;}
+.install-content ol,.install-content ul{padding-left:1.25rem;}
+.install-content li{margin-bottom:0.4rem;}
+.install-content strong{color:white;}
+.install-content code{background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.8rem;}
+
+/* REQUEST FORM SECTION */
+.request-section{background:var(--dark);border-top:1px solid var(--border);padding:3rem 4%;}
+.req-inner{max-width:800px;margin:0 auto;}
+.req-inner h2{font-family:var(--head);font-size:2.5rem;margin-bottom:0.5rem;}
+.req-inner p{color:var(--muted);margin-bottom:2rem;}
+.req-form{background:var(--dark3);border:1px solid var(--border2);border-radius:14px;padding:2rem;}
+.req-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:0.85rem;}
+.req-full{grid-column:1/-1;}
+.req-templates-select{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:1rem;}
+.req-tmpl{background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:7px;padding:0.6rem;cursor:pointer;text-align:center;transition:all 0.2s;}
+.req-tmpl:hover,.req-tmpl.sel{background:rgba(249,115,22,0.1);border-color:var(--accent);}
+.req-tmpl .rt-name{font-size:0.78rem;font-weight:600;margin-bottom:0.1rem;}
+.req-tmpl .rt-desc{font-size:0.65rem;color:var(--muted);}
+.req-submit{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));color:white;border:none;padding:0.9rem;border-radius:9px;font-family:var(--font);font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;margin-top:0.5rem;}
+.req-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(220,38,38,0.3);}
+.req-note{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:0.65rem;}
+.req-note a{color:var(--accent);}
+
+/* FOOTER */
+.sig-footer{background:var(--dark2);border-top:1px solid var(--border);padding:1.5rem 4%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;}
+.sig-footer p{font-size:0.78rem;color:var(--muted);}
+.sig-footer a{color:var(--accent);text-decoration:none;}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--panel);border:1px solid var(--green);color:white;padding:0.65rem 1.35rem;border-radius:8px;font-size:0.85rem;opacity:0;transition:all 0.3s;z-index:9999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;width:50px;height:50px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:white;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform 0.2s;}
+.wa-float:hover{transform:scale(1.1);}
+
+/* RESPONSIVE */
+@media(max-width:900px){.sig-main{grid-template-columns:1fr;}.sig-form-panel{position:static;max-height:none;}.req-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.tmpl-grid{grid-template-columns:1fr 1fr;}.req-templates-select{grid-template-columns:1fr 1fr;}.preview-bar{flex-direction:column;}.hero-badges{flex-direction:column;align-items:center;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html"><img src="assets/images/logo/Techwokx_Logo_full_final.png" alt="TechWokx Ghana"></a>
+  <div class="nav-links-sm">
+    <a href="index.html#services">Services</a>
+    <a href="index.html#audit">Free Audit</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="index.html#audit" class="btn-nav-cta">Free Email Audit</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="sig-hero">
+  <div class="hero-tag"><i class="fas fa-envelope"></i> FREE EMAIL SIGNATURE GENERATOR</div>
+  <h1>Professional Email Signatures<br><span>In Minutes.</span></h1>
+  <p>Choose a template, fill your details, and get a pixel-perfect HTML signature that works in Gmail, Outlook, Zoho, and Apple Mail. Free for 1 user.</p>
+  <div class="hero-badges">
+    <div class="hbadge"><i class="fas fa-check"></i> Works in Gmail</div>
+    <div class="hbadge"><i class="fas fa-check"></i> Works in Outlook</div>
+    <div class="hbadge"><i class="fas fa-check"></i> Works in Zoho Mail</div>
+    <div class="hbadge"><i class="fas fa-check"></i> Mobile Friendly</div>
+    <div class="hbadge"><i class="fas fa-check"></i> No Design Skills Needed</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="sig-main">
+
+  <!-- LEFT FORM PANEL -->
+  <div class="sig-form-panel">
+
+    <!-- Template Selector -->
+    <div class="form-section">
+      <h4>Choose Template</h4>
+      <div class="tmpl-grid" id="tmplGrid">
+        <div class="tmpl-item sel" onclick="selectTemplate(this,'modern')" data-tmpl="modern">
+          <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="width:100%;height:3px;background:#2563EB;margin-bottom:4px;border-radius:1px;"></div><div style="font-size:7px;font-weight:700;color:#111;">John Doe</div><div style="font-size:5px;color:#666;font-style:italic;">Senior Developer</div><div style="display:flex;gap:2px;margin-top:3px;"><div style="width:5px;height:5px;background:#2563EB;border-radius:50%;"></div><div style="width:5px;height:5px;background:#1DA1F2;border-radius:50%;"></div></div></div>
+          <div class="tmpl-name">Modern</div>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'compact')" data-tmpl="compact">
+          <div class="tmpl-preview" style="flex-direction:row;align-items:center;gap:4px;padding:4px;"><div style="width:18px;height:18px;background:#374151;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6px;color:white;font-weight:700;flex-shrink:0;">JD</div><div><div style="font-size:7px;font-weight:700;color:#111;">John Doe</div><div style="font-size:5px;color:#666;">Developer</div></div></div>
+          <div class="tmpl-name">Compact</div>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'professional')" data-tmpl="professional">
+          <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="font-size:7px;font-weight:700;color:#111;margin-bottom:2px;">John Doe</div><div style="font-size:5px;color:#666;">Senior Developer</div><div style="width:30px;height:1px;background:#e5e7eb;margin:3px 0;"></div><div style="width:40px;height:2px;background:#2563EB;"></div></div>
+          <div class="tmpl-name">Professional</div>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'creative')" data-tmpl="creative">
+          <div class="tmpl-preview" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);padding:4px;border-radius:3px;flex-direction:column;align-items:flex-start;"><div style="display:flex;align-items:center;gap:3px;"><div style="width:14px;height:14px;background:#F59E0B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:5px;color:white;">JD</div><div style="font-size:6px;font-weight:700;color:#111;">John Doe</div></div><div style="background:#F59E0B;border-radius:2px;padding:1px 3px;font-size:5px;color:white;margin-top:2px;">Lead</div></div>
+          <div class="tmpl-name">Creative</div>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'banner')" data-tmpl="banner">
+          <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="font-size:6px;font-weight:700;color:#111;margin-bottom:1px;">John Doe</div><div style="font-size:5px;color:#666;margin-bottom:2px;">Developer</div><div style="width:100%;height:8px;background:linear-gradient(90deg,#2563EB,#7C3AED);border-radius:2px;"></div></div>
+          <div class="tmpl-name">Banner</div>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'profile-banner')" data-tmpl="profile-banner">
+          <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="display:flex;align-items:center;gap:3px;margin-bottom:2px;"><div style="width:14px;height:14px;background:#374151;border-radius:50%;flex-shrink:0;"></div><div><div style="font-size:6px;font-weight:700;color:#111;">John Doe</div><div style="font-size:4px;color:#666;">Developer</div></div></div><div style="width:100%;height:6px;background:#2563EB;border-radius:1px;"></div></div>
+          <div class="tmpl-name">Profile+Banner</div>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'premium')" data-tmpl="premium">
+          <div class="tmpl-preview" style="background:#1E3A5F;padding:4px;border-radius:3px;flex-direction:column;align-items:flex-start;"><div style="font-size:7px;font-weight:700;color:white;">John Doe</div><div style="font-size:5px;color:#93C5FD;">Senior Dev</div><div style="display:flex;gap:2px;margin-top:2px;"><div style="width:10px;height:1.5px;background:#F59E0B;border-radius:1px;"></div><div style="width:10px;height:1.5px;background:#F59E0B;border-radius:1px;"></div><div style="width:10px;height:1.5px;background:#F59E0B;border-radius:1px;"></div></div></div>
+          <div class="tmpl-name">Premium</div>
+          <span class="new-badge">New</span>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'elegant')" data-tmpl="elegant">
+          <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="font-size:7px;font-weight:300;color:#111;letter-spacing:1px;">JOHN DOE</div><div style="font-size:5px;color:#9CA3AF;letter-spacing:0.5px;">Senior Developer</div><div style="width:20px;height:1px;background:#D1D5DB;margin-top:3px;"></div></div>
+          <div class="tmpl-name">Elegant</div>
+          <span class="new-badge">New</span>
+        </div>
+        <div class="tmpl-item" onclick="selectTemplate(this,'minimalist')" data-tmpl="minimalist">
+          <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="font-size:7px;font-weight:600;color:#111;">John Doe</div><div style="display:flex;gap:3px;margin-top:2px;"><div style="width:15px;height:1px;background:#9CA3AF;"></div><div style="width:10px;height:1px;background:#9CA3AF;"></div><div style="width:8px;height:1px;background:#9CA3AF;"></div></div></div>
+          <div class="tmpl-name">Minimalist</div>
+          <span class="new-badge">New</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal Info -->
+    <div class="form-section">
+      <h4>Your Information</h4>
+      <div class="fg"><label>Full Name *</label><input type="text" id="fName" placeholder="George Jabley" oninput="updatePreview()"></div>
+      <div class="fg"><label>Job Title *</label><input type="text" id="fTitle" placeholder="Founder & IT Operations Lead" oninput="updatePreview()"></div>
+      <div class="fg"><label>Company Name *</label><input type="text" id="fCompany" placeholder="TechWokx Ghana" oninput="updatePreview()"></div>
+      <div class="fg"><label>Department (optional)</label><input type="text" id="fDept" placeholder="IT & Digital Services" oninput="updatePreview()"></div>
+    </div>
+
+    <!-- Contact -->
+    <div class="form-section">
+      <h4>Contact Details</h4>
+      <div class="fg"><label>Email Address *</label><input type="email" id="fEmail" placeholder="hello@techwokx.online" oninput="updatePreview()"></div>
+      <div class="fg-row">
+        <div class="fg"><label>Phone</label><input type="tel" id="fPhone" placeholder="+233 264 375 628" oninput="updatePreview()"></div>
+        <div class="fg"><label>WhatsApp</label><input type="tel" id="fWA" placeholder="+233 555 087 407" oninput="updatePreview()"></div>
+      </div>
+      <div class="fg"><label>Website</label><input type="url" id="fWebsite" placeholder="techwokx.online" oninput="updatePreview()"></div>
+      <div class="fg"><label>Address (optional)</label><input type="text" id="fAddress" placeholder="Accra, Ghana" oninput="updatePreview()"></div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="form-section">
+      <h4>Social Media</h4>
+      <div class="fg"><label>LinkedIn URL</label><input type="url" id="fLinkedIn" placeholder="linkedin.com/in/georgejabley" oninput="updatePreview()"></div>
+      <div class="fg-row">
+        <div class="fg"><label>Instagram</label><input type="text" id="fIG" placeholder="@techwokxgh" oninput="updatePreview()"></div>
+        <div class="fg"><label>Twitter / X</label><input type="text" id="fTwitter" placeholder="@techwokxgh" oninput="updatePreview()"></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Facebook</label><input type="text" id="fFB" placeholder="techwokxgh" oninput="updatePreview()"></div>
+        <div class="fg"><label>TikTok</label><input type="text" id="fTikTok" placeholder="@techwokxgh" oninput="updatePreview()"></div>
+      </div>
+    </div>
+
+    <!-- Branding -->
+    <div class="form-section">
+      <h4>Branding</h4>
+      <div class="fg"><label>Logo URL (optional)</label><input type="url" id="fLogo" placeholder="https://yoursite.com/logo.png" oninput="updatePreview()"></div>
+      <div class="fg"><label>Banner Image URL (optional)</label><input type="url" id="fBanner" placeholder="https://yoursite.com/banner.png" oninput="updatePreview()"></div>
+      <div class="fg"><label>CTA Text (optional)</label><input type="text" id="fCTA" placeholder="Book a Free Audit" oninput="updatePreview()"></div>
+      <div class="fg"><label>CTA Link (optional)</label><input type="url" id="fCTALink" placeholder="https://techwokx.online/#audit" oninput="updatePreview()"></div>
+      <div style="display:flex;gap:1rem;margin-top:0.5rem;">
+        <div class="fg" style="flex:1;"><label>Primary Color</label><div class="color-row"><input type="color" id="fColor1" value="#dc2626" onchange="updatePreview()"><span class="color-label">Brand</span></div></div>
+        <div class="fg" style="flex:1;"><label>Accent Color</label><div class="color-row"><input type="color" id="fColor2" value="#f97316" onchange="updatePreview()"><span class="color-label">Accent</span></div></div>
+      </div>
+      <div class="fg" style="margin-top:0.5rem;"><label>Font Style</label>
+        <select id="fFont" onchange="updatePreview()">
+          <option value="Arial, sans-serif">Arial (Recommended)</option>
+          <option value="Helvetica, sans-serif">Helvetica</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="'Times New Roman', serif">Times New Roman</option>
+          <option value="Verdana, sans-serif">Verdana</option>
+          <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="form-section">
+      <h4>Legal Disclaimer (optional)</h4>
+      <div class="fg"><textarea id="fDisclaimer" placeholder="This email and any files transmitted with it are confidential..." oninput="updatePreview()" rows="3"></textarea></div>
+    </div>
+
+  </div><!-- /form panel -->
+
+  <!-- RIGHT PREVIEW PANEL -->
+  <div class="sig-right">
+    <div class="preview-bar">
+      <h3><i class="fas fa-eye" style="color:var(--accent);margin-right:0.4rem;"></i>Live Preview</h3>
+      <div class="preview-bar-actions">
+        <button class="btn-action" onclick="copyHTML()"><i class="fas fa-code"></i> Copy HTML</button>
+        <button class="btn-action" onclick="downloadHTML()"><i class="fas fa-download"></i> Download HTML</button>
+        <button class="btn-action green" onclick="scrollToRequest()"><i class="fas fa-envelope"></i> Request Delivery</button>
+        <button class="btn-action primary" onclick="scrollToRequest()"><i class="fas fa-star"></i> Get 1 Free Signature</button>
+      </div>
+    </div>
+
+    <div class="email-preview-wrap">
+      <div class="email-frame">
+        <div class="email-chrome">
+          <div class="email-dots">
+            <div class="email-dot r"></div>
+            <div class="email-dot y"></div>
+            <div class="email-dot g"></div>
+          </div>
+          <div class="email-chrome-bar">New Message — Gmail</div>
+        </div>
+        <div class="email-body">
+          <p class="email-sample-text">Hello,<br><br>Thank you for reaching out. Please find our proposal attached. We would be happy to schedule a call at your convenience to discuss further.<br><br>Looking forward to hearing from you.</p>
+          <hr class="email-divider">
+          <div class="sig-output" id="sigOutput"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTALL GUIDES -->
+    <div class="install-guides">
+      <h4 style="font-size:0.8rem;font-weight:700;color:white;margin-bottom:0.75rem;">How to Install Your Signature</h4>
+      <div class="install-tabs">
+        <div class="itab act" onclick="showGuide(this,'gmail')">Gmail</div>
+        <div class="itab" onclick="showGuide(this,'outlook')">Outlook</div>
+        <div class="itab" onclick="showGuide(this,'zoho')">Zoho Mail</div>
+        <div class="itab" onclick="showGuide(this,'apple')">Apple Mail</div>
+      </div>
+      <div class="install-content act" id="guide-gmail">
+        <ol>
+          <li>Click <strong>Copy HTML</strong> above</li>
+          <li>Go to Gmail → Settings (gear icon) → <strong>See All Settings</strong></li>
+          <li>Scroll to <strong>Signature</strong> section → Click <strong>Create New</strong></li>
+          <li>Click the <strong>&lt;/&gt; Source</strong> icon in the editor</li>
+          <li>Paste your HTML code → Click <strong>Save Changes</strong></li>
+        </ol>
+      </div>
+      <div class="install-content" id="guide-outlook">
+        <ol>
+          <li>Click <strong>Download HTML</strong> above to get your signature file</li>
+          <li>Open Outlook → File → Options → <strong>Mail</strong> → <strong>Signatures</strong></li>
+          <li>Click <strong>New</strong> and name your signature</li>
+          <li>In the edit window, click the <strong>Insert as Text</strong> or paste your HTML</li>
+          <li>Set as default for new messages and replies → <strong>OK</strong></li>
+        </ol>
+      </div>
+      <div class="install-content" id="guide-zoho">
+        <ol>
+          <li>Click <strong>Copy HTML</strong> above</li>
+          <li>Login to Zoho Mail → Settings → <strong>Mail Accounts</strong></li>
+          <li>Click <strong>Signatures</strong> → <strong>Add Signature</strong></li>
+          <li>Switch to <strong>HTML mode</strong> (source icon)</li>
+          <li>Paste your HTML → Save</li>
+          <li>Assign to your account under <strong>Default Signature</strong></li>
+        </ol>
+      </div>
+      <div class="install-content" id="guide-apple">
+        <ol>
+          <li>Click <strong>Download HTML</strong> above</li>
+          <li>Open the HTML file in any browser</li>
+          <li>Select all content (Cmd+A) and copy</li>
+          <li>Open Apple Mail → Mail → Preferences → <strong>Signatures</strong></li>
+          <li>Click <strong>+</strong> to add new signature</li>
+          <li>Paste into the signature box → Close Preferences</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /right panel -->
+
+</div><!-- /main -->
+
+<!-- REQUEST FORM -->
+<div class="request-section" id="requestSection">
+  <div class="req-inner">
+    <h2>Request Your Free<br>Professional Signature</h2>
+    <p>No time to set it up yourself? Fill the form below. We'll design and deliver a professional HTML email signature to your inbox within 24 hours. Free for 1 user.</p>
+
+    <div class="req-form">
+      <p style="font-size:0.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.85rem;">Select Template Style</p>
+      <div class="req-templates-select">
+        <div class="req-tmpl sel" onclick="selectReqTmpl(this,'Modern')"><div class="rt-name">Modern</div><div class="rt-desc">Clean with accent bar</div></div>
+        <div class="req-tmpl" onclick="selectReqTmpl(this,'Compact')"><div class="rt-name">Compact</div><div class="rt-desc">With profile photo</div></div>
+        <div class="req-tmpl" onclick="selectReqTmpl(this,'Professional')"><div class="rt-name">Professional</div><div class="rt-desc">Corporate style</div></div>
+        <div class="req-tmpl" onclick="selectReqTmpl(this,'Creative')"><div class="rt-name">Creative</div><div class="rt-desc">Modern with badge</div></div>
+        <div class="req-tmpl" onclick="selectReqTmpl(this,'Premium')"><div class="rt-name">Premium ✨</div><div class="rt-desc">Elegant design</div></div>
+        <div class="req-tmpl" onclick="selectReqTmpl(this,'Minimalist')"><div class="rt-name">Minimalist</div><div class="rt-desc">Clean & simple</div></div>
+      </div>
+      <input type="hidden" id="reqTemplate" value="Modern">
+
+      <div class="req-grid">
+        <div class="fg"><label>Full Name *</label><input type="text" id="reqName" placeholder="George Jabley"></div>
+        <div class="fg"><label>Job Title *</label><input type="text" id="reqTitle" placeholder="Founder & IT Lead"></div>
+        <div class="fg"><label>Company Name *</label><input type="text" id="reqCompany" placeholder="TechWokx Ghana"></div>
+        <div class="fg"><label>Business Email *</label><input type="email" id="reqEmail" placeholder="hello@techwokx.online"></div>
+        <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="reqPhone" placeholder="+233 ..."></div>
+        <div class="fg"><label>Website</label><input type="url" id="reqWebsite" placeholder="techwokx.online"></div>
+        <div class="fg req-full"><label>Logo URL (if available)</label><input type="url" id="reqLogo" placeholder="https://yoursite.com/logo.png"></div>
+        <div class="fg req-full"><label>Number of staff needing signatures</label>
+          <select id="reqStaff">
+            <option value="1">Just me (1 person) — Free</option>
+            <option value="2-5">2–5 people — ₵650</option>
+            <option value="6-10">6–10 people — ₵1,200</option>
+            <option value="11-20">11–20 people — ₵1,950</option>
+            <option value="20+">20+ people — Contact for quote</option>
+          </select>
+        </div>
+        <div class="fg req-full"><label>Additional notes (optional)</label><textarea id="reqNotes" placeholder="Brand colors, preferred style, any specific requirements..." rows="3"></textarea></div>
+      </div>
+
+      <button class="req-submit" onclick="submitRequest()"><i class="fas fa-paper-plane"></i> Request My Free Signature</button>
+      <p class="req-note">Your signature will be delivered to your email within 24 hours. For team packages, we'll get in touch to confirm details. Questions? <a href="https://wa.me/233555087407">WhatsApp us</a> or email <a href="mailto:hello@techwokx.online">hello@techwokx.online</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="sig-footer">
+  <p>© 2025 TechWokx Ghana · <a href="index.html">Back to main site</a></p>
+  <p>hello@techwokx.online · +233 555 087 407</p>
+</div>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/233555087407" class="wa-float" title="Chat on WhatsApp" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+let currentTemplate = 'modern';
+let reqTemplateSelected = 'Modern';
+
+// ===== TEMPLATE SELECT =====
+function selectTemplate(el, tmpl) {
+  document.querySelectorAll('.tmpl-item').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel');
+  currentTemplate = tmpl;
+  updatePreview();
+}
+
+function selectReqTmpl(el, tmpl) {
+  document.querySelectorAll('.req-tmpl').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel');
+  reqTemplateSelected = tmpl;
+  document.getElementById('reqTemplate').value = tmpl;
+}
+
+// ===== HELPERS =====
+function v(id) { return document.getElementById(id)?.value || ''; }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ===== GENERATE SIGNATURE HTML =====
+function generateSignatureHTML() {
+  const name = v('fName') || 'Your Name';
+  const title = v('fTitle') || 'Your Title';
+  const company = v('fCompany') || 'Your Company';
+  const dept = v('fDept');
+  const email = v('fEmail') || 'email@company.com';
+  const phone = v('fPhone');
+  const wa = v('fWA');
+  const website = v('fWebsite');
+  const address = v('fAddress');
+  const linkedin = v('fLinkedIn');
+  const ig = v('fIG');
+  const twitter = v('fTwitter');
+  const fb = v('fFB');
+  const tiktok = v('fTikTok');
+  const logo = v('fLogo');
+  const banner = v('fBanner');
+  const cta = v('fCTA');
+  const ctaLink = v('fCTALink');
+  const color1 = v('fColor1') || '#dc2626';
+  const color2 = v('fColor2') || '#f97316';
+  const font = v('fFont') || 'Arial, sans-serif';
+  const disclaimer = v('fDisclaimer');
+
+  const socialHTML = [
+    linkedin ? `<a href="https://${linkedin.replace('https://','').replace('http://','')}" style="text-decoration:none;color:${color1};font-size:12px;margin-right:8px;" target="_blank">LinkedIn</a>` : '',
+    ig ? `<a href="https://instagram.com/${ig.replace('@','')}" style="text-decoration:none;color:${color1};font-size:12px;margin-right:8px;" target="_blank">Instagram</a>` : '',
+    twitter ? `<a href="https://twitter.com/${twitter.replace('@','')}" style="text-decoration:none;color:${color1};font-size:12px;margin-right:8px;" target="_blank">X/Twitter</a>` : '',
+    fb ? `<a href="https://facebook.com/${fb}" style="text-decoration:none;color:${color1};font-size:12px;margin-right:8px;" target="_blank">Facebook</a>` : '',
+    tiktok ? `<a href="https://tiktok.com/@${tiktok.replace('@','')}" style="text-decoration:none;color:${color1};font-size:12px;margin-right:8px;" target="_blank">TikTok</a>` : '',
+  ].filter(Boolean).join('');
+
+  const contactHTML = [
+    phone ? `<tr><td style="font-family:${font};font-size:12px;color:#555;padding-bottom:3px;">📞 <a href="tel:${phone}" style="color:#555;text-decoration:none;">${phone}</a></td></tr>` : '',
+    wa ? `<tr><td style="font-family:${font};font-size:12px;color:#555;padding-bottom:3px;">💬 <a href="https://wa.me/${wa.replace(/[^0-9]/g,'')}" style="color:#555;text-decoration:none;">WhatsApp: ${wa}</a></td></tr>` : '',
+    email ? `<tr><td style="font-family:${font};font-size:12px;color:#555;padding-bottom:3px;">✉️ <a href="mailto:${email}" style="color:${color1};text-decoration:none;">${email}</a></td></tr>` : '',
+    website ? `<tr><td style="font-family:${font};font-size:12px;color:#555;padding-bottom:3px;">🌐 <a href="https://${website.replace('https://','').replace('http://','')}" style="color:${color1};text-decoration:none;">${website}</a></td></tr>` : '',
+    address ? `<tr><td style="font-family:${font};font-size:12px;color:#555;padding-bottom:3px;">📍 ${address}</td></tr>` : '',
+  ].filter(Boolean).join('');
+
+  const ctaHTML = cta && ctaLink ? `<tr><td style="padding-top:10px;"><a href="${ctaLink}" style="background:linear-gradient(135deg,${color1},${color2});color:white;padding:8px 18px;border-radius:5px;font-family:${font};font-size:12px;font-weight:bold;text-decoration:none;display:inline-block;">${cta}</a></td></tr>` : '';
+  const logoHTML = logo ? `<img src="${logo}" alt="${company}" style="max-height:50px;max-width:150px;margin-bottom:8px;display:block;">` : '';
+  const bannerHTML = banner ? `<tr><td style="padding-top:12px;"><img src="${banner}" alt="banner" style="max-width:500px;width:100%;border-radius:4px;display:block;"></td></tr>` : '';
+  const disclaimerHTML = disclaimer ? `<tr><td style="padding-top:12px;border-top:1px solid #eee;font-family:${font};font-size:10px;color:#aaa;line-height:1.5;">${disclaimer}</td></tr>` : '';
+
+  // Templates
+  const templates = {
+    modern: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
+  <tr><td style="border-left:4px solid ${color1};padding-left:14px;">
+    ${logoHTML}
+    <div style="font-size:16px;font-weight:bold;color:#111;margin-bottom:2px;">${name}</div>
+    <div style="font-size:13px;color:${color1};margin-bottom:${dept?'2':'8'}px;">${title}${company?` · ${company}`:''}</div>
+    ${dept?`<div style="font-size:12px;color:#888;margin-bottom:8px;">${dept}</div>`:''}
+    <table cellpadding="0" cellspacing="0">${contactHTML}</table>
+    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
+  </td></tr>
+  ${ctaHTML ? `<tr><td style="padding-top:10px;">${ctaHTML.replace(/<tr><td.*?>/,'').replace(/<\/td><\/tr>/,'')}</td></tr>`:''}
+  ${bannerHTML}${disclaimerHTML}
+</table>`,
+
+    compact: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
+  <tr>
+    <td style="vertical-align:top;padding-right:14px;">
+      <div style="width:50px;height:50px;background:${color1};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;color:white;text-align:center;line-height:50px;">${name.charAt(0)}</div>
+    </td>
+    <td style="vertical-align:top;border-left:2px solid ${color1};padding-left:14px;">
+      ${logoHTML}
+      <div style="font-size:15px;font-weight:bold;color:#111;margin-bottom:1px;">${name}</div>
+      <div style="font-size:12px;color:${color1};margin-bottom:6px;">${title}${company?` | ${company}`:''}</div>
+      <table cellpadding="0" cellspacing="0">${contactHTML}</table>
+      ${socialHTML ? `<div style="margin-top:6px;">${socialHTML}</div>` : ''}
+    </td>
+  </tr>
+  ${bannerHTML}${disclaimerHTML}
+</table>`,
+
+    professional: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
+  <tr><td>
+    ${logoHTML}
+    <div style="font-size:17px;font-weight:bold;color:#111;letter-spacing:0.3px;margin-bottom:2px;">${name}</div>
+    <div style="font-size:12px;color:#777;margin-bottom:8px;">${title}${company?` | ${company}`:''}</div>
+    <div style="border-bottom:2px solid ${color1};margin-bottom:10px;width:60px;"></div>
+    <table cellpadding="0" cellspacing="0">${contactHTML}</table>
+    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
+  </td></tr>
+  ${ctaHTML}${bannerHTML}${disclaimerHTML}
+</table>`,
+
+    creative: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;background:linear-gradient(135deg,#FEF9EE,#FFF8EC);border-radius:8px;padding:14px;">
+  <tr><td>
+    ${logoHTML}
+    <table cellpadding="0" cellspacing="0"><tr>
+      <td style="vertical-align:middle;padding-right:10px;"><div style="width:40px;height:40px;background:linear-gradient(135deg,${color1},${color2});border-radius:50%;text-align:center;line-height:40px;font-size:16px;font-weight:bold;color:white;">${name.charAt(0)}</div></td>
+      <td style="vertical-align:middle;">
+        <div style="font-size:15px;font-weight:bold;color:#111;">${name}</div>
+        <div style="background:${color2};color:white;font-size:10px;font-weight:bold;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:2px;">${title}</div>
+      </td>
+    </tr></table>
+    <div style="margin-top:10px;font-size:12px;color:#555;font-weight:bold;">${company}</div>
+    <table cellpadding="0" cellspacing="0" style="margin-top:6px;">${contactHTML}</table>
+    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
+  </td></tr>
+  ${ctaHTML}${disclaimerHTML}
+</table>`,
+
+    banner: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
+  <tr><td>
+    ${logoHTML}
+    <div style="font-size:16px;font-weight:bold;color:#111;margin-bottom:2px;">${name}</div>
+    <div style="font-size:12px;color:#777;margin-bottom:10px;">${title}${company?` · ${company}`:''}</div>
+    <table cellpadding="0" cellspacing="0">${contactHTML}</table>
+    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
+    <div style="margin-top:12px;background:linear-gradient(90deg,${color1},${color2});height:6px;border-radius:3px;max-width:400px;"></div>
+  </td></tr>
+  ${bannerHTML}${disclaimerHTML}
+</table>`,
+
+    'profile-banner': `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
+  <tr>
+    <td style="vertical-align:top;padding-right:14px;">
+      <div style="width:56px;height:56px;background:linear-gradient(135deg,${color1},${color2});border-radius:50%;text-align:center;line-height:56px;font-size:20px;font-weight:bold;color:white;">${name.charAt(0)}</div>
+    </td>
+    <td style="vertical-align:top;">
+      ${logoHTML}
+      <div style="font-size:16px;font-weight:bold;color:#111;margin-bottom:2px;">${name}</div>
+      <div style="font-size:12px;color:${color1};margin-bottom:8px;">${title}${company?` · ${company}`:''}</div>
+      <table cellpadding="0" cellspacing="0">${contactHTML}</table>
+      ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
+    </td>
+  </tr>
+  <tr><td colspan="2" style="padding-top:10px;"><div style="background:linear-gradient(90deg,${color1},${color2});height:4px;border-radius:2px;"></div></td></tr>
+  ${bannerHTML}${disclaimerHTML}
+</table>`,
+
+    premium: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;background:#1E3A5F;border-radius:8px;padding:16px;">
+  <tr><td>
+    ${logo ? `<img src="${logo}" alt="${company}" style="max-height:40px;margin-bottom:10px;display:block;">` : ''}
+    <div style="font-size:17px;font-weight:bold;color:white;letter-spacing:0.5px;margin-bottom:2px;">${name}</div>
+    <div style="font-size:12px;color:#93C5FD;margin-bottom:10px;">${title}${company?` · ${company}`:''}</div>
+    <div style="border-bottom:1px solid rgba(255,255,255,0.15);margin-bottom:10px;"></div>
+    <table cellpadding="0" cellspacing="0">
+      ${phone?`<tr><td style="font-size:12px;color:#CBD5E1;padding-bottom:4px;">📞 <a href="tel:${phone}" style="color:#CBD5E1;text-decoration:none;">${phone}</a></td></tr>`:''}
+      ${email?`<tr><td style="font-size:12px;color:#CBD5E1;padding-bottom:4px;">✉️ <a href="mailto:${email}" style="color:#93C5FD;text-decoration:none;">${email}</a></td></tr>`:''}
+      ${website?`<tr><td style="font-size:12px;color:#CBD5E1;padding-bottom:4px;">🌐 <a href="https://${website.replace('https://','')}" style="color:#93C5FD;text-decoration:none;">${website}</a></td></tr>`:''}
+    </table>
+    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML.replace(/color:#[a-fA-F0-9]{6}/g,'color:#93C5FD')}</div>` : ''}
+    ${cta&&ctaLink?`<div style="margin-top:12px;"><a href="${ctaLink}" style="background:linear-gradient(135deg,${color1},${color2});color:white;padding:8px 16px;border-radius:5px;font-size:12px;font-weight:bold;text-decoration:none;display:inline-block;">${cta}</a></div>`:''}
+  </td></tr>
+  ${disclaimerHTML}
+</table>`,
+
+    elegant: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
+  <tr><td>
+    ${logoHTML}
+    <div style="font-size:16px;font-weight:300;color:#111;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">${name.toUpperCase()}</div>
+    <div style="font-size:11px;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">${title}${company?` · ${company}`:''}</div>
+    <div style="width:40px;height:1px;background:#D1D5DB;margin-bottom:10px;"></div>
+    <table cellpadding="0" cellspacing="0">
+      ${phone?`<tr><td style="font-size:12px;color:#6B7280;padding-bottom:4px;letter-spacing:0.3px;"><a href="tel:${phone}" style="color:#6B7280;text-decoration:none;">${phone}</a></td></tr>`:''}
+      ${email?`<tr><td style="font-size:12px;color:#6B7280;padding-bottom:4px;"><a href="mailto:${email}" style="color:${color1};text-decoration:none;">${email}</a></td></tr>`:''}
+      ${website?`<tr><td style="font-size:12px;color:#6B7280;padding-bottom:4px;"><a href="https://${website.replace('https://','')}" style="color:${color1};text-decoration:none;">${website}</a></td></tr>`:''}
+    </table>
+    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
+  </td></tr>
+  ${bannerHTML}${disclaimerHTML}
+</table>`,
+
+    minimalist: `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:400px;">
+  <tr><td style="border-top:2px solid ${color1};padding-top:10px;">
+    <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:2px;">${name}</div>
+    <div style="font-size:11px;color:#9CA3AF;margin-bottom:8px;">${title}${company?` · ${company}`:''}</div>
+    <div style="font-size:11px;color:#6B7280;">
+      ${[phone?phone:'', email?`<a href="mailto:${email}" style="color:${color1};text-decoration:none;">${email}</a>`:'', website?`<a href="https://${website.replace('https://','')}" style="color:${color1};text-decoration:none;">${website}</a>`:''].filter(Boolean).join(' · ')}
+    </div>
+    ${socialHTML ? `<div style="margin-top:6px;">${socialHTML}</div>` : ''}
+  </td></tr>
+  ${disclaimerHTML}
+</table>`
+  };
+
+  return templates[currentTemplate] || templates.modern;
+}
+
+// ===== UPDATE PREVIEW =====
+function updatePreview() {
+  document.getElementById('sigOutput').innerHTML = generateSignatureHTML();
+}
+
+// ===== COPY HTML =====
+function copyHTML() {
+  const html = generateSignatureHTML();
+  navigator.clipboard.writeText(html).then(() => showToast('✅ HTML copied! Paste into your email client.'));
+}
+
+// ===== DOWNLOAD HTML =====
+function downloadHTML() {
+  const name = v('fName') || 'signature';
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Email Signature — ${name}</title></head><body style="margin:20px;font-family:Arial,sans-serif;">${generateSignatureHTML()}</body></html>`;
+  const blob = new Blob([html], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${name.replace(/\s+/g,'-').toLowerCase()}-signature.html`;
+  a.click();
+  showToast('✅ Signature downloaded!');
+}
+
+// ===== INSTALL GUIDES =====
+function showGuide(el, id) {
+  document.querySelectorAll('.itab').forEach(t => t.classList.remove('act'));
+  document.querySelectorAll('.install-content').forEach(c => c.classList.remove('act'));
+  el.classList.add('act');
+  document.getElementById('guide-' + id).classList.add('act');
+}
+
+// ===== SCROLL TO REQUEST =====
+function scrollToRequest() {
+  document.getElementById('requestSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===== SUBMIT REQUEST =====
+function submitRequest() {
+  const name = document.getElementById('reqName').value;
+  const email = document.getElementById('reqEmail').value;
+  const company = document.getElementById('reqCompany').value;
+  if (!name || !email || !company) {
+    showToast('Please fill name, company, and email.');
+    return;
+  }
+  const btn = document.querySelector('.req-submit');
+  btn.innerHTML = '<i class="fas fa-check"></i> Request Submitted!';
+  btn.style.background = 'linear-gradient(135deg,#16a34a,#4ade80)';
+  btn.disabled = true;
+  showToast('✅ Request sent! We\'ll deliver your signature within 24 hours.');
+  console.log('Signature request:', {
+    name, email, company,
+    title: document.getElementById('reqTitle').value,
+    phone: document.getElementById('reqPhone').value,
+    website: document.getElementById('reqWebsite').value,
+    logo: document.getElementById('reqLogo').value,
+    staff: document.getElementById('reqStaff').value,
+    template: reqTemplateSelected,
+    notes: document.getElementById('reqNotes').value
+  });
+  // In production: POST to Google Apps Script / backend
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Set defaults
+  document.getElementById('fName').value = '';
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fCompany').value = '';
+  updatePreview();
+  // Auto-update on all input changes
+  document.querySelectorAll('.sig-form-panel input, .sig-form-panel select, .sig-form-panel textarea').forEach(el => {
+    el.addEventListener('input', updatePreview);
+    el.addEventListener('change', updatePreview);
+  });
+});
+</script>
+</body>
+</html>
