@@ -182,7 +182,7 @@ nav img{height:36px;}
       <div class="tmpl-grid" id="tmplGrid">
         <div class="tmpl-item sel" onclick="selectTemplate(this,'modern')" data-tmpl="modern">
           <div class="tmpl-preview" style="flex-direction:column;align-items:flex-start;padding:4px;"><div style="width:100%;height:3px;background:#2563EB;margin-bottom:4px;border-radius:1px;"></div><div style="font-size:7px;font-weight:700;color:#111;">John Doe</div><div style="font-size:5px;color:#666;font-style:italic;">Senior Developer</div><div style="display:flex;gap:2px;margin-top:3px;"><div style="width:5px;height:5px;background:#2563EB;border-radius:50%;"></div><div style="width:5px;height:5px;background:#1DA1F2;border-radius:50%;"></div></div></div>
-          <div class="tmpl-name">Modern</div>
+          <div class="tmpl-name">TechWokx ★</div>
         </div>
         <div class="tmpl-item" onclick="selectTemplate(this,'compact')" data-tmpl="compact">
           <div class="tmpl-preview" style="flex-direction:row;align-items:center;gap:4px;padding:4px;"><div style="width:18px;height:18px;background:#374151;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6px;color:white;font-weight:700;flex-shrink:0;">JD</div><div><div style="font-size:7px;font-weight:700;color:#111;">John Doe</div><div style="font-size:5px;color:#666;">Developer</div></div></div>
@@ -502,17 +502,54 @@ function generateSignatureHTML() {
   // Templates
   const templates = {
     modern: `
-<table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};max-width:500px;">
-  <tr><td style="border-left:4px solid ${color1};padding-left:14px;">
-    ${logoHTML}
-    <div style="font-size:16px;font-weight:bold;color:#111;margin-bottom:2px;">${name}</div>
-    <div style="font-size:13px;color:${color1};margin-bottom:${dept?'2':'8'}px;">${title}${company?` · ${company}`:''}</div>
-    ${dept?`<div style="font-size:12px;color:#888;margin-bottom:8px;">${dept}</div>`:''}
-    <table cellpadding="0" cellspacing="0">${contactHTML}</table>
-    ${socialHTML ? `<div style="margin-top:8px;">${socialHTML}</div>` : ''}
-  </td></tr>
-  ${ctaHTML ? `<tr><td style="padding-top:10px;">${ctaHTML.replace(/<tr><td.*?>/,'').replace(/<\/td><\/tr>/,'')}</td></tr>`:''}
-  ${bannerHTML}${disclaimerHTML}
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;max-width:520px;background:#ffffff;">
+  <tr>
+    <td style="vertical-align:middle;padding-right:14px;padding-bottom:4px;">
+      ${logo
+        ? `<img src="${logo}" alt="${company}" style="width:56px;height:56px;border-radius:10px;object-fit:contain;display:block;">`
+        : `<div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#1a4a6b,#2d8a4e);display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:22px;font-weight:900;color:white;text-align:center;line-height:56px;">T</div>`
+      }
+    </td>
+    <td style="vertical-align:middle;">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="padding-bottom:3px;">
+            <span style="font-size:15px;font-weight:900;color:#1a4a6b;font-family:Arial,Helvetica,sans-serif;letter-spacing:0.3px;">TechWokx</span><span style="font-size:15px;font-weight:700;color:#111111;font-family:Arial,Helvetica,sans-serif;margin-left:7px;">${name}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom:3px;">
+            <span style="font-size:11.5px;color:#555555;font-family:Arial,Helvetica,sans-serif;">${title}${company ? ` &middot; ${company}` : ''}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom:6px;">
+            <span style="font-size:11.5px;color:#444444;font-family:Arial,Helvetica,sans-serif;">
+              ${email ? `<a href="mailto:${email}" style="color:#444444;text-decoration:none;">${email}</a>` : ''}
+              ${email && phone ? ' &nbsp;&middot;&nbsp; ' : ''}
+              ${phone ? `<a href="tel:${phone}" style="color:#444444;text-decoration:none;">${phone}</a>` : ''}
+            </span>
+          </td>
+        </tr>
+        ${website ? `<tr><td style="padding-bottom:6px;"><a href="https://${website.replace('https://','').replace('http://','')}" style="font-size:11px;color:#1a4a6b;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">${website}</a></td></tr>` : ''}
+        <tr>
+          <td style="padding-top:2px;">
+            <table cellpadding="0" cellspacing="0" border="0"><tr>
+              ${linkedin ? `<td style="padding-right:5px;"><a href="${linkedin.startsWith('http')?linkedin:'https://'+linkedin}" style="text-decoration:none;" target="_blank"><div style="width:24px;height:24px;background:#0077B5;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;"><span style="color:white;font-size:12px;font-weight:bold;font-family:Arial;">in</span></div></a></td>` : ''}
+              ${ig ? `<td style="padding-right:5px;"><a href="https://instagram.com/${ig.replace('@','')}" style="text-decoration:none;" target="_blank"><div style="width:24px;height:24px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-radius:5px;display:inline-flex;align-items:center;justify-content:center;"><span style="color:white;font-size:11px;font-family:Arial;">&#9679;</span></div></a></td>` : ''}
+              ${wa ? `<td style="padding-right:5px;"><a href="https://wa.me/${wa.replace(/[^0-9]/g,'')}" style="text-decoration:none;" target="_blank"><div style="width:24px;height:24px;background:#25D366;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;"><span style="color:white;font-size:11px;font-family:Arial;">W</span></div></a></td>` : ''}
+              ${twitter ? `<td style="padding-right:5px;"><a href="https://twitter.com/${twitter.replace('@','')}" style="text-decoration:none;" target="_blank"><div style="width:24px;height:24px;background:#000000;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;"><span style="color:white;font-size:10px;font-family:Arial;font-weight:bold;">X</span></div></a></td>` : ''}
+              ${fb ? `<td style="padding-right:5px;"><a href="https://facebook.com/${fb}" style="text-decoration:none;" target="_blank"><div style="width:24px;height:24px;background:#1877F2;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;"><span style="color:white;font-size:12px;font-weight:bold;font-family:Arial;">f</span></div></a></td>` : ''}
+              ${tiktok ? `<td style="padding-right:5px;"><a href="https://tiktok.com/@${tiktok.replace('@','')}" style="text-decoration:none;" target="_blank"><div style="width:24px;height:24px;background:#010101;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;"><span style="color:white;font-size:9px;font-family:Arial;font-weight:bold;">TT</span></div></a></td>` : ''}
+            </tr></table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  ${cta && ctaLink ? `<tr><td colspan="2" style="padding-top:10px;"><a href="${ctaLink}" style="background:linear-gradient(135deg,#DC2626,#EA580C);color:white;padding:7px 16px;border-radius:5px;font-size:11px;font-weight:bold;text-decoration:none;display:inline-block;font-family:Arial,Helvetica,sans-serif;">${cta}</a></td></tr>` : ''}
+  ${banner ? `<tr><td colspan="2" style="padding-top:10px;"><img src="${banner}" alt="banner" style="max-width:500px;width:100%;border-radius:4px;display:block;"></td></tr>` : ''}
+  ${disclaimer ? `<tr><td colspan="2" style="padding-top:10px;border-top:1px solid #e5e7eb;font-family:Arial,Helvetica,sans-serif;font-size:9px;color:#aaa;line-height:1.5;">${disclaimer}</td></tr>` : ''}
 </table>`,
 
     compact: `
@@ -683,38 +720,80 @@ function scrollToRequest() {
 }
 
 // ===== SUBMIT REQUEST =====
-function submitRequest() {
-  const name = document.getElementById('reqName').value;
-  const email = document.getElementById('reqEmail').value;
-  const company = document.getElementById('reqCompany').value;
+async function submitRequest() {
+  const name    = document.getElementById('reqName').value.trim();
+  const email   = document.getElementById('reqEmail').value.trim();
+  const company = document.getElementById('reqCompany').value.trim();
+  const title   = document.getElementById('reqTitle').value.trim();
+  const phone   = document.getElementById('reqPhone').value.trim();
+  const website = document.getElementById('reqWebsite').value.trim();
+  const logo    = document.getElementById('reqLogo').value.trim();
+  const staff   = document.getElementById('reqStaff').value;
+  const notes   = document.getElementById('reqNotes').value.trim();
+
   if (!name || !email || !company) {
     showToast('Please fill name, company, and email.');
     return;
   }
+
   const btn = document.querySelector('.req-submit');
-  btn.innerHTML = '<i class="fas fa-check"></i> Request Submitted!';
-  btn.style.background = 'linear-gradient(135deg,#16a34a,#4ade80)';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
   btn.disabled = true;
-  showToast('✅ Request sent! We\'ll deliver your signature within 24 hours.');
-  console.log('Signature request:', {
-    name, email, company,
-    title: document.getElementById('reqTitle').value,
-    phone: document.getElementById('reqPhone').value,
-    website: document.getElementById('reqWebsite').value,
-    logo: document.getElementById('reqLogo').value,
-    staff: document.getElementById('reqStaff').value,
-    template: reqTemplateSelected,
-    notes: document.getElementById('reqNotes').value
-  });
-  // In production: POST to Google Apps Script / backend
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/hello@techwokx.online', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name, email, company, title, phone, website, logo,
+        staff_count: staff,
+        template: reqTemplateSelected,
+        notes,
+        _subject: 'Free Signature Request — ' + company,
+        _replyto: email,
+        _captcha: 'false',
+        _template: 'table'
+      })
+    });
+    if (res.ok) {
+      btn.innerHTML = '<i class="fas fa-check"></i> Request Submitted!';
+      btn.style.background = 'linear-gradient(135deg,#16a34a,#4ade80)';
+      const note = document.querySelector('.req-note');
+      if (note) note.innerHTML = '✅ <strong style="color:#16a34a;">Request received!</strong> We will design and deliver your signature to <strong>' + email + '</strong> within 24 hours.';
+      showToast('✅ Request sent! Signature coming within 24 hours.');
+    } else {
+      throw new Error('Failed');
+    }
+  } catch(e) {
+    // Fallback to mailto
+    const subject = encodeURIComponent('Free Signature Request — ' + company);
+    const body = encodeURIComponent(
+      'Name: ' + name + '\nEmail: ' + email + '\nCompany: ' + company +
+      '\nTitle: ' + title + '\nPhone: ' + phone + '\nTemplate: ' + reqTemplateSelected +
+      '\nStaff: ' + staff + '\nNotes: ' + notes
+    );
+    window.location.href = 'mailto:hello@techwokx.online?subject=' + subject + '&body=' + body;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Request My Free Signature';
+    btn.disabled = false;
+    showToast('Opening your email client...');
+  }
 }
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   // Set defaults
-  document.getElementById('fName').value = '';
-  document.getElementById('fTitle').value = '';
-  document.getElementById('fCompany').value = '';
+  // Pre-fill with TechWokx default details
+  document.getElementById('fName').value = 'George Jabley';
+  document.getElementById('fTitle').value = 'Founder & IT Operations Lead';
+  document.getElementById('fCompany').value = 'TechWokx Ghana';
+  document.getElementById('fEmail').value = 'hello@techwokx.online';
+  document.getElementById('fPhone').value = '+233 555 087 407';
+  document.getElementById('fWA').value = '+233555087407';
+  document.getElementById('fWebsite').value = 'techwokx.online';
+  document.getElementById('fLinkedIn').value = 'https://www.linkedin.com/in/george-jabley-bb0270384/';
+  document.getElementById('fIG').value = '@techwokxgh';
+  document.getElementById('fLogo').value = 'assets/images/logo/Techwokx_Logo_full_final.png';
+  document.getElementById('fBanner').value = 'assets/images/Email-signature-banner.png';
   updatePreview();
   // Auto-update on all input changes
   document.querySelectorAll('.sig-form-panel input, .sig-form-panel select, .sig-form-panel textarea').forEach(el => {
