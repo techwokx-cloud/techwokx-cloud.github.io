@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechWokx Cold DM Automation System</title>
+<meta name="description" content="Automated cold DM outreach system for Instagram, Threads & LinkedIn. Track campaigns, manage templates, and convert leads efficiently.">
+<meta name="keywords" content="cold dm automation, instagram dm, linkedin outreach, lead generation, sales automation, techwokx">
+<meta name="author" content="TechWokx Ghana">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://techwokx.online/cold-dm-system.html">
+<meta property="og:title" content="TechWokx Cold DM Automation System">
+<meta property="og:description" content="Automated outreach for Instagram, Threads & LinkedIn — Track, personalize, and convert">
+<meta property="og:image" content="https://techwokx.online/assets/images/Techwokx_Logo_full_final.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://techwokx.online/cold-dm-system.html">
+<meta property="twitter:title" content="TechWokx Cold DM Automation System">
+<meta property="twitter:description" content="Automated outreach for Instagram, Threads & LinkedIn — Track, personalize, and convert">
+<meta property="twitter:image" content="https://techwokx.online/assets/images/Techwokx_Logo_full_final.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R8NPW30JK9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-R8NPW30JK9');
+</script>
+
+<!-- Meta Pixel (Facebook) -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '440897446242409');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', {
+  content_name: 'Cold DM System',
+  content_category: 'Sales Tool'
+});
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=440897446242409&ev=PageView&noscript=1"
+/></noscript>
+
+<!-- LinkedIn Insight Tag -->
+<script type="text/javascript">
+_linkedin_partner_id = "YOUR_PARTNER_ID";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script><script type="text/javascript">
+(function(l) {
+if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+window.lintrk.q=[]}
+var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=YOUR_PARTNER_ID&fmt=gif" />
+</noscript>
+
+<!-- Hotjar Tracking Code -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:YOUR_HOTJAR_ID,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary: #1565C0;
+  --instagram: #E4405F;
+  --threads: #000000;
+  --linkedin: #0A66C2;
+  --whatsapp: #25D366;
+  --success: #16a34a;
+  --warning: #eab308;
+  --danger: #dc2626;
+  --dark: #0f172a;
+  --dark2: #1e293b;
+  --dark3: #334155;
+  --border: #475569;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: 'Segoe UI', system-ui, sans-serif; 
+  background: var(--dark); 
+  color: var(--text);
+  padding: 2rem;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.05);
+}
+
+.tab.active {
+  color: white;
+  border-bottom-color: var(--primary);
+}
+
+.tab.instagram.active { border-bottom-color: var(--instagram); }
+.tab.threads.active { border-bottom-color: var(--threads); }
+.tab.linkedin.active { border-bottom-color: var(--linkedin); }
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* CARD */
+.card {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.stat-change {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.stat-change.up { color: var(--success); }
+.stat-change.down { color: var(--danger); }
+
+/* FORM */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0d47a1;
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-secondary {
+  background: var(--dark3);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+.btn-instagram {
+  background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  color: white;
+}
+
+.btn-threads {
+  background: #000000;
+  color: white;
+}
+
+.btn-linkedin {
+  background: var(--linkedin);
+  color: white;
+}
+
+/* TEMPLATE CARDS */
+.template-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.template-card {
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.template-card:hover {
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.template-card.selected {
+  border-color: var(--primary);
+  background: rgba(21, 101, 192, 0.1);
+}
+
+.template-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.template-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: white;
+}
+
+.template-badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.badge-high { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
+.badge-medium { background: rgba(234, 179, 8, 0.2); color: #fde047; }
+.badge-low { background: rgba(22, 163, 74, 0.2); color: #86efac; }
+
+.template-preview {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.template-stats {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* TARGET LIST */
+.target-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.target-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.target-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--success));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.target-info {
+  flex: 1;
+}
+
+.target-name {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.target-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.target-status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.status-pending { background: rgba(234, 179, 8, 0.2); color: #fde047; }
+.status-sent { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; }
+.status-replied { background: rgba(22, 163, 74, 0.2); color: #86efac; }
+.status-ignored { background: rgba(148, 163, 184, 0.2); color: var(--muted); }
+
+/* CAMPAIGN TRACKER */
+.campaign-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.campaign-card {
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.campaign-title {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.campaign-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.campaign-progress {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  transition: width 0.3s;
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.campaign-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.campaign-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.campaign-stat-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+/* TABS CONTENT */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1><i class="fas fa-paper-plane"></i> Cold DM Automation System</h1>
+  <p class="subtitle">Automated outreach for Instagram, Threads & LinkedIn — Track, personalize, and convert</p>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--primary);">247</div>
+      <div class="stat-label">Total DMs Sent</div>
+      <div class="stat-change up"><i class="fas fa-arrow-up"></i> +42 this week</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--success);">68</div>
+      <div class="stat-label">Responses Received</div>
+      <div class="stat-change up"><i class="fas fa-arrow-up"></i> 27.5% response rate</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--warning);">23</div>
+      <div class="stat-label">Qualified Leads</div>
+      <div class="stat-change up"><i class="fas fa-arrow-up"></i> 9.3% conversion</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--instagram);">5</div>
+      <div class="stat-label">Closed Deals</div>
+      <div class="stat-change up"><i class="fas fa-arrow-up"></i> ₵12,500 revenue</div>
+    </div>
+  </div>
+
+  <!-- PLATFORM TABS -->
+  <div class="tabs">
+    <button class="tab instagram active" onclick="switchPlatform('instagram')">
+      <i class="fab fa-instagram"></i> Instagram
+    </button>
+    <button class="tab threads" onclick="switchPlatform('threads')">
+      <i class="fas fa-at"></i> Threads
+    </button>
+    <button class="tab linkedin" onclick="switchPlatform('linkedin')">
+      <i class="fab fa-linkedin"></i> LinkedIn
+    </button>
+    <button class="tab" onclick="switchPlatform('campaigns')">
+      <i class="fas fa-chart-line"></i> Campaigns
+    </button>
+  </div>
+
+  <!-- INSTAGRAM TAB -->
+  <div class="tab-content active" id="instagram-content">
+    <div class="grid">
+      
+      <!-- DM COMPOSER -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fab fa-instagram"></i> Instagram DM Composer</h3>
+        </div>
+        <div class="card-body">
+          
+          <div class="form-group">
+            <label class="form-label">Select Template</label>
+            <select class="form-select" id="igTemplate" onchange="loadTemplate('instagram', this.value)">
+              <option value="">Choose a template...</option>
+              <option value="email-spam">Email Spam Hook</option>
+              <option value="former-staff">Former Staff Risk</option>
+              <option value="social-proof">Social Proof</option>
+              <option value="free-audit">Free Audit Offer</option>
+              <option value="custom">Custom Message</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Target Username</label>
+            <input type="text" class="form-input" id="igUsername" placeholder="@businessname">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Business Name (for personalization)</label>
+            <input type="text" class="form-input" id="igBusinessName" placeholder="Kempinski Hotel">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" id="igMessage" placeholder="Your personalized DM...">Hi {name} 👋
+
+Quick question - are your business emails landing in spam?
+
+I just ran a free audit for {similar_business} and found their emails had a 73% spam rate. Fixed it in 2 days.
+
+Want me to check yours? Takes 5 minutes, completely free.
+
+George | TechWokx Ghana
+📧 hello@techwokx.online</textarea>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="btn btn-instagram" onclick="sendDM('instagram')" style="flex: 1;">
+              <i class="fas fa-paper-plane"></i> Send DM
+            </button>
+            <button class="btn btn-secondary" onclick="scheduleDM('instagram')">
+              <i class="fas fa-clock"></i> Schedule
+            </button>
+          </div>
+
+          <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(228, 64, 95, 0.1); border: 1px solid rgba(228, 64, 95, 0.3); border-radius: 8px; font-size: 0.85rem; line-height: 1.6;">
+            <strong style="color: var(--instagram);"><i class="fas fa-info-circle"></i> Instagram Limits:</strong><br>
+            • Max 20 DMs/day for new accounts<br>
+            • Max 50 DMs/day for established accounts<br>
+            • Wait 30-60 seconds between messages
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TEMPLATE LIBRARY -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-file-alt"></i> DM Templates</h3>
+          <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="addTemplate()">
+            <i class="fas fa-plus"></i> New Template
+          </button>
+        </div>
+        <div class="card-body">
+          
+          <div class="template-grid">
+            
+            <div class="template-card" onclick="selectTemplate(this, 'email-spam')">
+              <div class="template-header">
+                <div class="template-title">📧 Email Spam Hook</div>
+                <span class="template-badge badge-high">High Convert</span>
+              </div>
+              <div class="template-preview">
+                "Quick question - are your business emails landing in spam? I just ran a free audit for {similar_business}..."
+              </div>
+              <div class="template-stats">
+                <span><i class="fas fa-paper-plane"></i> 87 sent</span>
+                <span><i class="fas fa-reply"></i> 32% response</span>
+                <span><i class="fas fa-check-circle"></i> 12% convert</span>
+              </div>
+            </div>
+
+            <div class="template-card" onclick="selectTemplate(this, 'former-staff')">
+              <div class="template-header">
+                <div class="template-title">🔒 Former Staff Risk</div>
+                <span class="template-badge badge-high">High Convert</span>
+              </div>
+              <div class="template-preview">
+                "{name}, serious question: Do former employees still have access to your business email/systems? This is the #1 silent security risk..."
+              </div>
+              <div class="template-stats">
+                <span><i class="fas fa-paper-plane"></i> 64 sent</span>
+                <span><i class="fas fa-reply"></i> 28% response</span>
+                <span><i class="fas fa-check-circle"></i> 9% convert</span>
+              </div>
+            </div>
+
+            <div class="template-card" onclick="selectTemplate(this, 'social-proof')">
+              <div class="template-header">
+                <div class="template-title">⭐ Social Proof</div>
+                <span class="template-badge badge-medium">Medium Convert</span>
+              </div>
+              <div class="template-preview">
+                "Hey {name}! Just helped {hotel_name} fix their WiFi issues that were costing them guest complaints. Saw you're in hospitality too..."
+              </div>
+              <div class="template-stats">
+                <span><i class="fas fa-paper-plane"></i> 52 sent</span>
+                <span><i class="fas fa-reply"></i> 23% response</span>
+                <span><i class="fas fa-check-circle"></i> 7% convert</span>
+              </div>
+            </div>
+
+            <div class="template-card" onclick="selectTemplate(this, 'free-audit')">
+              <div class="template-header">
+                <div class="template-title">🎁 Free Audit Offer</div>
+                <span class="template-badge badge-medium">Medium Convert</span>
+              </div>
+              <div class="template-preview">
+                "Hi {name} 👋 I'm offering free 5-minute email audits for Ghana businesses this week. Would you like me to check {business_name}'s setup?"
+              </div>
+              <div class="template-stats">
+                <span><i class="fas fa-paper-plane"></i> 44 sent</span>
+                <span><i class="fas fa-reply"></i> 25% response</span>
+                <span><i class="fas fa-check-circle"></i> 8% convert</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TARGET LIST -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-users"></i> Instagram Target List</h3>
+        <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="importTargets('instagram')">
+          <i class="fas fa-file-import"></i> Import CSV
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="target-list">
+          
+          <div class="target-item">
+            <div class="target-avatar">KH</div>
+            <div class="target-info">
+              <div class="target-name">@kempinskiaccra</div>
+              <div class="target-meta">Kempinski Hotel Accra • Hospitality • 25 staff</div>
+            </div>
+            <span class="target-status status-sent">Sent 2h ago</span>
+          </div>
+
+          <div class="target-item">
+            <div class="target-avatar">ML</div>
+            <div class="target-info">
+              <div class="target-name">@meridianlawgh</div>
+              <div class="target-meta">Meridian Law Firm • Professional Services • 15 staff</div>
+            </div>
+            <span class="target-status status-replied">Replied!</span>
+          </div>
+
+          <div class="target-item">
+            <div class="target-avatar">GN</div>
+            <div class="target-info">
+              <div class="target-name">@goldfieldsgh</div>
+              <div class="target-meta">Goldfields NGO • Non-profit • 20 staff</div>
+            </div>
+            <span class="target-status status-pending">Pending</span>
+          </div>
+
+          <div class="target-item">
+            <div class="target-avatar">AH</div>
+            <div class="target-info">
+              <div class="target-name">@accrahotelsuites</div>
+              <div class="target-meta">Accra Hotel Suites • Hospitality • 18 staff</div>
+            </div>
+            <span class="target-status status-sent">Sent 1d ago</span>
+          </div>
+
+          <div class="target-item">
+            <div class="target-avatar">TB</div>
+            <div class="target-info">
+              <div class="target-name">@techbridgesme</div>
+              <div class="target-meta">TechBridge SME • Technology • 12 staff</div>
+            </div>
+            <span class="target-status status-ignored">No response (7d)</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- THREADS TAB -->
+  <div class="tab-content" id="threads-content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-at"></i> Threads DM System</h3>
+      </div>
+      <div class="card-body">
+        <p style="color: var(--muted); text-align: center; padding: 3rem;">
+          <i class="fas fa-at" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+          <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: white;">Threads DM Automation</strong>
+          Same interface as Instagram. Templates, tracking, and automation for Threads platform.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINKEDIN TAB -->
+  <div class="tab-content" id="linkedin-content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fab fa-linkedin"></i> LinkedIn Outreach System</h3>
+      </div>
+      <div class="card-body">
+        <p style="color: var(--muted); text-align: center; padding: 3rem;">
+          <i class="fab fa-linkedin" style="font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--linkedin);"></i>
+          <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: white;">LinkedIn Connection & Messaging</strong>
+          Professional outreach templates for B2B leads. Connection requests + follow-up messages.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMPAIGNS TAB -->
+  <div class="tab-content" id="campaigns-content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-chart-line"></i> Active Campaigns</h3>
+        <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="createCampaign()">
+          <i class="fas fa-plus"></i> New Campaign
+        </button>
+      </div>
+      <div class="card-body">
+        
+        <div class="campaign-list">
+          
+          <div class="campaign-card">
+            <div class="campaign-header">
+              <div>
+                <div class="campaign-title">🏨 Hotel Email Fix Campaign</div>
+                <div class="campaign-meta">Instagram • Started Jan 15, 2025 • 30 days</div>
+              </div>
+              <span class="template-badge badge-high">Active</span>
+            </div>
+            <div class="campaign-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 68%;"></div>
+              </div>
+              <div class="progress-label">
+                <span>68 of 100 targets contacted</span>
+                <span>68%</span>
+              </div>
+            </div>
+            <div class="campaign-stats">
+              <div>
+                <div class="campaign-stat-value" style="color: var(--primary);">68</div>
+                <div class="campaign-stat-label">Sent</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--success);">23</div>
+                <div class="campaign-stat-label">Replied</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--warning);">8</div>
+                <div class="campaign-stat-label">Qualified</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--instagram);">3</div>
+                <div class="campaign-stat-label">Closed</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="campaign-card">
+            <div class="campaign-header">
+              <div>
+                <div class="campaign-title">⚖️ Law Firm IT Retainer Campaign</div>
+                <div class="campaign-meta">LinkedIn • Started Jan 10, 2025 • 45 days</div>
+              </div>
+              <span class="template-badge badge-medium">Active</span>
+            </div>
+            <div class="campaign-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 42%;"></div>
+              </div>
+              <div class="progress-label">
+                <span>21 of 50 targets contacted</span>
+                <span>42%</span>
+              </div>
+            </div>
+            <div class="campaign-stats">
+              <div>
+                <div class="campaign-stat-value" style="color: var(--primary);">21</div>
+                <div class="campaign-stat-label">Sent</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--success);">9</div>
+                <div class="campaign-stat-label">Replied</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--warning);">4</div>
+                <div class="campaign-stat-label">Qualified</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--linkedin);">1</div>
+                <div class="campaign-stat-label">Closed</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="campaign-card">
+            <div class="campaign-header">
+              <div>
+                <div class="campaign-title">🌍 NGO Infrastructure Audit Campaign</div>
+                <div class="campaign-meta">Threads • Started Jan 5, 2025 • 60 days</div>
+              </div>
+              <span class="template-badge badge-low">Paused</span>
+            </div>
+            <div class="campaign-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%;"></div>
+              </div>
+              <div class="progress-label">
+                <span>15 of 60 targets contacted</span>
+                <span>25%</span>
+              </div>
+            </div>
+            <div class="campaign-stats">
+              <div>
+                <div class="campaign-stat-value" style="color: var(--primary);">15</div>
+                <div class="campaign-stat-label">Sent</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--success);">6</div>
+                <div class="campaign-stat-label">Replied</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: var(--warning);">2</div>
+                <div class="campaign-stat-label">Qualified</div>
+              </div>
+              <div>
+                <div class="campaign-stat-value" style="color: #000;">1</div>
+                <div class="campaign-stat-label">Closed</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================
+// ANALYTICS TRACKING FUNCTIONS
+// ============================================
+function trackEvent(category, action, label, value) {
+  // Google Analytics 4
+  if (typeof gtag !== 'undefined') {
+    gtag('event', action, {
+      'event_category': category,
+      'event_label': label,
+      'value': value
+    });
+  }
+  
+  // Meta Pixel (Facebook)
+  if (typeof fbq !== 'undefined') {
+    fbq('trackCustom', action, {
+      category: category,
+      label: label,
+      value: value
+    });
+  }
+  
+  // LinkedIn Insight
+  if (typeof lintrk !== 'undefined') {
+    lintrk('track', { conversion_id: action });
+  }
+  
+  console.log('📊 Event Tracked:', category, action, label, value);
+}
+
+// Track page engagement
+function trackEngagement(action, details) {
+  trackEvent('Engagement', action, details, 1);
+}
+
+// Track conversions
+function trackConversion(type, value) {
+  trackEvent('Conversion', type, 'Cold_DM_System', value);
+  
+  // Meta Pixel conversion
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'Lead', {
+      content_name: type,
+      value: value,
+      currency: 'GHS'
+    });
+  }
+}
+
+// ============================================
+// PLATFORM SWITCHING
+// ============================================
+function switchPlatform(platform) {
+  // Update tabs
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  event.target.closest('.tab').classList.add('active');
+  
+  // Update content
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  document.getElementById(platform + '-content').classList.add('active');
+  
+  // Track platform switch
+  trackEngagement('Platform_Switch', platform);
+}
+
+// Template selection
+function selectTemplate(element, templateId) {
+  document.querySelectorAll('.template-card').forEach(card => card.classList.remove('selected'));
+  element.classList.add('selected');
+  loadTemplate('instagram', templateId);
+  
+  // Track template selection
+  trackEngagement('Template_Selected', templateId);
+}
+
+// Load template
+function loadTemplate(platform, templateId) {
+  const templates = {
+    'email-spam': `Hi {name} 👋
+
+Quick question - are your business emails landing in spam?
+
+I just ran a free audit for {similar_business} and found their emails had a 73% spam rate. Fixed it in 2 days.
+
+Want me to check yours? Takes 5 minutes, completely free.
+
+George | TechWokx Ghana
+📧 hello@techwokx.online`,
+    
+    'former-staff': `{name}, serious question:
+
+Do former employees still have access to your business email/systems?
+
+This is the #1 silent security risk I see in Ghana businesses.
+
+I can audit your access controls for free - takes 10 minutes.
+
+Interested?`,
+    
+    'social-proof': `Hey {name}!
+
+Just helped {hotel_name} fix their WiFi issues that were costing them guest complaints.
+
+Saw you're in hospitality too - would you like a free IT health check?
+
+No obligation, just want to help 🙂`,
+    
+    'free-audit': `Hi {name} 👋
+
+I'm offering free 5-minute email audits for Ghana businesses this week.
+
+Would you like me to check {business_name}'s setup?
+
+You'll get a RED/ORANGE/GREEN report showing exactly what's broken.
+
+Interested?`
+  };
+  
+  if(templates[templateId]) {
+    document.getElementById('igMessage').value = templates[templateId];
+  }
+}
+
+// Send DM
+function sendDM(platform) {
+  const username = document.getElementById('igUsername').value;
+  const message = document.getElementById('igMessage').value;
+  
+  if(!username || !message) {
+    alert('Please enter username and message');
+    trackEngagement('DM_Send_Failed', 'Missing_Fields');
+    return;
+  }
+  
+  // Track DM send
+  trackConversion('DM_Sent', 1);
+  trackEngagement('DM_Send', platform + '_' + username);
+  
+  alert(`✅ DM Sent to ${username}!\n\nIn production, this will:\n• Send via ${platform} API\n• Track delivery status\n• Log in CRM\n• Trigger follow-up sequence\n• Update campaign stats\n\nReady to integrate API!`);
+}
+
+// Schedule DM
+function scheduleDM(platform) {
+  trackEngagement('DM_Scheduled', platform);
+  alert('📅 Schedule DM\n\nIn production, this will:\n• Let you pick date/time\n• Queue message for sending\n• Respect platform limits\n• Auto-send at scheduled time\n• Send confirmation when sent');
+}
+
+// Import targets
+function importTargets(platform) {
+  trackEngagement('Import_Targets', platform);
+  alert('📁 Import Targets\n\nIn production, this will:\n• Accept CSV file upload\n• Parse business names, usernames\n• Validate accounts exist\n• Add to target list\n• Ready for bulk outreach');
+}
+
+// Add template
+function addTemplate() {
+  trackEngagement('Template_Create', 'New_Template');
+  alert('➕ Create New Template\n\nIn production, this will:\n• Open template editor\n• Support variables {name}, {business}\n• Save to library\n• Track performance metrics\n• A/B test variations');
+}
+
+// Create campaign
+function createCampaign() {
+  trackEngagement('Campaign_Create', 'New_Campaign');
+  trackConversion('Campaign_Started', 1);
+  alert('🚀 Create New Campaign\n\nIn production, this will:\n• Campaign name & goal\n• Select platform(s)\n• Choose template\n• Upload target list\n• Set daily send limit\n• Schedule start date\n• Track all metrics');
+}
+
+// ============================================
+// PAGE LOAD TRACKING
+// ============================================
+window.addEventListener('load', function() {
+  // Track page view
+  trackEngagement('Page_Loaded', 'Cold_DM_System');
+  
+  // Track time on page
+  let startTime = Date.now();
+  window.addEventListener('beforeunload', function() {
+    let timeSpent = Math.round((Date.now() - startTime) / 1000);
+    trackEngagement('Time_On_Page', timeSpent + '_seconds');
+  });
+});
+
+// Track scroll depth
+let maxScroll = 0;
+window.addEventListener('scroll', function() {
+  let scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+  if (scrollPercent > maxScroll) {
+    maxScroll = scrollPercent;
+    if (scrollPercent >= 25 && scrollPercent < 50) {
+      trackEngagement('Scroll_Depth', '25%');
+    } else if (scrollPercent >= 50 && scrollPercent < 75) {
+      trackEngagement('Scroll_Depth', '50%');
+    } else if (scrollPercent >= 75 && scrollPercent < 100) {
+      trackEngagement('Scroll_Depth', '75%');
+    } else if (scrollPercent >= 100) {
+      trackEngagement('Scroll_Depth', '100%');
+    }
+  }
+});
+</script>
+
+</body>
+</html>

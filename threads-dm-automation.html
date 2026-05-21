@@ -1,0 +1,1011 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R8NPW30JK9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-R8NPW30JK9');
+</script>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '440897446242409');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', {
+  content_name: 'Threads DM Automation',
+  content_category: 'Marketing Tools'
+});
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=440897446242409&ev=PageView&noscript=1"
+/></noscript>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threads DM Automation | TechWokx</title>
+<meta name="description" content="Automate your Threads DM outreach with templates, tracking, and smart automation. Free tier within Meta API limits.">
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --red:#dc2626;--red-dark:#b91c1c;--red-glow:rgba(220,38,38,0.25);
+  --orange:#ea580c;--green:#16a34a;--blue:#0ea5e9;
+  --dark:#040811;--dark2:#070d1a;--dark3:#0d1526;--dark4:#111827;
+  --panel:rgba(13,21,38,0.9);--border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);--text:#e2e8f0;--muted:#64748b;
+  --accent:#f97316;--accent2:#fb923c;
+  --threads:#000000;
+  --font-head:'Bebas Neue',sans-serif;
+  --font-body:'Outfit',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--dark);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;height:68px;padding:0 4%;display:flex;align-items:center;justify-content:space-between;background:rgba(4,8,17,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo img{height:40px;width:auto;display:block;}
+.nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.65);font-size:0.875rem;font-weight:500;transition:color 0.2s;letter-spacing:0.01em;text-decoration:none;}
+.nav-links a:hover{color:white;}
+.nav-dash{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7)!important;padding:0.45rem 0.9rem;border-radius:6px;border:1px solid var(--border);font-size:0.82rem!important;display:flex;align-items:center;gap:0.4rem;cursor:pointer;transition:all 0.2s;}
+.nav-dash:hover{background:rgba(255,255,255,0.1);color:white!important;}
+
+/* ===== MAIN CONTAINER ===== */
+.main-container{padding-top:68px;min-height:100vh;}
+.page-header{background:var(--dark2);border-bottom:1px solid var(--border);padding:2rem 4%;}
+.page-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.page-title{font-family:var(--font-head);font-size:2.5rem;color:white;line-height:1;}
+.page-subtitle{font-size:0.9rem;color:var(--muted);margin-top:0.5rem;}
+.back-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);padding:0.5rem 1rem;border-radius:6px;font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;}
+.back-btn:hover{background:rgba(255,255,255,0.1);color:white;border-color:var(--border2);}
+
+/* ===== CONTENT ===== */
+.content{max-width:1200px;margin:0 auto;padding:2rem 4%;}
+
+/* ===== STATS GRID ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.stat-card{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-align:center;transition:transform 0.2s,border-color 0.2s;}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--border2);}
+.stat-icon{font-size:1.8rem;margin-bottom:0.75rem;opacity:0.7;}
+.stat-value{font-family:var(--font-head);font-size:2.5rem;color:white;line-height:1;margin-bottom:0.5rem;}
+.stat-label{font-size:0.875rem;color:var(--muted);}
+.stat-change{font-size:0.8rem;margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:0.25rem;}
+.stat-change.up{color:var(--green);}
+.stat-change.down{color:var(--red);}
+
+/* ===== PANELS ===== */
+.panel-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+.panel{background:var(--dark3);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.panel-header{padding:1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.panel-header h3{font-size:1.1rem;font-weight:700;color:white;}
+.panel-header .badge{font-size:0.7rem;background:rgba(249,115,22,0.15);color:var(--accent);padding:0.25rem 0.6rem;border-radius:4px;font-weight:700;}
+.panel-body{padding:1.25rem;}
+
+/* ===== CONVERSATION LIST ===== */
+.conversation-list{display:flex;flex-direction:column;gap:0.5rem;}
+.conversation-item{display:flex;align-items:center;gap:1rem;padding:1rem;background:rgba(255,255,255,0.03);border-radius:8px;cursor:pointer;transition:all 0.2s;border:1px solid transparent;}
+.conversation-item:hover{background:rgba(255,255,255,0.06);border-color:var(--border2);}
+.conversation-item.active{background:rgba(249,115,22,0.1);border-color:var(--accent);}
+.conv-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--red));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:white;flex-shrink:0;}
+.conv-info{flex:1;min-width:0;}
+.conv-name{font-weight:600;color:white;font-size:0.9rem;margin-bottom:0.2rem;}
+.conv-preview{font-size:0.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.conv-meta{display:flex;flex-direction:column;align-items:flex-end;gap:0.3rem;}
+.conv-time{font-size:0.7rem;color:var(--muted);}
+.conv-badge{background:var(--red);color:white;font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;}
+
+/* ===== CHAT INTERFACE ===== */
+.chat-container{display:flex;flex-direction:column;height:600px;}
+.chat-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+.chat-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--red));display:flex;align-items:center;justify-content:center;font-weight:700;color:white;}
+.chat-user-info h4{font-size:0.95rem;font-weight:600;color:white;}
+.chat-user-info p{font-size:0.75rem;color:var(--muted);}
+.chat-messages{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
+.message{display:flex;gap:0.75rem;max-width:75%;}
+.message.sent{margin-left:auto;flex-direction:row-reverse;}
+.message-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:white;flex-shrink:0;}
+.message.sent .message-avatar{background:linear-gradient(135deg,var(--accent),var(--red));}
+.message-content{background:rgba(255,255,255,0.05);padding:0.75rem 1rem;border-radius:12px;font-size:0.85rem;line-height:1.5;}
+.message.sent .message-content{background:rgba(249,115,22,0.15);}
+.message-time{font-size:0.7rem;color:var(--muted);margin-top:0.25rem;}
+.chat-input-area{padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;}
+.chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:white;font-family:var(--font-body);font-size:0.9rem;resize:none;min-height:44px;max-height:120px;}
+.chat-input:focus{outline:none;border-color:var(--accent);}
+.chat-input::placeholder{color:var(--muted);}
+.send-btn{background:linear-gradient(135deg,var(--accent),var(--red));color:white;border:none;padding:0.75rem 1.5rem;border-radius:8px;font-weight:700;cursor:pointer;transition:transform 0.2s;}
+.send-btn:hover{transform:translateY(-1px);}
+
+/* ===== TEMPLATES ===== */
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+.template-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:all 0.2s;cursor:pointer;}
+.template-card:hover{background:rgba(255,255,255,0.06);border-color:var(--border2);transform:translateY(-2px);}
+.template-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:0.75rem;}
+.template-name{font-weight:700;color:white;font-size:0.95rem;}
+.template-actions{display:flex;gap:0.5rem;}
+.template-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:0.25rem;transition:color 0.2s;}
+.template-btn:hover{color:white;}
+.template-preview{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.template-stats{display:flex;gap:1rem;font-size:0.75rem;color:var(--muted);}
+.template-stat{display:flex;align-items:center;gap:0.3rem;}
+
+/* ===== CAMPAIGNS ===== */
+.campaign-list{display:flex;flex-direction:column;gap:1rem;}
+.campaign-card{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:1.5rem;transition:all 0.2s;}
+.campaign-card:hover{border-color:var(--border2);}
+.campaign-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;}
+.campaign-title{font-size:1.1rem;font-weight:700;color:white;margin-bottom:0.3rem;}
+.campaign-status{font-size:0.7rem;font-weight:700;padding:0.25rem 0.6rem;border-radius:4px;text-transform:uppercase;}
+.campaign-status.active{background:rgba(22,163,74,0.15);color:#4ade80;}
+.campaign-status.paused{background:rgba(234,88,12,0.15);color:#fdba74;}
+.campaign-status.completed{background:rgba(100,116,139,0.15);color:var(--muted);}
+.campaign-meta{font-size:0.8rem;color:var(--muted);margin-bottom:1rem;}
+.campaign-progress{margin-bottom:1rem;}
+.progress-label{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;}
+.progress-bar{height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--red));border-radius:3px;transition:width 0.3s;}
+.campaign-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.campaign-stat{text-align:center;}
+.campaign-stat-value{font-family:var(--font-head);font-size:1.5rem;color:white;line-height:1;}
+.campaign-stat-label{font-size:0.7rem;color:var(--muted);margin-top:0.25rem;}
+
+/* ===== FORMS ===== */
+.form-group{margin-bottom:1.25rem;}
+.form-label{display:block;font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.5rem;}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;color:white;padding:0.75rem 1rem;font-family:var(--font-body);font-size:0.9rem;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--accent);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-textarea{resize:vertical;min-height:120px;line-height:1.6;}
+.form-select option{background:var(--dark4);}
+.form-hint{font-size:0.75rem;color:var(--muted);margin-top:0.35rem;}
+
+/* ===== BUTTONS ===== */
+.btn{padding:0.75rem 1.5rem;border-radius:8px;border:none;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.2s;font-family:var(--font-body);}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--red));color:white;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--red-glow);}
+.btn-secondary{background:rgba(255,255,255,0.05);color:white;border:1px solid var(--border);}
+.btn-secondary:hover{background:rgba(255,255,255,0.1);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.btn-ghost:hover{color:white;border-color:var(--border2);}
+.btn-sm{padding:0.5rem 1rem;font-size:0.8rem;}
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:0.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem;}
+.tab{padding:0.75rem 1.25rem;background:transparent;border:none;color:var(--muted);font-family:var(--font-body);font-size:0.9rem;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+.tab:hover{color:white;}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* ===== MODAL ===== */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.82);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:var(--dark3);border:1px solid var(--border2);border-radius:14px;width:600px;max-width:90vw;max-height:90vh;overflow-y:auto;padding:2rem;position:relative;transform:translateY(18px);transition:transform 0.3s;}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.modal-title{font-size:1.3rem;font-weight:700;color:white;}
+.modal-close{background:transparent;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;transition:color 0.2s;padding:0.25rem;}
+.modal-close:hover{color:white;}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark3);border:1px solid var(--green);color:white;padding:0.75rem 1.5rem;border-radius:8px;font-size:0.87rem;opacity:0;transition:all 0.3s;z-index:9999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.error{border-color:var(--red);}
+
+/* ===== AUTOMATION SETTINGS ===== */
+.automation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;}
+.automation-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:1.25rem;}
+.automation-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.automation-title{font-weight:700;color:white;font-size:0.95rem;}
+.toggle-switch{position:relative;width:48px;height:24px;background:rgba(255,255,255,0.1);border-radius:12px;cursor:pointer;transition:background 0.2s;}
+.toggle-switch.on{background:var(--green);}
+.toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.2s;}
+.toggle-switch.on::after{transform:translateX(24px);}
+.automation-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;}
+.automation-limit{font-size:0.75rem;color:var(--muted);background:rgba(255,255,255,0.03);padding:0.5rem;border-radius:6px;border-left:2px solid var(--accent);}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .panel-grid{grid-template-columns:1fr;}
+  .campaign-stats{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .template-grid{grid-template-columns:1fr;}
+  .automation-grid{grid-template-columns:1fr;}
+  .page-header-inner{flex-direction:column;align-items:flex-start;gap:1rem;}
+  .chat-container{height:500px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="assets/images/Techwokx_Logo_full_final.png" alt="TechWokx">
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="dashboard-integrated.html" class="nav-dash"><i class="fas fa-th-large"></i> Dashboard</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN CONTAINER -->
+<div class="main-container">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div>
+        <h1 class="page-title">Threads DM Automation</h1>
+        <p class="page-subtitle">Automate outreach, manage templates, and track conversations</p>
+      </div>
+      <a href="dashboard-integrated.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">💬</div>
+        <div class="stat-value" id="totalConversations">247</div>
+        <div class="stat-label">Total Conversations</div>
+        <div class="stat-change up">
+          <i class="fas fa-arrow-up"></i> 12% this week
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📨</div>
+        <div class="stat-value" id="messagesSent">1,834</div>
+        <div class="stat-label">Messages Sent</div>
+        <div class="stat-change up">
+          <i class="fas fa-arrow-up"></i> 8% this week
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="responseRate">34%</div>
+        <div class="stat-label">Response Rate</div>
+        <div class="stat-change up">
+          <i class="fas fa-arrow-up"></i> 5% this week
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-value" id="conversions">42</div>
+        <div class="stat-label">Conversions</div>
+        <div class="stat-change up">
+          <i class="fas fa-arrow-up"></i> 18% this week
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('conversations')">Conversations</button>
+      <button class="tab" onclick="switchTab('templates')">Templates</button>
+      <button class="tab" onclick="switchTab('campaigns')">Campaigns</button>
+      <button class="tab" onclick="switchTab('automation')">Automation</button>
+    </div>
+
+    <!-- CONVERSATIONS TAB -->
+    <div id="conversationsTab" class="tab-content">
+      <div class="panel-grid">
+        <!-- CONVERSATION LIST -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Recent Conversations</h3>
+            <span class="badge">18 New</span>
+          </div>
+          <div class="panel-body">
+            <div class="conversation-list">
+              <div class="conversation-item active" onclick="loadConversation('sarah')">
+                <div class="conv-avatar">SK</div>
+                <div class="conv-info">
+                  <div class="conv-name">Sarah Kwame</div>
+                  <div class="conv-preview">Thanks for reaching out! I'm interested...</div>
+                </div>
+                <div class="conv-meta">
+                  <div class="conv-time">2m ago</div>
+                  <div class="conv-badge">2</div>
+                </div>
+              </div>
+              <div class="conversation-item" onclick="loadConversation('john')">
+                <div class="conv-avatar">JA</div>
+                <div class="conv-info">
+                  <div class="conv-name">John Agyeman</div>
+                  <div class="conv-preview">Can you send me more details?</div>
+                </div>
+                <div class="conv-meta">
+                  <div class="conv-time">15m ago</div>
+                </div>
+              </div>
+              <div class="conversation-item" onclick="loadConversation('grace')">
+                <div class="conv-avatar">GM</div>
+                <div class="conv-info">
+                  <div class="conv-name">Grace Mensah</div>
+                  <div class="conv-preview">This looks perfect for our business</div>
+                </div>
+                <div class="conv-meta">
+                  <div class="conv-time">1h ago</div>
+                  <div class="conv-badge">1</div>
+                </div>
+              </div>
+              <div class="conversation-item" onclick="loadConversation('kwesi')">
+                <div class="conv-avatar">KO</div>
+                <div class="conv-info">
+                  <div class="conv-name">Kwesi Osei</div>
+                  <div class="conv-preview">Let me check with my team first</div>
+                </div>
+                <div class="conv-meta">
+                  <div class="conv-time">3h ago</div>
+                </div>
+              </div>
+              <div class="conversation-item" onclick="loadConversation('ama')">
+                <div class="conv-avatar">AB</div>
+                <div class="conv-info">
+                  <div class="conv-name">Ama Boateng</div>
+                  <div class="conv-preview">What's your pricing like?</div>
+                </div>
+                <div class="conv-meta">
+                  <div class="conv-time">5h ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAT INTERFACE -->
+        <div class="panel">
+          <div class="chat-container">
+            <div class="chat-header">
+              <div class="chat-avatar">SK</div>
+              <div class="chat-user-info">
+                <h4>Sarah Kwame</h4>
+                <p>Active 2 minutes ago</p>
+              </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="message">
+                <div class="message-avatar">TW</div>
+                <div>
+                  <div class="message-content">
+                    Hi Sarah! 👋 I noticed you're in the hospitality industry. We help hotels streamline their IT operations and email systems. Would love to share how we've helped similar businesses.
+                  </div>
+                  <div class="message-time">10:30 AM</div>
+                </div>
+              </div>
+              <div class="message sent">
+                <div class="message-avatar">SK</div>
+                <div>
+                  <div class="message-content">
+                    Thanks for reaching out! I'm interested in learning more about your email solutions.
+                  </div>
+                  <div class="message-time">10:45 AM</div>
+                </div>
+              </div>
+              <div class="message">
+                <div class="message-avatar">TW</div>
+                <div>
+                  <div class="message-content">
+                    Great! We offer a complete email health fix including SPF/DKIM/DMARC setup, professional signatures, and ongoing support. Can I send you our service details?
+                  </div>
+                  <div class="message-time">10:46 AM</div>
+                </div>
+              </div>
+              <div class="message sent">
+                <div class="message-avatar">SK</div>
+                <div>
+                  <div class="message-content">
+                    Yes please! Also, what's your pricing?
+                  </div>
+                  <div class="message-time">Just now</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <textarea class="chat-input" placeholder="Type your message..." id="messageInput"></textarea>
+              <button class="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i> Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES TAB -->
+    <div id="templatesTab" class="tab-content" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <h2 style="font-size:1.5rem;font-weight:700;">Message Templates</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('newTemplate')">
+          <i class="fas fa-plus"></i> New Template
+        </button>
+      </div>
+      <div class="template-grid">
+        <div class="template-card">
+          <div class="template-header">
+            <div class="template-name">Hotel IT Introduction</div>
+            <div class="template-actions">
+              <button class="template-btn" onclick="editTemplate(1)"><i class="fas fa-edit"></i></button>
+              <button class="template-btn" onclick="useTemplate(1)"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+          <div class="template-preview">
+            Hi {name}! 👋 I noticed you're in the hospitality industry. We help hotels streamline their IT operations and email systems. Would love to share how we've helped similar businesses.
+          </div>
+          <div class="template-stats">
+            <div class="template-stat">
+              <i class="fas fa-paper-plane"></i> 156 sent
+            </div>
+            <div class="template-stat">
+              <i class="fas fa-reply"></i> 42% response
+            </div>
+          </div>
+        </div>
+        <div class="template-card">
+          <div class="template-header">
+            <div class="template-name">Email Audit Offer</div>
+            <div class="template-actions">
+              <button class="template-btn" onclick="editTemplate(2)"><i class="fas fa-edit"></i></button>
+              <button class="template-btn" onclick="useTemplate(2)"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+          <div class="template-preview">
+            Hey {name}! Is your business email costing you clients? Take our free 5-minute audit and get a personalized RED/ORANGE/GREEN risk report. No strings attached! 🎯
+          </div>
+          <div class="template-stats">
+            <div class="template-stat">
+              <i class="fas fa-paper-plane"></i> 203 sent
+            </div>
+            <div class="template-stat">
+              <i class="fas fa-reply"></i> 38% response
+            </div>
+          </div>
+        </div>
+        <div class="template-card">
+          <div class="template-header">
+            <div class="template-name">Follow-up Message</div>
+            <div class="template-actions">
+              <button class="template-btn" onclick="editTemplate(3)"><i class="fas fa-edit"></i></button>
+              <button class="template-btn" onclick="useTemplate(3)"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+          <div class="template-preview">
+            Hi {name}, just following up on my previous message. I'd love to show you how we've helped businesses like yours improve their email deliverability by 95%. Quick 10-min call?
+          </div>
+          <div class="template-stats">
+            <div class="template-stat">
+              <i class="fas fa-paper-plane"></i> 89 sent
+            </div>
+            <div class="template-stat">
+              <i class="fas fa-reply"></i> 28% response
+            </div>
+          </div>
+        </div>
+        <div class="template-card">
+          <div class="template-header">
+            <div class="template-name">Value Proposition</div>
+            <div class="template-actions">
+              <button class="template-btn" onclick="editTemplate(4)"><i class="fas fa-edit"></i></button>
+              <button class="template-btn" onclick="useTemplate(4)"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+          <div class="template-preview">
+            {name}, did you know 60% of business emails end up in spam? We fix that. SPF, DKIM, DMARC setup + professional signatures for your entire team. Starting at GHS 1,500. Interested?
+          </div>
+          <div class="template-stats">
+            <div class="template-stat">
+              <i class="fas fa-paper-plane"></i> 124 sent
+            </div>
+            <div class="template-stat">
+              <i class="fas fa-reply"></i> 35% response
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMPAIGNS TAB -->
+    <div id="campaignsTab" class="tab-content" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <h2 style="font-size:1.5rem;font-weight:700;">Active Campaigns</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('newCampaign')">
+          <i class="fas fa-plus"></i> New Campaign
+        </button>
+      </div>
+      <div class="campaign-list">
+        <div class="campaign-card">
+          <div class="campaign-header">
+            <div>
+              <div class="campaign-title">Hotel IT Outreach Q2</div>
+              <div class="campaign-meta">Started May 15, 2026 • Target: 500 contacts</div>
+            </div>
+            <div class="campaign-status active">Active</div>
+          </div>
+          <div class="campaign-progress">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span>247 / 500 (49%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:49%;"></div>
+            </div>
+          </div>
+          <div class="campaign-stats">
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">247</div>
+              <div class="campaign-stat-label">Contacted</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">84</div>
+              <div class="campaign-stat-label">Replied</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">34%</div>
+              <div class="campaign-stat-label">Response Rate</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">18</div>
+              <div class="campaign-stat-label">Converted</div>
+            </div>
+          </div>
+        </div>
+        <div class="campaign-card">
+          <div class="campaign-header">
+            <div>
+              <div class="campaign-title">Email Audit Campaign</div>
+              <div class="campaign-meta">Started May 10, 2026 • Target: 300 contacts</div>
+            </div>
+            <div class="campaign-status active">Active</div>
+          </div>
+          <div class="campaign-progress">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span>189 / 300 (63%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:63%;"></div>
+            </div>
+          </div>
+          <div class="campaign-stats">
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">189</div>
+              <div class="campaign-stat-label">Contacted</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">72</div>
+              <div class="campaign-stat-label">Replied</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">38%</div>
+              <div class="campaign-stat-label">Response Rate</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">24</div>
+              <div class="campaign-stat-label">Converted</div>
+            </div>
+          </div>
+        </div>
+        <div class="campaign-card">
+          <div class="campaign-header">
+            <div>
+              <div class="campaign-title">SME IT Support Outreach</div>
+              <div class="campaign-meta">Completed April 28, 2026 • Target: 200 contacts</div>
+            </div>
+            <div class="campaign-status completed">Completed</div>
+          </div>
+          <div class="campaign-progress">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span>200 / 200 (100%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:100%;"></div>
+            </div>
+          </div>
+          <div class="campaign-stats">
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">200</div>
+              <div class="campaign-stat-label">Contacted</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">58</div>
+              <div class="campaign-stat-label">Replied</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">29%</div>
+              <div class="campaign-stat-label">Response Rate</div>
+            </div>
+            <div class="campaign-stat">
+              <div class="campaign-stat-value">12</div>
+              <div class="campaign-stat-label">Converted</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTOMATION TAB -->
+    <div id="automationTab" class="tab-content" style="display:none;">
+      <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;">Automation Settings</h2>
+      <div class="automation-grid">
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Auto-Reply</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Automatically send a welcome message when someone responds to your initial DM. Helps maintain engagement while you're away.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> 100 auto-replies per day (Meta API limit)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Follow-up Sequences</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Send automated follow-up messages after 3 days if no response. Increases response rates by 40% on average.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> 50 follow-ups per day (Meta API limit)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Smart Scheduling</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Automatically schedule messages to be sent at optimal times based on recipient activity patterns.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> Unlimited scheduling (Google Apps Script)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Lead Scoring</div>
+            <div class="toggle-switch" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Automatically score leads based on engagement level, response time, and conversation quality.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> Unlimited (Local processing)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Conversation Tagging</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+
+            <div class="automation-title">Smart Scheduling</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Automatically schedule messages to be sent at optimal times based on recipient activity patterns.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> Unlimited scheduling (Google Apps Script)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Lead Scoring</div>
+            <div class="toggle-switch" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Automatically score leads based on engagement level, response time, and conversation quality.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> Unlimited (Local processing)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Conversation Tagging</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Automatically tag conversations based on keywords and sentiment analysis for better organization.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> Unlimited (Local processing)
+          </div>
+        </div>
+        <div class="automation-card">
+          <div class="automation-header">
+            <div class="automation-title">Response Templates</div>
+            <div class="toggle-switch on" onclick="toggleAutomation(this)"></div>
+          </div>
+          <div class="automation-desc">
+            Suggest relevant templates based on conversation context and previous successful responses.
+          </div>
+          <div class="automation-limit">
+            <strong>Free Tier Limit:</strong> Unlimited (Local processing)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW TEMPLATE MODAL -->
+<div class="modal-overlay" id="newTemplateModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Create New Template</h3>
+      <button class="modal-close" onclick="closeModal('newTemplate')">&times;</button>
+    </div>
+    <form onsubmit="saveTemplate(event)">
+      <div class="form-group">
+        <label class="form-label">Template Name</label>
+        <input type="text" class="form-input" placeholder="e.g., Hotel Introduction" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message Content</label>
+        <textarea class="form-textarea" placeholder="Use {name} for personalization..." required></textarea>
+        <div class="form-hint">Use {name}, {company}, {industry} for dynamic personalization</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select">
+          <option>Introduction</option>
+          <option>Follow-up</option>
+          <option>Value Proposition</option>
+          <option>Closing</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+        <button type="button" class="btn btn-ghost" onclick="closeModal('newTemplate')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Template</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- NEW CAMPAIGN MODAL -->
+<div class="modal-overlay" id="newCampaignModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Create New Campaign</h3>
+      <button class="modal-close" onclick="closeModal('newCampaign')">&times;</button>
+    </div>
+    <form onsubmit="saveCampaign(event)">
+      <div class="form-group">
+        <label class="form-label">Campaign Name</label>
+        <input type="text" class="form-input" placeholder="e.g., Q2 Hotel Outreach" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Audience</label>
+        <input type="text" class="form-input" placeholder="e.g., Hotels in Accra" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Count</label>
+        <input type="number" class="form-input" placeholder="500" required>
+        <div class="form-hint">Number of contacts to reach out to</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message Template</label>
+        <select class="form-select" required>
+          <option value="">Select a template...</option>
+          <option>Hotel IT Introduction</option>
+          <option>Email Audit Offer</option>
+          <option>Follow-up Message</option>
+          <option>Value Proposition</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Send Limit</label>
+        <input type="number" class="form-input" value="50" max="100" required>
+        <div class="form-hint">Max 100 per day (Meta API free tier limit)</div>
+      </div>
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+        <button type="button" class="btn btn-ghost" onclick="closeModal('newCampaign')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Launch Campaign</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Tab Switching
+function switchTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.style.display = 'none';
+  });
+  
+  // Remove active class from all tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Show selected tab
+  document.getElementById(tabName + 'Tab').style.display = 'block';
+  
+  // Add active class to clicked tab
+  event.target.classList.add('active');
+}
+
+// Load Conversation
+function loadConversation(userId) {
+  // Remove active class from all conversations
+  document.querySelectorAll('.conversation-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  // Add active class to clicked conversation
+  event.currentTarget.classList.add('active');
+  
+  // In a real app, this would load the actual conversation
+  showToast('Loading conversation...');
+}
+
+// Send Message
+function sendMessage() {
+  const input = document.getElementById('messageInput');
+  const message = input.value.trim();
+  
+  if (!message) return;
+  
+  // In a real app, this would send via API
+  const chatMessages = document.getElementById('chatMessages');
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message';
+  messageDiv.innerHTML = `
+    <div class="message-avatar">TW</div>
+    <div>
+      <div class="message-content">${message}</div>
+      <div class="message-time">Just now</div>
+    </div>
+  `;
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  input.value = '';
+  showToast('Message sent!');
+}
+
+// Template Functions
+function editTemplate(id) {
+  showToast('Opening template editor...');
+  // In a real app, this would open the edit modal with template data
+}
+
+function useTemplate(id) {
+  showToast('Template loaded into composer');
+  // In a real app, this would load the template into the message input
+}
+
+// Modal Functions
+function openModal(modalName) {
+  const modal = document.getElementById(modalName + 'Modal');
+  if (modal) {
+    modal.classList.add('open');
+  }
+}
+
+function closeModal(modalName) {
+  const modal = document.getElementById(modalName + 'Modal');
+  if (modal) {
+    modal.classList.remove('open');
+  }
+}
+
+// Form Submissions
+function saveTemplate(event) {
+  event.preventDefault();
+  showToast('Template saved successfully!');
+  closeModal('newTemplate');
+  // In a real app, this would save to database
+}
+
+function saveCampaign(event) {
+  event.preventDefault();
+  showToast('Campaign launched successfully!');
+  closeModal('newCampaign');
+  // In a real app, this would create the campaign
+}
+
+// Toggle Automation
+function toggleAutomation(element) {
+  element.classList.toggle('on');
+  const isOn = element.classList.contains('on');
+  const title = element.parentElement.querySelector('.automation-title').textContent;
+  showToast(`${title} ${isOn ? 'enabled' : 'disabled'}`);
+  
+  // In a real app, this would update the automation settings
+}
+
+// Toast Notification
+function showToast(message, isError = false) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  if (isError) {
+    toast.classList.add('error');
+  } else {
+    toast.classList.remove('error');
+  }
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+// Close modals on outside click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('open');
+    }
+  });
+});
+
+// Auto-resize textarea
+document.getElementById('messageInput').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// Simulate real-time stats updates
+setInterval(() => {
+  const stats = ['totalConversations', 'messagesSent', 'conversions'];
+  stats.forEach(stat => {
+    const element = document.getElementById(stat);
+    if (element && Math.random() > 0.7) {
+      const currentValue = parseInt(element.textContent.replace(/[^0-9]/g, ''));
+      element.textContent = currentValue + 1;
+    }
+  });
+}, 5000);
+
+// Track page view
+if (typeof fbq !== 'undefined') {
+  fbq('track', 'ViewContent', {
+    content_name: 'Threads DM Automation',
+    content_category: 'Marketing Tools'
+  });
+}
+
+if (typeof gtag !== 'undefined') {
+  gtag('event', 'page_view', {
+    page_title: 'Threads DM Automation',
+    page_location: window.location.href,
+    page_path: window.location.pathname
+  });
+}
+</script>
+
+</body>
+</html>

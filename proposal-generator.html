@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R8NPW30JK9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-R8NPW30JK9');
+</script>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '440897446242409');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=440897446242409&ev=PageView&noscript=1"
+/></noscript>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Proposal Generator | TechWokx</title>
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --red:#dc2626;--red-dark:#b91c1c;--red-glow:rgba(220,38,38,0.25);
+  --orange:#ea580c;--green:#16a34a;--blue:#0ea5e9;
+  --dark:#040811;--dark2:#070d1a;--dark3:#0d1526;--dark4:#111827;
+  --panel:rgba(13,21,38,0.9);--border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);--text:#e2e8f0;--muted:#64748b;
+  --accent:#f97316;--accent2:#fb923c;
+  --font-head:'Bebas Neue',sans-serif;
+  --font-body:'Outfit',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--dark);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;height:68px;padding:0 4%;display:flex;align-items:center;justify-content:space-between;background:rgba(4,8,17,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo img{height:40px;width:auto;display:block;}
+.nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.65);font-size:0.875rem;font-weight:500;transition:color 0.2s;letter-spacing:0.01em;text-decoration:none;}
+.nav-links a:hover{color:white;}
+.nav-dash{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7)!important;padding:0.45rem 0.9rem;border-radius:6px;border:1px solid var(--border);font-size:0.82rem!important;display:flex;align-items:center;gap:0.4rem;cursor:pointer;transition:all 0.2s;}
+.nav-dash:hover{background:rgba(255,255,255,0.1);color:white!important;}
+
+/* ===== MAIN ===== */
+.main-container{padding-top:68px;min-height:100vh;}
+.page-header{background:var(--dark2);border-bottom:1px solid var(--border);padding:2rem 4%;}
+.page-header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.page-title{font-family:var(--font-head);font-size:2.5rem;color:white;line-height:1;}
+.page-subtitle{font-size:0.9rem;color:var(--muted);margin-top:0.5rem;}
+.back-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);padding:0.5rem 1rem;border-radius:6px;font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;}
+.back-btn:hover{background:rgba(255,255,255,0.1);color:white;border-color:var(--border2);}
+
+/* ===== CONTENT ===== */
+.content{max-width:1400px;margin:0 auto;padding:2rem 4%;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+
+/* ===== PANELS ===== */
+.panel{background:var(--dark3);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+.panel-header{padding:1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.panel-header h3{font-size:1.1rem;font-weight:700;color:white;}
+.panel-body{padding:1.5rem;}
+
+/* ===== FORMS ===== */
+.form-group{margin-bottom:1.25rem;}
+.form-label{display:block;font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.5rem;}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;color:white;padding:0.75rem 1rem;font-family:var(--font-body);font-size:0.9rem;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--accent);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.form-select option{background:var(--dark4);}
+.form-hint{font-size:0.75rem;color:var(--muted);margin-top:0.35rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+/* ===== STATUS INDICATORS ===== */
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1.5rem;}
+.status-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:0.85rem;text-align:center;}
+.status-item.good{border-color:rgba(22,163,74,0.3);background:rgba(22,163,74,0.05);}
+.status-item.bad{border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.05);}
+.status-item.warning{border-color:rgba(234,88,12,0.3);background:rgba(234,88,12,0.05);}
+.status-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.35rem;}
+.status-value{font-size:1.1rem;font-weight:700;}
+.status-value.good{color:#4ade80;}
+.status-value.bad{color:#f87171;}
+.status-value.warning{color:#fb923c;}
+
+/* ===== BUTTONS ===== */
+.btn{padding:0.75rem 1.5rem;border-radius:8px;border:none;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.2s;font-family:var(--font-body);}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--red));color:white;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--red-glow);}
+.btn-secondary{background:rgba(255,255,255,0.05);color:white;border:1px solid var(--border);}
+.btn-secondary:hover{background:rgba(255,255,255,0.1);}
+.btn-full{width:100%;}
+
+/* ===== DOCUMENT PREVIEW ===== */
+.document-preview{background:white;color:#333;border-radius:8px;padding:2rem;font-size:0.9rem;line-height:1.6;min-height:600px;position:relative;}
+.letterhead{width:100%;margin-bottom:2rem;}
+.doc-header{margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #eee;}
+.doc-title{font-family:var(--font-head);font-size:2rem;color:var(--red);margin-bottom:0.5rem;}
+.doc-meta{font-size:0.85rem;color:#666;}
+.doc-section{margin-bottom:1.5rem;}
+.doc-section h4{font-size:1.1rem;color:var(--red);margin-bottom:0.75rem;font-weight:700;}
+.doc-section p{margin-bottom:0.75rem;text-align:justify;}
+.doc-section ul{margin-left:1.5rem;margin-bottom:0.75rem;}
+.doc-section li{margin-bottom:0.5rem;}
+.pricing-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+.pricing-table th{background:#f8f8f8;padding:0.75rem;text-align:left;font-size:0.85rem;border-bottom:2px solid #ddd;}
+.pricing-table td{padding:0.75rem;border-bottom:1px solid #eee;}
+.pricing-table .total-row{font-weight:700;background:#f8f8f8;}
+.doc-footer{margin-top:3rem;padding-top:1.5rem;border-top:2px solid #eee;font-size:0.85rem;color:#666;}
+.signature-block{margin-top:3rem;}
+.signature-line{border-top:1px solid #333;width:200px;margin-top:2rem;}
+
+/* ===== ANALYSIS PANEL ===== */
+.analysis-item{background:rgba(255,255,255,0.03);border-left:3px solid var(--accent);padding:1rem;margin-bottom:0.75rem;border-radius:4px;}
+.analysis-item.critical{border-left-color:var(--red);}
+.analysis-item.warning{border-left-color:var(--orange);}
+.analysis-item.good{border-left-color:var(--green);}
+.analysis-title{font-weight:700;color:white;margin-bottom:0.35rem;font-size:0.9rem;}
+.analysis-desc{font-size:0.85rem;color:var(--muted);line-height:1.5;}
+
+/* ===== LOADING ===== */
+.loading{display:none;text-align:center;padding:2rem;}
+.loading.active{display:block;}
+.spinner{border:3px solid rgba(255,255,255,0.1);border-top:3px solid var(--accent);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:0 auto 1rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark3);border:1px solid var(--green);color:white;padding:0.75rem 1.5rem;border-radius:8px;font-size:0.87rem;opacity:0;transition:all 0.3s;z-index:9999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.error{border-color:var(--red);}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .two-col{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .status-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  .page-header-inner{flex-direction:column;align-items:flex-start;gap:1rem;}
+  .nav-links{display:none;}
+}
+@media print{
+  nav,.page-header,.panel:first-child,.btn{display:none!important;}
+  .document-preview{box-shadow:none;border:none;padding:0;}
+  body{background:white;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="assets/images/Techwokx_Logo_full_final.png" alt="TechWokx">
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="dashboard-integrated.html" class="nav-dash"><i class="fas fa-th-large"></i> Dashboard</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<div class="main-container">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div>
+        <h1 class="page-title">AI Proposal Generator</h1>
+        <p class="page-subtitle">Generate professional proposals, quotes & invoices with AI</p>
+      </div>
+      <a href="dashboard-integrated.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div class="two-col">
+      <!-- LEFT: INPUT FORM -->
+        <!-- QUICK SEARCH PANEL -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-search"></i> Quick Company Search</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="form-label">Search Company or Website</label>
+              <div style="display:flex;gap:0.5rem;">
+                <input type="text" class="form-input" id="quickSearch" placeholder="Company name or website URL" style="flex:1;">
+                <button class="btn btn-primary" onclick="quickSearchCompany()" style="white-space:nowrap;">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </div>
+              <div class="form-hint">Enter company name or website to auto-fill research data</div>
+            </div>
+
+            <!-- SEARCH RESULTS -->
+            <div id="searchResults" style="display:none;margin-top:1rem;">
+              <div style="background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+                  <i class="fas fa-check-circle" style="color:#4ade80;"></i>
+                  <strong style="color:#4ade80;">Search Complete</strong>
+                </div>
+                <div id="searchSummary" style="font-size:0.85rem;color:var(--muted);"></div>
+              </div>
+
+              <!-- QUICK LINKS -->
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;margin-bottom:1rem;">
+                <a id="googleLink" href="#" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
+                  <i class="fab fa-google"></i> Google Search
+                </a>
+                <a id="facebookLink" href="#" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
+                  <i class="fab fa-facebook"></i> Facebook
+                </a>
+                <a id="linkedinLink" href="#" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
+                  <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a id="instagramLink" href="#" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
+                  <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a id="whoisLink" href="#" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
+                  <i class="fas fa-globe"></i> WHOIS Lookup
+                </a>
+                <a id="sslLink" href="#" target="_blank" class="btn btn-secondary btn-sm" style="text-decoration:none;">
+                  <i class="fas fa-lock"></i> SSL Check
+                </a>
+              </div>
+
+              <!-- FOUND DATA -->
+              <div id="foundData" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem;">
+                <div style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;">
+                  <strong>Found Information:</strong>
+                </div>
+                <div id="foundDataContent" style="font-size:0.85rem;line-height:1.8;"></div>
+                <button class="btn btn-primary btn-sm" onclick="applyFoundData()" style="margin-top:0.75rem;width:100%;">
+                  <i class="fas fa-arrow-down"></i> Apply to Form Below
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div>
+        <!-- COMPANY RESEARCH PANEL -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-building"></i> Company Research Data</h3>
+            <button class="btn btn-secondary btn-sm" onclick="clearForm()">
+              <i class="fas fa-redo"></i> Clear
+            </button>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="form-label">Company Name *</label>
+              <input type="text" class="form-input" id="companyName" placeholder="e.g., COURMACK GHANA">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-input" id="companyPhone" placeholder="059 497 4993">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="companyEmail" placeholder="info@company.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-input" id="companyAddress" placeholder="37 Patrice Lumumba St, Accra">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Website URL</label>
+              <input type="url" class="form-input" id="companyWebsite" placeholder="https://www.company.com">
+            </div>
+
+            <div class="status-grid">
+              <div class="status-item" id="statusWorking">
+                <div class="status-label">Website</div>
+                <div class="status-value">
+                  <select class="form-select" id="websiteWorking" onchange="updateStatus()">
+                    <option value="unknown">Unknown</option>
+                    <option value="yes">Working</option>
+                    <option value="no">Not Working</option>
+                  </select>
+                </div>
+              </div>
+              <div class="status-item" id="statusSSL">
+                <div class="status-label">SSL Active</div>
+                <div class="status-value">
+                  <select class="form-select" id="sslActive" onchange="updateStatus()">
+                    <option value="unknown">Unknown</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="status-item" id="statusDomain">
+                <div class="status-label">Domain Active</div>
+                <div class="status-value">
+                  <select class="form-select" id="domainActive" onchange="updateStatus()">
+                    <option value="unknown">Unknown</option>
+                    <option value="yes">Active</option>
+                    <option value="no">Inactive</option>
+                    <option value="sale">For Sale</option>
+                  </select>
+                </div>
+              </div>
+              <div class="status-item" id="statusEmail">
+                <div class="status-label">Email Setup</div>
+                <div class="status-value">
+                  <select class="form-select" id="emailSetup" onchange="updateStatus()">
+                    <option value="unknown">Unknown</option>
+                    <option value="good">Good</option>
+                    <option value="poor">Poor</option>
+                    <option value="none">None</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Additional Notes / Error Messages</label>
+              <textarea class="form-textarea" id="additionalNotes" placeholder="e.g., DNS_PROBE_FINISHED_NXDOMAIN, Site can't be reached, etc."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCUMENT SETTINGS PANEL -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-file-alt"></i> Document Settings</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="form-label">Document Type *</label>
+              <select class="form-select" id="docType" onchange="updateDocType()">
+                <option value="proposal">Proposal</option>
+                <option value="quote">Quote</option>
+                <option value="invoice">Invoice</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Document Number</label>
+                <input type="text" class="form-input" id="docNumber" value="TW-2026-001">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-input" id="docDate">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contact Person</label>
+              <input type="text" class="form-input" id="contactPerson" placeholder="Managing Director / IT Manager">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Service Focus</label>
+              <select class="form-select" id="serviceFocus">
+                <option value="email">Email Infrastructure Fix</option>
+                <option value="website">Website Repair & Hosting</option>
+                <option value="it-support">IT Support & Retainer</option>
+                <option value="full-audit">Full IT Audit & Fix</option>
+                <option value="custom">Custom Solution</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="generateProposal()">
+              <i class="fas fa-magic"></i> Generate with AI
+            </button>
+          </div>
+        </div>
+
+        <!-- AI ANALYSIS PANEL -->
+        <div class="panel" id="analysisPanel" style="display:none;">
+          <div class="panel-header">
+            <h3><i class="fas fa-brain"></i> AI Analysis</h3>
+          </div>
+          <div class="panel-body" id="analysisContent">
+            <!-- AI analysis will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: DOCUMENT PREVIEW -->
+      <div>
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-eye"></i> Document Preview</h3>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn btn-secondary" onclick="window.print()">
+                <i class="fas fa-print"></i> Print
+              </button>
+              <button class="btn btn-secondary" onclick="downloadPDF()">
+                <i class="fas fa-download"></i> PDF
+              </button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="loading" id="loading">
+              <div class="spinner"></div>
+              <p>Generating proposal with AI...</p>
+            </div>
+            <div class="document-preview" id="documentPreview">
+              <img src="assets/images/letterhead.png" alt="TechWokx Letterhead" class="letterhead">
+              
+              <div class="doc-header">
+                <div class="doc-title" id="previewDocType">BUSINESS PROPOSAL</div>
+                <div class="doc-meta">
+                  <strong>Document No:</strong> <span id="previewDocNumber">TW-2026-001</span><br>
+                  <strong>Date:</strong> <span id="previewDate">May 21, 2026</span>
+                </div>
+              </div>
+
+              <div class="doc-section">
+                <p><strong>To:</strong><br>
+                <span id="previewCompanyName">Company Name</span><br>
+                <span id="previewAddress">Company Address</span><br>
+                <span id="previewContact">Attention: Contact Person</span></p>
+              </div>
+
+              <div class="doc-section">
+                <h4>Executive Summary</h4>
+                <p id="previewSummary">Click "Generate with AI" to create a customized proposal based on the company's research data.</p>
+              </div>
+
+              <div class="doc-section" id="problemSection">
+                <h4>Current Situation & Challenges</h4>
+                <div id="previewProblems"></div>
+              </div>
+
+              <div class="doc-section" id="solutionSection">
+                <h4>Proposed Solution</h4>
+                <div id="previewSolution"></div>
+              </div>
+
+              <div class="doc-section" id="pricingSection">
+                <h4>Investment & Pricing</h4>
+                <div id="previewPricing"></div>
+              </div>
+
+              <div class="doc-section">
+                <h4>Why TechWokx?</h4>
+                <ul>
+                  <li>Local Ghana-based team with deep understanding of local business challenges</li>
+                  <li>Proven track record with hotels, SMEs, and NGOs across Accra</li>
+                  <li>Affordable pricing with flexible payment options</li>
+                  <li>Ongoing support and maintenance included</li>
+                  <li>Quick turnaround time - most fixes completed within 48 hours</li>
+                </ul>
+              </div>
+
+              <div class="doc-section">
+                <h4>Next Steps</h4>
+                <ol>
+                  <li>Review this proposal and pricing</li>
+                  <li>Schedule a brief call to discuss any questions</li>
+                  <li>Sign agreement and make initial payment</li>
+                  <li>We begin work immediately</li>
+                </ol>
+              </div>
+
+              <div class="signature-block">
+                <p><strong>Prepared by:</strong><br>
+                George Jabley<br>
+                Managing Director<br>
+                TechWokx Ghana</p>
+                <div class="signature-line"></div>
+              </div>
+
+              <div class="doc-footer">
+                <p><strong>TechWokx Ghana</strong><br>
+                P.O. Box ML469, Malam, Accra<br>
+                Phone: +233 264 375 628 | Email: hello@techwokx.online<br>
+                Website: www.techwokx.online</p>
+                <p style="margin-top:1rem;font-size:0.75rem;color:#999;">
+                  This proposal is valid for 30 days from the date above. Terms and conditions apply.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Set today's date
+document.getElementById('docDate').valueAsDate = new Date();
+document.getElementById('previewDate').textContent = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+
+// Update status indicators
+function updateStatus() {
+  const working = document.getElementById('websiteWorking').value;
+  const ssl = document.getElementById('sslActive').value;
+  const domain = document.getElementById('domainActive').value;
+  const email = document.getElementById('emailSetup').value;
+
+  // Update status items
+  updateStatusItem('statusWorking', working);
+  updateStatusItem('statusSSL', ssl);
+  updateStatusItem('statusDomain', domain);
+  updateStatusItem('statusEmail', email);
+}
+
+function updateStatusItem(id, value) {
+  const item = document.getElementById(id);
+  item.classList.remove('good', 'bad', 'warning');
+  
+  if (value === 'yes' || value === 'good') {
+    item.classList.add('good');
+  } else if (value === 'no' || value === 'poor' || value === 'none') {
+    item.classList.add('bad');
+  } else if (value === 'sale') {
+    item.classList.add('warning');
+  }
+}
+
+// Update document type
+function updateDocType() {
+  const docType = document.getElementById('docType').value;
+  const titles = {
+    proposal: 'BUSINESS PROPOSAL',
+    quote: 'QUOTATION',
+    invoice: 'INVOICE'
+  };
+  document.getElementById('previewDocType').textContent = titles[docType];
+}
+
+// Generate Proposal with AI
+async function generateProposal() {
+  const companyName = document.getElementById('companyName').value;
+  if (!companyName) {
+    showToast('Please enter company name', true);
+    return;
+  }
+
+  // Show loading
+  document.getElementById('loading').classList.add('active');
+  document.getElementById('documentPreview').style.opacity = '0.3';
+
+  // Collect all data
+  const data = {
+    companyName: companyName,
+    phone: document.getElementById('companyPhone').value,
+    email: document.getElementById('companyEmail').value,
+    address: document.getElementById('companyAddress').value,
+    website: document.getElementById('companyWebsite').value,
+    websiteWorking: document.getElementById('websiteWorking').value,
+    sslActive: document.getElementById('sslActive').value,
+    domainActive: document.getElementById('domainActive').value,
+    emailSetup: document.getElementById('emailSetup').value,
+    notes: document.getElementById('additionalNotes').value,
+    docType: document.getElementById('docType').value,
+    docNumber: document.getElementById('docNumber').value,
+    contactPerson: document.getElementById('contactPerson').value,
+    serviceFocus: document.getElementById('serviceFocus').value
+  };
+
+  // Update preview with basic info
+  document.getElementById('previewCompanyName').textContent = data.companyName;
+  document.getElementById('previewAddress').textContent = data.address || 'Address not provided';
+  document.getElementById('previewContact').textContent = data.contactPerson ? `Attention: ${data.contactPerson}` : '';
+  document.getElementById('previewDocNumber').textContent = data.docNumber;
+
+  // Analyze issues
+  const analysis = analyzeCompany(data);
+  displayAnalysis(analysis);
+
+  // Generate AI content
+  try {
+    const aiContent = await generateAIContent(data, analysis);
+    displayAIContent(aiContent);
+    showToast('Proposal generated successfully!');
+  } catch (error) {
+    console.error('AI generation error:', error);
+    // Fallback to template-based generation
+    const templateContent = generateTemplateContent(data, analysis);
+    displayAIContent(templateContent);
+    showToast('Proposal generated with template');
+  }
+
+  // Hide loading
+  document.getElementById('loading').classList.remove('active');
+  document.getElementById('documentPreview').style.opacity = '1';
+}
+
+// Analyze company issues
+function analyzeCompany(data) {
+  const issues = [];
+  const opportunities = [];
+
+  // Website analysis
+  if (data.websiteWorking === 'no') {
+    issues.push({
+      type: 'critical',
+      title: 'Website Not Accessible',
+      description: 'Your website is currently not working. This means potential customers cannot find you online, resulting in lost business opportunities.',
+      solution: 'Website repair and hosting setup',
+      cost: 'GHS 2,000 - 3,500'
+    });
+  }
+
+  // SSL analysis
+  if (data.sslActive === 'no') {
+    issues.push({
+      type: 'critical',
+      title: 'No SSL Certificate',
+      description: 'Your website lacks SSL security. Browsers show "Not Secure" warnings, damaging trust and hurting Google rankings.',
+      solution: 'SSL certificate installation and configuration',
+      cost: 'GHS 500 - 800'
+    });
+  }
+
+  // Domain analysis
+  if (data.domainActive === 'no' || data.domainActive === 'sale') {
+    issues.push({
+      type: 'critical',
+      title: 'Domain Issues',
+      description: data.domainActive === 'sale' ? 'Your domain is listed for sale, indicating it may have expired or been abandoned.' : 'Your domain is not active or properly configured.',
+      solution: 'Domain registration/renewal and DNS configuration',
+      cost: 'GHS 300 - 600'
+    });
+  }
+
+  // Email analysis
+  if (data.emailSetup === 'poor' || data.emailSetup === 'none') {
+    issues.push({
+      type: 'warning',
+      title: 'Email Infrastructure Problems',
+      description: 'Your business emails likely end up in spam folders, causing you to miss important communications and lose credibility.',
+      solution: 'Professional email setup with SPF, DKIM, DMARC',
+      cost: 'GHS 1,500 - 2,500'
+    });
+  }
+
+  // Opportunities
+  if (issues.length > 2) {
+    opportunities.push({
+      title: 'Comprehensive IT Audit',
+      description: 'Given multiple issues, a full IT infrastructure audit would identify all problems and provide a complete fix plan.',
+      benefit: 'Save 20% with bundled services'
+    });
+  }
+
+  return { issues, opportunities };
+}
+
+// Display analysis
+function displayAnalysis(analysis) {
+  const panel = document.getElementById('analysisPanel');
+  const content = document.getElementById('analysisContent');
+  
+  if (analysis.issues.length === 0) {
+    panel.style.display = 'none';
+    return;
+  }
+
+  panel.style.display = 'block';
+  let html = '';
+
+  analysis.issues.forEach(issue => {
+    html += `
+      <div class="analysis-item ${issue.type}">
+        <div class="analysis-title"><i class="fas fa-exclamation-triangle"></i> ${issue.title}</div>
+        <div class="analysis-desc">${issue.description}</div>
+        <div class="analysis-desc" style="margin-top:0.5rem;"><strong>Solution:</strong> ${issue.solution} (${issue.cost})</div>
+      </div>
+    `;
+  });
+
+  if (analysis.opportunities.length > 0) {
+    analysis.opportunities.forEach(opp => {
+      html += `
+        <div class="analysis-item good">
+          <div class="analysis-title"><i class="fas fa-lightbulb"></i> ${opp.title}</div>
+          <div class="analysis-desc">${opp.description}</div>
+          <div class="analysis-desc" style="margin-top:0.5rem;"><strong>Benefit:</strong> ${opp.benefit}</div>
+        </div>
+      `;
+    });
+  }
+
+  content.innerHTML = html;
+}
+
+// Generate AI content (simulated - replace with actual AI API)
+async function generateAIContent(data, analysis) {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  // In production, this would call Claude or GPT API
+  // For now, return template-based content
+  return generateTemplateContent(data, analysis);
+}
+
+// Generate template-based content
+function generateTemplateContent(data, analysis) {
+  const serviceFocusMap = {
+    email: 'Email Infrastructure',
+    website: 'Website & Hosting',
+    'it-support': 'IT Support',
+    'full-audit': 'Complete IT Audit',
+    custom: 'Custom IT Solution'
+  };
+
+  const summary = `We have reviewed ${data.companyName}'s current IT infrastructure and identified ${analysis.issues.length} critical area${analysis.issues.length > 1 ? 's' : ''} requiring immediate attention. This proposal outlines our recommended solutions to restore your online presence, improve security, and ensure reliable business communications.`;
+
+  const problems = analysis.issues.map(issue => `
+    <p><strong>${issue.title}:</strong> ${issue.description}</p>
+  `).join('');
+
+  const solution = `
+    <p>TechWokx proposes a comprehensive ${serviceFocusMap[data.serviceFocus]} solution tailored to ${data.companyName}'s specific needs:</p>
+    <ul>
+      ${analysis.issues.map(issue => `<li>${issue.solution}</li>`).join('')}
+      <li>Ongoing monitoring and support for 3 months</li>
+      <li>Staff training on new systems</li>
+      <li>Documentation and handover</li>
+    </ul>
+  `;
+
+  // Calculate pricing
+  let totalCost = 0;
+  const pricingItems = [];
+  
+  analysis.issues.forEach(issue => {
+    const costRange = issue.cost.match(/GHS ([\d,]+) - ([\d,]+)/);
+    if (costRange) {
+      const avgCost = (parseInt(costRange[1].replace(',','')) + parseInt(costRange[2].replace(',',''))) / 2;
+      totalCost += avgCost;
+      pricingItems.push({
+        item: issue.solution,
+        cost: `GHS ${avgCost.toLocaleString()}`
+      });
+    }
+  });
+
+  // Add support package
+  pricingItems.push({
+    item: '3 months ongoing support & monitoring',
+    cost: 'GHS 800'
+  });
+  totalCost += 800;
+
+  const pricing = `
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th style="text-align:right;">Investment</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${pricingItems.map(item => `
+          <tr>
+            <td>${item.item}</td>
+            <td style="text-align:right;">${item.cost}</td>
+          </tr>
+        `).join('')}
+        <tr class="total-row">
+          <td>TOTAL INVESTMENT</td>
+          <td style="text-align:right;">GHS ${totalCost.toLocaleString()}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;"><strong>Payment Terms:</strong> 50% upfront, 50% upon completion</p>
+    <p><strong>Timeline:</strong> 5-7 business days for complete implementation</p>
+  `;
+
+  return { summary, problems, solution, pricing };
+}
+
+// Display AI content
+function displayAIContent(content) {
+  document.getElementById('previewSummary').innerHTML = content.summary;
+  document.getElementById('previewProblems').innerHTML = content.problems;
+  document.getElementById('previewSolution').innerHTML = content.solution;
+  document.getElementById('previewPricing').innerHTML = content.pricing;
+}
+
+// Download PDF
+function downloadPDF() {
+  showToast('PDF download feature coming soon!');
+  // In production, use jsPDF or similar library
+}
+
+// Toast notification
+function showToast(message, isError = false) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  if (isError) {
+    toast.classList.add('error');
+  } else {
+    toast.classList.remove('error');
+  }
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+
+// Quick Search Company
+let foundCompanyData = {};
+
+async function quickSearchCompany() {
+  const searchQuery = document.getElementById('quickSearch').value.trim();
+  if (!searchQuery) {
+    showToast('Please enter a company name or website', true);
+    return;
+  }
+
+  // Show loading
+  showToast('Searching...');
+
+  // Extract domain if URL provided
+  let domain = searchQuery;
+  let companyName = searchQuery;
+  
+  try {
+    if (searchQuery.includes('http') || searchQuery.includes('www')) {
+      const url = new URL(searchQuery.startsWith('http') ? searchQuery : 'https://' + searchQuery);
+      domain = url.hostname.replace('www.', '');
+      companyName = domain.split('.')[0].toUpperCase();
+    }
+  } catch (e) {
+    // If not a valid URL, treat as company name
+    domain = searchQuery.toLowerCase().replace(/\s+/g, '') + '.com';
+  }
+
+  // Simulate search (in production, this would call actual APIs)
+  await new Promise(resolve => setTimeout(resolve, 1500));
+
+  // Populate search links
+  document.getElementById('googleLink').href = `https://www.google.com/search?q=${encodeURIComponent(companyName + ' Ghana')}`;
+  document.getElementById('facebookLink').href = `https://www.facebook.com/search/top?q=${encodeURIComponent(companyName)}`;
+  document.getElementById('linkedinLink').href = `https://www.linkedin.com/search/results/companies/?keywords=${encodeURIComponent(companyName)}`;
+  document.getElementById('instagramLink').href = `https://www.instagram.com/explore/tags/${encodeURIComponent(companyName.replace(/\s+/g, '').toLowerCase())}/`;
+  document.getElementById('whoisLink').href = `https://www.whois.com/whois/${domain}`;
+  document.getElementById('sslLink').href = `https://www.sslshopper.com/ssl-checker.html#hostname=${domain}`;
+
+  // Simulate found data (in production, this would come from APIs)
+  foundCompanyData = {
+    name: companyName,
+    website: `https://www.${domain}`,
+    domain: domain,
+    // Simulated data - in production, fetch from WHOIS, SSL checkers, etc.
+    phone: '',
+    email: `info@${domain}`,
+    address: 'Accra, Ghana',
+    websiteWorking: 'unknown',
+    sslActive: 'unknown',
+    domainActive: 'unknown',
+    emailSetup: 'unknown'
+  };
+
+  // Display found data
+  let foundDataHTML = `
+    <div style="margin-bottom:0.5rem;"><strong>Company:</strong> ${foundCompanyData.name}</div>
+    <div style="margin-bottom:0.5rem;"><strong>Website:</strong> ${foundCompanyData.website}</div>
+    <div style="margin-bottom:0.5rem;"><strong>Domain:</strong> ${foundCompanyData.domain}</div>
+    <div style="margin-bottom:0.5rem;"><strong>Email:</strong> ${foundCompanyData.email}</div>
+    <div style="color:var(--muted);font-size:0.8rem;margin-top:0.75rem;">
+      <i class="fas fa-info-circle"></i> Click the buttons above to verify details on Google, social media, WHOIS, and SSL checkers. Then click "Apply to Form" to use this data.
+    </div>
+  `;
+
+  document.getElementById('foundDataContent').innerHTML = foundDataHTML;
+  document.getElementById('searchResults').style.display = 'block';
+  
+  document.getElementById('searchSummary').innerHTML = `
+    Found company information for <strong>${companyName}</strong>. 
+    Click the buttons above to verify on external sites, then apply the data to your form.
+  `;
+
+  showToast('Search complete! Verify details and apply to form');
+}
+
+// Apply found data to form
+function applyFoundData() {
+  if (!foundCompanyData.name) {
+    showToast('No data to apply', true);
+    return;
+  }
+
+  document.getElementById('companyName').value = foundCompanyData.name;
+  document.getElementById('companyWebsite').value = foundCompanyData.website;
+  document.getElementById('companyEmail').value = foundCompanyData.email;
+  document.getElementById('companyAddress').value = foundCompanyData.address;
+  
+  // Scroll to company research panel
+  document.querySelector('.panel:nth-child(2)').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  showToast('Data applied! Now verify website status and complete the form');
+}
+
+// Clear form
+function clearForm() {
+  document.getElementById('companyName').value = '';
+  document.getElementById('companyPhone').value = '';
+  document.getElementById('companyEmail').value = '';
+  document.getElementById('companyAddress').value = '';
+  document.getElementById('companyWebsite').value = '';
+  document.getElementById('websiteWorking').value = 'unknown';
+  document.getElementById('sslActive').value = 'unknown';
+  document.getElementById('domainActive').value = 'unknown';
+  document.getElementById('emailSetup').value = 'unknown';
+  document.getElementById('additionalNotes').value = '';
+  document.getElementById('contactPerson').value = '';
+  
+  updateStatus();
+  showToast('Form cleared');
+}
+
+}
+
+// Track page view
+if (typeof fbq !== 'undefined') {
+  fbq('track', 'ViewContent', {
+    content_name: 'Proposal Generator',
+    content_category: 'Tools'
+  });
+}
+</script>
+
+</body>
+</html>
