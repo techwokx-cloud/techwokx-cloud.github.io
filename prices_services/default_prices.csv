@@ -1,0 +1,21 @@
+service_slug,service_name,currency_code,currency_symbol,amount,period
+email-fix,Business Email Health Fix,GHS,₵,1500,one-time
+email-fix,Business Email Health Fix,USD,$,120,one-time
+email-fix,Business Email Health Fix,GBP,£,95,one-time
+email-fix,Business Email Health Fix,EUR,€,110,one-time
+email-fix,Business Email Health Fix,NGN,₦,195000,one-time
+retainer,Monthly IT Retainer,GHS,₵,800,/month
+retainer,Monthly IT Retainer,USD,$,65,/month
+retainer,Monthly IT Retainer,GBP,£,50,/month
+retainer,Monthly IT Retainer,EUR,€,60,/month
+retainer,Monthly IT Retainer,NGN,₦,105000,/month
+audit,Infrastructure Audit + Fix Report,GHS,₵,2000,one-time
+audit,Infrastructure Audit + Fix Report,USD,$,160,one-time
+audit,Infrastructure Audit + Fix Report,GBP,£,125,one-time
+audit,Infrastructure Audit + Fix Report,EUR,€,150,one-time
+audit,Infrastructure Audit + Fix Report,NGN,₦,260000,one-time
+automation,Business Process Automation Scripts,GHS,₵,800,/script
+automation,Business Process Automation Scripts,USD,$,65,/script
+automation,Business Process Automation Scripts,GBP,£,50,/script
+automation,Business Process Automation Scripts,EUR,€,60,/script
+automation,Business Process Automation Scripts,NGN,₦,105000,/script
