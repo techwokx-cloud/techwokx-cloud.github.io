@@ -61,12 +61,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 #home{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 1.5rem 3rem;text-align:center}
 
 /* Avatar */
-.avatar-wrap{position:relative;width:120px;height:120px;margin:0 auto 1.75rem;cursor:pointer}
-.avatar-ring{position:absolute;inset:-4px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--gold));animation:spin 6s linear infinite;z-index:0}
+.avatar-wrap{position:relative;width:220px;height:220px;margin:0 auto 2rem;cursor:pointer}
+.avatar-ring{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-.avatar-inner{position:relative;z-index:1;width:120px;height:120px;border-radius:50%;background:var(--bg2);border:3px solid var(--bg);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:3rem}
-.avatar-inner video,.avatar-inner img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
-.avatar-edit-hint{position:absolute;bottom:-2px;right:-2px;z-index:2;width:28px;height:28px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#000;font-weight:700}
+.avatar-inner{
+  position:relative;z-index:1;width:220px;height:220px;
+  border-radius:28px;background:var(--bg2);border:none;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;font-size:5rem;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px var(--border2);
+  transition:box-shadow .3s;
+}
+.avatar-wrap:hover .avatar-inner{box-shadow:0 24px 70px rgba(0,212,255,.2),0 0 0 1.5px rgba(0,212,255,.4)}
+.avatar-inner video{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:none}
+.avatar-inner img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:none}
+.avatar-edit-hint{position:absolute;bottom:8px;right:8px;z-index:2;width:30px;height:30px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#000;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 
 /* Animated headline */
 .hero-greeting{font-size:1.1rem;color:var(--text2);font-weight:500;margin-bottom:.5rem;opacity:0;animation:fadeUp .6s .2s forwards}
@@ -348,7 +356,7 @@ textarea.bk-input{resize:vertical;min-height:68px}
 
 <!-- Background video (subtle) -->
 <video id="bgVideo" autoplay muted loop playsinline>
-  <source src="https://techwokx-cloud.github.io/georgejabley/assets/1782899853071-MDUfhpop-0.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/techwokx-cloud/techwokx-cloud.github.io/main/georgejabley/assets/1782899853071-MDUfhpop-0.mp4" type="video/mp4">
 </video>
 
 <!-- ── NAV ── -->
@@ -373,10 +381,9 @@ textarea.bk-input{resize:vertical;min-height:68px}
 <!-- ── HERO ── -->
 <section id="home">
   <div class="avatar-wrap" onclick="openAdmin('avatar')">
-    <div class="avatar-ring"></div>
     <div class="avatar-inner" id="avatarEl">
-      <video id="avatarVideo" autoplay muted loop playsinline style="display:none"></video>
-      <img id="avatarImg" style="display:none" alt="George Jabley">
+      <video id="avatarVideo" autoplay muted loop playsinline></video>
+      <img id="avatarImg" alt="George Jabley">
       <span id="avatarEmoji">👨🏾‍💻</span>
     </div>
     <div class="avatar-edit-hint">✎</div>
@@ -693,7 +700,11 @@ textarea.bk-input{resize:vertical;min-height:68px}
     <div class="msec" id="msec-avatar">
       <div class="mf"><label>Photo URL (GitHub or any image URL)</label><input class="mi" id="av-photo" placeholder="https://techwokx-cloud.github.io/georgejabley/assets/george_cartoon1.png"></div>
       <div class="mf"><label>Video URL (for animated avatar)</label><input class="mi" id="av-video" placeholder="https://techwokx-cloud.github.io/georgejabley/assets/AIImageToVideo_1782901395.mp4"></div>
-      <div style="font-size:.75rem;color:var(--text3);margin-bottom:.75rem">Video takes priority over image. Leave blank to use default emoji.</div>
+      <div style="font-size:.74rem;color:var(--text3);margin-bottom:.75rem;line-height:1.5;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);padding:.6rem .8rem;border-radius:8px">
+        ⚡ GitHub URLs are auto-converted to raw links.<br>
+        Paste your GitHub blob URL directly — it will work.<br>
+        Example: <code style="font-size:.68rem;color:var(--accent)">https://github.com/techwokx-cloud/techwokx-cloud.github.io/blob/main/georgejabley/assets/george_cartoon1.png</code>
+      </div>
       <button class="btn-save" onclick="saveAvatar()">Save Avatar</button>
     </div>
 
@@ -904,6 +915,18 @@ function saveProfile() {
 // ══════════════════════════════════════════════════
 //  AVATAR
 // ══════════════════════════════════════════════════
+function toRawUrl(url) {
+  // Convert GitHub blob URL to raw URL for media files
+  if (!url) return url;
+  url = url.trim();
+  // github.com/USER/REPO/blob/BRANCH/PATH -> raw.githubusercontent.com/USER/REPO/BRANCH/PATH
+  url = url.replace(
+    /https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.*)/,
+    'https://raw.githubusercontent.com/$1/$2/$3/$4'
+  );
+  return url;
+}
+
 function applyAvatar() {
   const av = S.get('avatar') || {};
   const videoEl = document.getElementById('avatarVideo');
@@ -912,26 +935,39 @@ function applyAvatar() {
   const chatAv  = document.getElementById('chatAv');
   const bkAv    = document.getElementById('bkAv');
 
-  if (av.video) {
-    videoEl.src = av.video; videoEl.style.display = 'block';
-    imgEl.style.display = 'none'; emoji.style.display = 'none';
-    // Chat avatar
-    chatAv.innerHTML = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:50%"><source src="${av.video}" type="video/mp4"></video>`;
-    // Booking avatar
-    bkAv.innerHTML = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"><source src="${av.video}" type="video/mp4"></video>`;
-  } else if (av.photo) {
-    imgEl.src = av.photo; imgEl.style.display = 'block';
-    videoEl.style.display = 'none'; emoji.style.display = 'none';
-    chatAv.innerHTML = `<img src="${av.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    bkAv.innerHTML   = `<img src="${av.photo}" style="width:100%;height:100%;object-fit:cover;display:block">`;
+  const videoUrl = toRawUrl(av.video);
+  const photoUrl = toRawUrl(av.photo);
+
+  if (videoUrl) {
+    videoEl.src = videoUrl;
+    videoEl.load();
+    videoEl.style.display = 'block';
+    imgEl.style.display = 'none';
+    emoji.style.display = 'none';
+    chatAv.innerHTML = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:50%"><source src="${videoUrl}" type="video/mp4"></video>`;
+    bkAv.innerHTML   = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:50%"><source src="${videoUrl}" type="video/mp4"></video>`;
+  } else if (photoUrl) {
+    imgEl.src = photoUrl;
+    imgEl.style.display = 'block';
+    videoEl.style.display = 'none';
+    emoji.style.display = 'none';
+    chatAv.innerHTML = `<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    bkAv.innerHTML   = `<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+  } else {
+    videoEl.style.display = 'none';
+    imgEl.style.display = 'none';
+    emoji.style.display = '';
   }
 }
 applyAvatar();
 
 function saveAvatar() {
-  const video = document.getElementById('av-video').value.trim();
-  const photo = document.getElementById('av-photo').value.trim();
+  const video = toRawUrl(document.getElementById('av-video').value.trim());
+  const photo = toRawUrl(document.getElementById('av-photo').value.trim());
   S.set('avatar', { video, photo });
+  // Update input fields to show converted URL
+  if (video) document.getElementById('av-video').value = video;
+  if (photo) document.getElementById('av-photo').value = photo;
   applyAvatar(); toast('Avatar saved ✓'); closeAdmin();
 }
 
@@ -1228,6 +1264,9 @@ function mTab(name, btn) {
 // ══════════════════════════════════════════════════
 //  AI CHATBOT
 // ══════════════════════════════════════════════════
+// Chat uses direct Anthropic API via fetch (proxy optional).
+// Set your API key below OR keep chat.php on server for production.
+const CHAT_API_KEY = ''; // Leave empty if using chat.php proxy
 const CHAT_PROXY = 'https://techwokx.online/georgejabley/chat.php';
 const chatMsgs = document.getElementById('chatMessages');
 let chatHistory = [], chatLocked = false;
@@ -1248,8 +1287,22 @@ async function sendChat() {
   chatLocked = true;
 
   try {
-    const res = await fetch(CHAT_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages: chatHistory }) });
-    const data = await res.json();
+    let res, data;
+    if (CHAT_API_KEY) {
+      // Direct Anthropic API (key in browser - dev/demo only)
+      const SYSTEM = `You are George Jabley's personal AI assistant. Be concise and friendly (2-4 sentences max). George: Senior IT Consultant, Accra Ghana, 25+ yrs experience, techwokx.online. Services: IT support $25/hr, email fix $80 flat, Docker $30/hr, M365 $28/hr, Python scripts $25/hr, DNS/SSL $60 flat, VA roles. Projects: IT Admin Suite, App Architect Studio (IBM Bob Hackathon), Documenso self-hosted e-sign, Email Backup Optimizer, Email Signature Creator, HandFresh e-commerce, Guardian Agent, Lead Intelligence Engine. lablab.ai: 1322pts #94 Legend. Contact: george.jabley@gmail.com. For booking tell them to click 'Book a Call' in the nav.`;
+      res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':CHAT_API_KEY,'anthropic-version':'2023-06-01'},
+        body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:400, system:SYSTEM, messages:chatHistory })
+      });
+      const raw = await res.json();
+      data = { ok: !!raw.content, text: raw.content?.[0]?.text };
+    } else {
+      // Server-side proxy (recommended for production)
+      res = await fetch(CHAT_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages: chatHistory }) });
+      data = await res.json();
+    }
     document.getElementById('chat-typing')?.remove();
     if (data.ok && data.text) {
       chatHistory.push({ role:'assistant', content: data.text });
