@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>George Jabley — IT Consultant & AI Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/techwokx-cloud/techwokx-cloud.github.io/main/georgejabley/assets/george_cartoon1.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/techwokx-cloud/techwokx-cloud.github.io/main/georgejabley/assets/george_cartoon1.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -122,6 +124,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 .hero-socials{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:1.5rem;opacity:0;animation:fadeUp .6s 1s forwards}
 .hero-social{display:inline-flex;align-items:center;gap:.35rem;background:var(--glass2);backdrop-filter:blur(10px);border:1px solid var(--border2);color:var(--text2);text-decoration:none;padding:.38rem .85rem;border-radius:100px;font-size:.76rem;font-weight:500;transition:all .2s}
 .hero-social:hover{border-color:var(--accent);color:var(--accent)}
+/* CV download button */
+.cv-btn{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;text-decoration:none;padding:.55rem 1.2rem;border-radius:100px;font-size:.82rem;font-weight:800;transition:all .2s;box-shadow:0 4px 18px rgba(0,212,255,.25);cursor:pointer;border:none;font-family:'Inter',sans-serif}
+.cv-btn:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,212,255,.35)}
+.cv-btn svg{width:14px;height:14px;flex-shrink:0}
+.cv-btn-wrap{display:flex;gap:.65rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1.25rem;opacity:0;animation:fadeUp .6s .9s forwards}
+.cv-secondary{display:inline-flex;align-items:center;gap:.4rem;background:var(--glass2);backdrop-filter:blur(10px);border:1px solid var(--border2);color:var(--text2);text-decoration:none;padding:.52rem 1.1rem;border-radius:100px;font-size:.8rem;font-weight:600;transition:all .2s;cursor:pointer;font-family:'Inter',sans-serif}
+.cv-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.cv-secondary svg{width:13px;height:13px}
 
 /* ═══════════════════════════════════════════
    SECTION LAYOUT
@@ -135,8 +145,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 .stats-row{display:flex;gap:0;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--border2);border-radius:20px;overflow:hidden;margin-bottom:3rem;flex-wrap:wrap}
 .stat{flex:1;min-width:110px;padding:1.4rem 1rem;text-align:center;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
-.stat-n{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.stat-n{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;transition:opacity .3s}
 .stat-l{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-top:.2rem}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.stat-n.counted{animation:countUp .5s ease forwards}
 
 /* Cards */
 .grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
@@ -226,6 +238,46 @@ textarea.fi{resize:vertical;min-height:90px}
 .btn-grad{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border:none;padding:.72rem 1.5rem;border-radius:10px;font-weight:800;font-size:.88rem;cursor:pointer;transition:opacity .2s;font-family:'Inter',sans-serif}
 .btn-grad:hover{opacity:.85}
 .form-msg{font-size:.76rem;color:var(--accent3);display:none;margin-top:.25rem}
+
+/* Gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.gallery-empty{border:2px dashed var(--border2);border-radius:18px;padding:3rem 2rem;text-align:center;color:var(--text2)}
+.gallery-item{background:var(--glass);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .2s;cursor:pointer;position:relative}
+.gallery-item:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.gallery-img{width:100%;height:200px;object-fit:cover;display:block;background:var(--bg3)}
+.gallery-img-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,var(--bg2),var(--bg3));color:var(--text3)}
+.gallery-body{padding:1rem}
+.gallery-title{font-weight:700;font-size:.9rem;margin-bottom:.25rem}
+.gallery-desc{font-size:.78rem;color:var(--text2);margin-bottom:.65rem;line-height:1.4}
+.gallery-link{font-size:.72rem;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:.25rem;padding:.22rem .55rem;border:1px solid rgba(0,212,255,.22);border-radius:6px;transition:background .15s}
+.gallery-link:hover{background:rgba(0,212,255,.08)}
+.gallery-tag{font-size:.65rem;background:rgba(168,85,247,.12);color:#c084fc;border:1px solid rgba(168,85,247,.2);padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;margin-bottom:.5rem;display:inline-block}
+
+/* Lightbox */
+.glb-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1.5rem}
+.glb-overlay.open{display:flex}
+.glb-img{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 0 60px rgba(0,0,0,.6);object-fit:contain}
+.glb-caption{color:var(--text2);font-size:.85rem;text-align:center}
+.glb-close{position:fixed;top:1rem;right:1rem;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.glb-close:hover{background:rgba(239,68,68,.3)}
+
+/* Resources */
+.resource-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:18px;padding:1.35rem;transition:all .2s;display:flex;flex-direction:column;gap:.5rem}
+.resource-card:hover{border-color:var(--accent3);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.resource-icon{font-size:1.8rem}
+.resource-title{font-weight:800;font-size:.95rem}
+.resource-desc{font-size:.8rem;color:var(--text2);line-height:1.55;flex:1}
+.resource-dl{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--accent3),#059669);color:#000;font-weight:700;font-size:.78rem;padding:.45rem .9rem;border-radius:8px;text-decoration:none;transition:opacity .2s;margin-top:.25rem;width:fit-content}
+.resource-dl:hover{opacity:.85}
+
+/* Email Sig Builder */
+.sig-builder{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
+@media(max-width:800px){.sig-builder{grid-template-columns:1fr}}
+.sig-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
+@media(max-width:500px){.sig-form-grid{grid-template-columns:1fr}}
+.sig-preview-wrap{background:var(--glass);border:1px solid var(--border2);border-radius:18px;padding:1.25rem;position:sticky;top:80px}
+.sig-preview-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-weight:700;margin-bottom:.75rem;font-family:'JetBrains Mono',monospace}
+.sig-preview-box{background:#fff;border-radius:10px;padding:1.25rem;min-height:120px;overflow:auto}
 
 /* Footer */
 footer{position:relative;z-index:1;text-align:center;padding:3rem 1.5rem 2rem;font-size:.76rem;color:var(--text3);border-top:1px solid var(--border);margin-top:6rem}
@@ -369,6 +421,8 @@ textarea.bk-input{resize:vertical;min-height:68px}
     <a href="#skills" class="nav-link">Skills</a>
     <a href="#projects" class="nav-link">Projects</a>
     <a href="#hackathons" class="nav-link">Hackathons</a>
+    <a href="#gallery" class="nav-link">Gallery</a>
+    <a href="#resources" class="nav-link">Resources</a>
     <a href="#contact" class="nav-link">Contact</a>
   </div>
 </nav>
@@ -428,11 +482,11 @@ textarea.bk-input{resize:vertical;min-height:68px}
 <!-- STATS -->
 <div class="section reveal" style="padding-top:1.5rem">
   <div class="stats-row">
-    <div class="stat"><span class="stat-n">25+</span><span class="stat-l">Years Exp</span></div>
-    <div class="stat"><span class="stat-n">1,322</span><span class="stat-l">lablab.ai pts</span></div>
-    <div class="stat"><span class="stat-n">#94</span><span class="stat-l">Leaderboard</span></div>
-    <div class="stat"><span class="stat-n">6</span><span class="stat-l">Hackathons</span></div>
-    <div class="stat"><span class="stat-n">Legend</span><span class="stat-l">lablab Level</span></div>
+    <div class="stat"><span class="stat-n" data-count="25" data-suffix="+">25+</span><span class="stat-l">Years Exp</span></div>
+    <div class="stat"><span class="stat-n" data-count="1322" data-prefix="" data-format="comma">1,322</span><span class="stat-l">lablab.ai pts</span></div>
+    <div class="stat"><span class="stat-n" data-count="94" data-prefix="#">#94</span><span class="stat-l">Leaderboard</span></div>
+    <div class="stat"><span class="stat-n" data-count="6">6</span><span class="stat-l">Hackathons</span></div>
+    <div class="stat"><span class="stat-n" data-static="Legend">Legend</span><span class="stat-l">lablab Level</span></div>
   </div>
 </div>
 
@@ -578,6 +632,80 @@ textarea.bk-input{resize:vertical;min-height:68px}
 </section>
 
 <!-- CONTACT -->
+<!-- GALLERY -->
+<section class="section reveal" id="gallery">
+  <div class="sec-eyebrow">Visual Portfolio</div>
+  <div class="sec-title">Gallery & <span>Screenshots</span></div>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-empty" id="galleryEmpty">
+      <div style="font-size:2.5rem;margin-bottom:.75rem">🖼️</div>
+      <div style="font-weight:700;margin-bottom:.35rem">No photos yet</div>
+      <div style="font-size:.82rem;color:var(--text3)">Add screenshots, project photos, or anything technical via the admin panel.</div>
+      <button class="btn-grad" style="margin-top:1rem;font-size:.8rem;padding:.5rem 1rem" onclick="openAdmin('gallery')">Add Photos →</button>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section class="section reveal" id="resources">
+  <div class="sec-eyebrow">Free Downloads</div>
+  <div class="sec-title">Free <span>Resources</span></div>
+  <p style="color:var(--text2);font-size:.95rem;margin-bottom:1.75rem;max-width:560px">Useful tools, templates and guides from TechWokx — free to download.</p>
+  <div class="grid2" id="resourcesGrid">
+    <div class="resource-card">
+      <div class="resource-icon">📋</div>
+      <div class="resource-title">IT Audit Checklist</div>
+      <div class="resource-desc">A step-by-step checklist to audit your IT infrastructure, email setup, DNS and security posture.</div>
+      <a href="#" class="resource-dl" onclick="return false">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Free Download
+      </a>
+    </div>
+    <div class="resource-card">
+      <div class="resource-icon">📧</div>
+      <div class="resource-title">Email Deliverability Guide</div>
+      <div class="resource-desc">Fix SPF, DKIM and DMARC. Stop landing in spam. Practical guide from 25+ years of email engineering.</div>
+      <a href="#" class="resource-dl" onclick="return false">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Free Download
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL SIGNATURE CREATOR -->
+<section class="section reveal" id="email-sig">
+  <div class="sec-eyebrow">Free Tool</div>
+  <div class="sec-title">Email Signature <span>Creator</span></div>
+  <p style="color:var(--text2);font-size:.95rem;margin-bottom:1.75rem;max-width:560px">Build a professional HTML email signature in seconds. Copy and paste into Gmail, Outlook or any email client.</p>
+  <div class="sig-builder">
+    <div class="sig-form">
+      <div class="sig-form-grid">
+        <div class="mf"><label>Full name *</label><input class="mi" id="sig-name" placeholder="George Jabley" oninput="updateSig()"></div>
+        <div class="mf"><label>Job title *</label><input class="mi" id="sig-title" placeholder="Senior IT Consultant" oninput="updateSig()"></div>
+        <div class="mf"><label>Company</label><input class="mi" id="sig-company" placeholder="TechWokx IT Solutions" oninput="updateSig()"></div>
+        <div class="mf"><label>Email</label><input class="mi" id="sig-email" placeholder="george.jabley@gmail.com" oninput="updateSig()"></div>
+        <div class="mf"><label>Phone</label><input class="mi" id="sig-phone" placeholder="+233 XX XXX XXXX" oninput="updateSig()"></div>
+        <div class="mf"><label>Website</label><input class="mi" id="sig-web" placeholder="https://techwokx.online" oninput="updateSig()"></div>
+        <div class="mf"><label>LinkedIn URL</label><input class="mi" id="sig-li" placeholder="https://linkedin.com/in/..." oninput="updateSig()"></div>
+        <div class="mf"><label>Accent colour</label><input type="color" class="mi" id="sig-color" value="#00d4ff" oninput="updateSig()" style="height:38px;padding:.15rem .3rem;cursor:pointer"></div>
+        <div class="mf"><label>Photo URL (optional)</label><input class="mi" id="sig-photo" placeholder="https://..." oninput="updateSig()"></div>
+        <div class="mf"><label>Tagline (optional)</label><input class="mi" id="sig-tag" placeholder="25+ Years IT Experience · Available Remotely" oninput="updateSig()"></div>
+      </div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.25rem">
+        <button class="btn-grad" onclick="copySigHtml()">📋 Copy HTML</button>
+        <button class="btn-grad" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="copySigPlain()">📄 Copy Plain Text</button>
+        <button class="btn-save" onclick="downloadSig()">⬇ Download .html</button>
+      </div>
+      <div id="sigCopyMsg" style="font-size:.76rem;color:var(--accent3);margin-top:.5rem;display:none">✅ Copied to clipboard!</div>
+    </div>
+    <div class="sig-preview-wrap">
+      <div class="sig-preview-label">Live Preview</div>
+      <div class="sig-preview-box" id="sigPreview"></div>
+    </div>
+  </div>
+</section>
+
 <section class="section reveal" id="contact">
   <div class="sec-eyebrow">Let's Work</div>
   <div class="sec-title">Get in <span>Touch</span></div>
@@ -605,6 +733,13 @@ textarea.bk-input{resize:vertical;min-height:68px}
   <div><a href="https://techwokx.online">TechWokx IT Solutions</a> · Accra, Ghana · Available Globally</div>
   <div><button class="footer-admin" onclick="openAdmin('profile')">⚙️ Admin</button></div>
 </footer>
+
+<!-- GALLERY LIGHTBOX -->
+<div class="glb-overlay" id="glbOverlay" onclick="closeGlb()">
+  <button class="glb-close" onclick="closeGlb()">✕</button>
+  <img class="glb-img" id="glbImg" src="" alt="">
+  <div class="glb-caption" id="glbCaption"></div>
+</div>
 
 <!-- CERT LIGHTBOX -->
 <div id="certLightbox" onclick="closeCertLightbox()">
@@ -687,6 +822,9 @@ textarea.bk-input{resize:vertical;min-height:68px}
       <button class="mtab" onclick="mTab('aitools',this)">AI Tools</button>
       <button class="mtab" onclick="mTab('certs',this)">Certs</button>
       <button class="mtab" onclick="mTab('activity',this)">Activity</button>
+      <button class="mtab" onclick="mTab('cv',this)">CV</button>
+      <button class="mtab" onclick="mTab('gallery',this)">Gallery</button>
+      <button class="mtab" onclick="mTab('resources',this)">Resources</button>
     </div>
 
     <!-- PROFILE -->
@@ -790,6 +928,51 @@ textarea.bk-input{resize:vertical;min-height:68px}
         </div>
         <div class="mf"><label>Activity text (HTML allowed for links)</label><textarea class="mi" id="na-text" rows="2" style="resize:vertical" placeholder="Joined &lt;strong&gt;Hackathon Name&lt;/strong&gt;"></textarea></div>
         <button class="btn-save" onclick="addActivity()">Add Activity</button>
+      </div>
+    </div>
+
+    <!-- CV -->
+    <div class="msec" id="msec-cv">
+      <div style="font-size:.82rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">
+        Upload your CV to GitHub at:<br>
+        <code style="font-size:.74rem;color:var(--accent);background:var(--bg3);padding:.2rem .4rem;border-radius:4px">georgejabley/assets/George_Jabley_CV.pdf</code><br><br>
+        Or paste any direct PDF/file URL below.
+      </div>
+      <div class="mf"><label>CV / Resume URL</label><input class="mi" id="cv-url" placeholder="https://techwokx-cloud.github.io/georgejabley/assets/George_Jabley_CV.pdf"></div>
+      <div class="mf"><label>Download filename</label><input class="mi" id="cv-filename" placeholder="George_Jabley_CV.pdf" value="George_Jabley_CV.pdf"></div>
+      <div class="mf"><label>Button label</label><input class="mi" id="cv-label" placeholder="Download CV" value="Download CV"></div>
+      <button class="btn-save" onclick="saveCvLink()">Save CV Link</button>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+        <div style="font-size:.76rem;color:var(--text3);margin-bottom:.4rem;font-weight:600">Supported formats</div>
+        <div style="font-size:.75rem;color:var(--text3);line-height:1.7">✅ PDF (recommended) &nbsp;✅ DOCX &nbsp;✅ Google Drive public link &nbsp;✅ Dropbox / OneDrive</div>
+      </div>
+    </div>
+
+    <!-- GALLERY ADMIN -->
+    <div class="msec" id="msec-gallery">
+      <div id="adminGalleryList" style="margin-bottom:.75rem"></div>
+      <div class="add-area">
+        <div class="add-label">Add Photo / Screenshot</div>
+        <div class="mf"><label>Title</label><input class="mi" id="ng-title" placeholder="App screenshot or photo title"></div>
+        <div class="mf"><label>Image URL (GitHub raw URL or direct link)</label><input class="mi" id="ng-img" placeholder="https://raw.githubusercontent.com/..."></div>
+        <div class="mf"><label>Description (optional)</label><input class="mi" id="ng-desc" placeholder="Brief description of what this shows"></div>
+        <div class="mf"><label>Tag / Category (optional)</label><input class="mi" id="ng-tag" placeholder="App · Screenshot · Project"></div>
+        <div class="mf"><label>Link URL (optional — e.g. live app or GitHub)</label><input class="mi" id="ng-url" placeholder="https://..."></div>
+        <div class="mf"><label>Link label</label><input class="mi" id="ng-urllbl" placeholder="View Live" value="View →"></div>
+        <button class="btn-save" onclick="addGalleryItem()">Add to Gallery</button>
+      </div>
+    </div>
+
+    <!-- RESOURCES ADMIN -->
+    <div class="msec" id="msec-resources">
+      <div id="adminResourceList" style="margin-bottom:.75rem"></div>
+      <div class="add-area">
+        <div class="add-label">Add Free Resource</div>
+        <div class="mf"><label>Title</label><input class="mi" id="nr-title" placeholder="Resource name"></div>
+        <div class="mf"><label>Description</label><textarea class="mi" id="nr-desc" rows="2" style="resize:vertical" placeholder="What does this resource help with?"></textarea></div>
+        <div class="mf"><label>Download URL (PDF, DOCX, Google Drive etc.)</label><input class="mi" id="nr-url" placeholder="https://..."></div>
+        <div class="mf"><label>Icon emoji</label><input class="mi" id="nr-icon" placeholder="📋" value="📄"></div>
+        <button class="btn-save" onclick="addResource()">Add Resource</button>
       </div>
     </div>
 
@@ -1249,7 +1432,8 @@ function openAdmin(tab='profile') {
   renderAdminProj(); renderAdminSkills(); renderAdminAi();
   renderAdminCerts(); renderAdminAct();
   document.getElementById('adminOverlay').classList.add('open');
-  mTab(tab, document.querySelector(`.mtab:nth-child(${['profile','avatar','projects','skills','aitools','certs','activity'].indexOf(tab)+1})`)||document.querySelector('.mtab'));
+  loadCvAdmin();
+  mTab(tab, document.querySelector(`.mtab:nth-child(${['profile','avatar','projects','skills','aitools','certs','activity','cv'].indexOf(tab)+1})`)||document.querySelector('.mtab'));
 }
 function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
 document.getElementById('adminOverlay').addEventListener('click', e => { if(e.target===document.getElementById('adminOverlay')) closeAdmin(); });
@@ -1457,6 +1641,393 @@ function submitContact(){
   ['cName','cEmail','cSubject','cMsg'].forEach(id=>document.getElementById(id).value='');
   setTimeout(()=>document.getElementById('formMsg').style.display='none',5000);
 }
+
+// ══════════════════════════════════════════════════
+//  CV DOWNLOAD
+// ══════════════════════════════════════════════════
+function applyCv() {
+  const cv = S.get('cv') || {};
+  const btn = document.getElementById('cvDownloadBtn');
+  if (!btn) return;
+  if (cv.url) btn.href = cv.url;
+  if (cv.filename) btn.download = cv.filename;
+  if (cv.label) btn.querySelector('svg').nextSibling && (btn.innerHTML = btn.innerHTML.replace(/Download CV|[^<]+$/, '') );
+  // Update label text node
+  const textNode = [...btn.childNodes].find(n => n.nodeType === 3);
+  if (textNode && cv.label) textNode.textContent = ' ' + cv.label;
+}
+
+function saveCvLink() {
+  const url      = document.getElementById('cv-url').value.trim();
+  const filename = document.getElementById('cv-filename').value.trim() || 'George_Jabley_CV.pdf';
+  const label    = document.getElementById('cv-label').value.trim() || 'Download CV';
+  if (!url) { toast('Please enter a CV URL'); return; }
+  S.set('cv', { url, filename, label });
+  const btn = document.getElementById('cvDownloadBtn');
+  btn.href     = url;
+  btn.download = filename;
+  // Update button text
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${label}`;
+  toast('CV link saved ✓'); closeAdmin();
+}
+
+function trackCvDownload(e) {
+  // If no real file yet, show admin panel instead of 404
+  const btn = document.getElementById('cvDownloadBtn');
+  const cv = S.get('cv') || {};
+  const url = cv.url || btn.href;
+  if (!url || url.includes('George_Jabley_CV.pdf') && !cv.url) {
+    e.preventDefault();
+    if (confirm('No CV file set yet. Open admin to set your CV link?')) openAdmin('cv');
+  }
+}
+
+function loadCvAdmin() {
+  const cv = S.get('cv') || {};
+  const urlEl = document.getElementById('cv-url');
+  const fnEl  = document.getElementById('cv-filename');
+  const lblEl = document.getElementById('cv-label');
+  if (urlEl)  urlEl.value  = cv.url      || '';
+  if (fnEl)   fnEl.value   = cv.filename || 'George_Jabley_CV.pdf';
+  if (lblEl)  lblEl.value  = cv.label    || 'Download CV';
+}
+applyCv();
+
+// Dynamic favicon from avatar
+(function setFavicon() {
+  const av = S.get('avatar') || {};
+  if (av.photo) {
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+    link.href = av.photo;
+  }
+})();
+
+// ══════════════════════════════════════════════════
+//  STATS COUNTER ANIMATION
+// ══════════════════════════════════════════════════
+function animateStats() {
+  document.querySelectorAll('.stat-n[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const fmt    = el.dataset.format === 'comma';
+    let start = 0, duration = 1800;
+    const step = timestamp => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const val = Math.floor(ease * target);
+      el.textContent = prefix + (fmt ? val.toLocaleString() : val) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = prefix + (fmt ? target.toLocaleString() : target) + suffix;
+    };
+    requestAnimationFrame(step);
+    el.classList.add('counted');
+  });
+}
+// Trigger when stats row comes into view
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateStats(); statsObs.disconnect(); } });
+}, { threshold: 0.3 });
+const statsRow = document.querySelector('.stats-row');
+if (statsRow) statsObs.observe(statsRow);
+
+// ══════════════════════════════════════════════════
+//  GALLERY
+// ══════════════════════════════════════════════════
+const galleryItems = S.get('gallery') || [];
+
+function renderGallery() {
+  const grid = document.getElementById('galleryGrid');
+  const empty = document.getElementById('galleryEmpty');
+  const items = S.get('gallery') || [];
+  // Remove old dynamic cards
+  grid.querySelectorAll('.gallery-item').forEach(el => el.remove());
+  if (items.length === 0) {
+    if (empty) empty.style.display = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  items.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.dataset.gi = i;
+    div.innerHTML = `
+      ${item.img
+        ? `<img class="gallery-img" src="${item.img}" alt="${item.title}" loading="lazy" onclick="openGlb('${item.img}','${item.title}')">`
+        : `<div class="gallery-img-placeholder" onclick="openGlb('','${item.title}')">🖼️</div>`}
+      <div class="gallery-body">
+        ${item.tag ? `<span class="gallery-tag">${item.tag}</span>` : ''}
+        <div class="gallery-title">${item.title}</div>
+        ${item.desc ? `<div class="gallery-desc">${item.desc}</div>` : ''}
+        ${item.url ? `<a href="${item.url}" target="_blank" class="gallery-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${item.urllbl || 'View →'}</a>` : ''}
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+renderGallery();
+
+function openGlb(url, caption) {
+  if (!url) return;
+  document.getElementById('glbImg').src = url;
+  document.getElementById('glbCaption').textContent = caption || '';
+  document.getElementById('glbOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGlb() {
+  document.getElementById('glbOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderAdminGallery() {
+  const list = document.getElementById('adminGalleryList');
+  const items = S.get('gallery') || [];
+  list.innerHTML = items.length ? '' : '<div style="font-size:.78rem;color:var(--text3)">No gallery items yet</div>';
+  items.forEach((item, i) => {
+    const row = document.createElement('div'); row.className = 'item-row';
+    row.innerHTML = `<span class="item-name">${item.title}</span><div class="item-actions"><button class="btn-sm del" onclick="delGallery(${i})">✕</button></div>`;
+    list.appendChild(row);
+  });
+}
+
+function addGalleryItem() {
+  const title = document.getElementById('ng-title').value.trim();
+  if (!title) { toast('Please enter a title'); return; }
+  const item = {
+    title,
+    img:    toRawUrl(document.getElementById('ng-img').value.trim()),
+    desc:   document.getElementById('ng-desc').value.trim(),
+    tag:    document.getElementById('ng-tag').value.trim(),
+    url:    document.getElementById('ng-url').value.trim(),
+    urllbl: document.getElementById('ng-urllbl').value.trim() || 'View →',
+  };
+  const items = S.get('gallery') || [];
+  items.push(item); S.set('gallery', items);
+  renderGallery(); renderAdminGallery();
+  ['ng-title','ng-img','ng-desc','ng-tag','ng-url'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ng-urllbl').value = 'View →';
+  toast('Gallery item added ✓');
+}
+
+function delGallery(i) {
+  const items = S.get('gallery') || [];
+  items.splice(i, 1); S.set('gallery', items);
+  renderGallery(); renderAdminGallery();
+}
+
+// ══════════════════════════════════════════════════
+//  FREE RESOURCES
+// ══════════════════════════════════════════════════
+const DEFAULT_RESOURCES = [
+  { icon:'📋', title:'IT Audit Checklist', desc:'Step-by-step checklist to audit your IT infrastructure, email setup, DNS and security posture.', url:'' },
+  { icon:'📧', title:'Email Deliverability Guide', desc:'Fix SPF, DKIM and DMARC. Stop landing in spam. Practical guide from 25+ years of email engineering.', url:'' },
+];
+
+function renderResources() {
+  const grid = document.getElementById('resourcesGrid');
+  const items = S.get('resources') || DEFAULT_RESOURCES;
+  grid.innerHTML = '';
+  items.forEach((r, i) => {
+    const div = document.createElement('div'); div.className = 'resource-card';
+    const dlBtn = r.url
+      ? `<a href="${r.url}" download target="_blank" class="resource-dl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Free Download</a>`
+      : `<span class="resource-dl" style="opacity:.4;cursor:not-allowed" title="URL not set yet"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Coming Soon</span>`;
+    div.innerHTML = `<div class="resource-icon">${r.icon||'📄'}</div><div class="resource-title">${r.title}</div><div class="resource-desc">${r.desc}</div>${dlBtn}`;
+    grid.appendChild(div);
+  });
+}
+renderResources();
+
+function renderAdminResources() {
+  const list = document.getElementById('adminResourceList');
+  const items = S.get('resources') || DEFAULT_RESOURCES;
+  list.innerHTML = '';
+  items.forEach((r, i) => {
+    const row = document.createElement('div'); row.className = 'item-row';
+    const hasUrl = r.url ? '✅' : '⏳';
+    row.innerHTML = `<span class="item-name">${hasUrl} ${r.title}</span><div class="item-actions"><button class="btn-sm" onclick="editResource(${i})">Edit</button><button class="btn-sm del" onclick="delResource(${i})">✕</button></div>`;
+    list.appendChild(row);
+  });
+}
+
+function addResource() {
+  const title = document.getElementById('nr-title').value.trim();
+  if (!title) { toast('Please enter a title'); return; }
+  const items = S.get('resources') || [...DEFAULT_RESOURCES];
+  items.push({
+    icon:  document.getElementById('nr-icon').value.trim() || '📄',
+    title,
+    desc:  document.getElementById('nr-desc').value.trim(),
+    url:   document.getElementById('nr-url').value.trim(),
+  });
+  S.set('resources', items); renderResources(); renderAdminResources();
+  ['nr-title','nr-desc','nr-url'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('nr-icon').value = '📄';
+  toast('Resource added ✓');
+}
+
+function editResource(i) {
+  const items = S.get('resources') || DEFAULT_RESOURCES;
+  const r = items[i];
+  document.getElementById('nr-title').value = r.title || '';
+  document.getElementById('nr-desc').value  = r.desc  || '';
+  document.getElementById('nr-url').value   = r.url   || '';
+  document.getElementById('nr-icon').value  = r.icon  || '📄';
+  // Remove old and re-add on save
+  items.splice(i, 1); S.set('resources', items);
+  renderResources(); renderAdminResources();
+  toast('Editing — fill in and click Add Resource');
+}
+
+function delResource(i) {
+  const items = S.get('resources') || DEFAULT_RESOURCES;
+  items.splice(i, 1); S.set('resources', items);
+  renderResources(); renderAdminResources();
+}
+
+// ══════════════════════════════════════════════════
+//  EMAIL SIGNATURE CREATOR
+// ══════════════════════════════════════════════════
+function sigVal(id) { return (document.getElementById(id)||{}).value||''; }
+
+function buildSigHtml() {
+  const name    = sigVal('sig-name') || 'Your Name';
+  const title   = sigVal('sig-title') || 'Your Title';
+  const company = sigVal('sig-company');
+  const email   = sigVal('sig-email');
+  const phone   = sigVal('sig-phone');
+  const web     = sigVal('sig-web');
+  const li      = sigVal('sig-li');
+  const color   = sigVal('sig-color') || '#00d4ff';
+  const photo   = sigVal('sig-photo');
+  const tag     = sigVal('sig-tag');
+
+  const photoHtml = photo
+    ? `<td style="padding-right:16px;vertical-align:top"><img src="${photo}" width="72" height="72" style="border-radius:50%;object-fit:cover;display:block;border:2px solid ${color}" alt="${name}"></td>`
+    : '';
+
+  const divider = `<div style="width:3px;height:56px;background:${color};border-radius:2px;display:inline-block;vertical-align:middle;margin-right:16px"></div>`;
+
+  const links = [
+    email ? `<a href="mailto:${email}" style="color:${color};text-decoration:none;font-size:12px">${email}</a>` : '',
+    phone ? `<span style="color:#666;font-size:12px">${phone}</span>` : '',
+    web   ? `<a href="${web}" style="color:${color};text-decoration:none;font-size:12px" target="_blank">${web.replace(/https?:\/\//,'')}</a>` : '',
+    li    ? `<a href="${li}" style="color:${color};text-decoration:none;font-size:12px" target="_blank">LinkedIn</a>` : '',
+  ].filter(Boolean).join('<span style="color:#ccc;margin:0 6px">|</span>');
+
+  return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,sans-serif;max-width:520px">
+  <tr>
+    ${photoHtml}
+    <td style="vertical-align:middle">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="padding-right:14px;vertical-align:middle">
+            <div style="width:3px;height:52px;background:linear-gradient(180deg,${color},${color}88);border-radius:2px"></div>
+          </td>
+          <td style="vertical-align:middle">
+            <div style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:2px">${name}</div>
+            <div style="font-size:12px;color:#555;margin-bottom:${tag?'2px':'6px'}">${title}${company?' · '+company:''}</div>
+            ${tag ? `<div style="font-size:11px;color:${color};margin-bottom:6px;font-style:italic">${tag}</div>` : ''}
+            <div style="font-size:12px;line-height:1.7">${links}</div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`;
+}
+
+function buildSigPlain() {
+  const lines = [
+    sigVal('sig-name'),
+    sigVal('sig-title') + (sigVal('sig-company') ? ' · ' + sigVal('sig-company') : ''),
+    sigVal('sig-tag'),
+    sigVal('sig-email'),
+    sigVal('sig-phone'),
+    sigVal('sig-web'),
+    sigVal('sig-li'),
+  ].filter(Boolean);
+  return lines.join('\n');
+}
+
+function updateSig() {
+  const preview = document.getElementById('sigPreview');
+  if (preview) preview.innerHTML = buildSigHtml();
+}
+
+function copySigHtml() {
+  navigator.clipboard.writeText(buildSigHtml()).then(() => {
+    document.getElementById('sigCopyMsg').style.display = 'block';
+    setTimeout(() => document.getElementById('sigCopyMsg').style.display = 'none', 2500);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = buildSigHtml(); document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    document.getElementById('sigCopyMsg').style.display = 'block';
+    setTimeout(() => document.getElementById('sigCopyMsg').style.display = 'none', 2500);
+  });
+}
+
+function copySigPlain() {
+  navigator.clipboard.writeText(buildSigPlain()).then(() => toast('Plain text copied ✓')).catch(() => toast('Copy failed — try manual select'));
+}
+
+function downloadSig() {
+  const name = sigVal('sig-name') || 'signature';
+  const blob = new Blob([`<!DOCTYPE html><html><body>${buildSigHtml()}</body></html>`], { type:'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${name.replace(/\s+/g,'-')}-email-signature.html`;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// Pre-fill sig with George's data
+(function prefillSig() {
+  const prof = S.get('profile') || {};
+  const av   = S.get('avatar') || {};
+  const fields = {
+    'sig-name':    'George Jabley',
+    'sig-title':   'Senior IT Consultant',
+    'sig-company': 'TechWokx IT Solutions',
+    'sig-email':   'george.jabley@gmail.com',
+    'sig-web':     'https://techwokx.online',
+    'sig-li':      'https://linkedin.com/in/george-jabley-bb0270384',
+    'sig-tag':     '25+ Years IT Experience · Available Remotely',
+    'sig-color':   '#00d4ff',
+    'sig-photo':   av.photo || '',
+  };
+  Object.entries(fields).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && !el.value) el.value = val;
+  });
+  updateSig();
+  // Set animation interval for sig preview refresh
+  document.querySelectorAll('.sig-builder input,.sig-builder select').forEach(el => {
+    el.addEventListener('input', updateSig);
+  });
+})();
+
+// ══════════════════════════════════════════════════
+//  INIT extra admin renders on open
+// ══════════════════════════════════════════════════
+// Patch admin open to include new tabs
+const _baseOpenAdmin = openAdmin;
+openAdmin = function(tab='profile') {
+  const p = S.get('profile')||{};
+  document.getElementById('ap-title').value = p.title||'';
+  const av = S.get('avatar')||{};
+  document.getElementById('av-photo').value = av.photo||'';
+  document.getElementById('av-video').value = av.video||'';
+  renderAdminProj(); renderAdminSkills(); renderAdminAi();
+  renderAdminCerts(); renderAdminAct(); loadCvAdmin();
+  renderAdminGallery(); renderAdminResources();
+  document.getElementById('adminOverlay').classList.add('open');
+  const tabOrder = ['profile','avatar','projects','skills','aitools','certs','activity','cv','gallery','resources'];
+  const idx = tabOrder.indexOf(tab);
+  const btn = document.querySelectorAll('.mtab')[idx >= 0 ? idx : 0];
+  mTab(tab, btn);
+};
 
 // ══════════════════════════════════════════════════
 //  TOAST
