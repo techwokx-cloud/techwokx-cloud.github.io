@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>George Jabley — IT Consultant & AI Builder</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/techwokx-cloud/techwokx-cloud.github.io/main/georgejabley/assets/george_cartoon1.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/techwokx-cloud/techwokx-cloud.github.io/main/georgejabley/assets/george_cartoon1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -63,20 +63,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 #home{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 1.5rem 3rem;text-align:center}
 
 /* Avatar */
-.avatar-wrap{position:relative;width:220px;height:220px;margin:0 auto 2rem;cursor:pointer}
-.avatar-ring{display:none}
+.avatar-wrap{position:relative;width:120px;height:120px;margin:0 auto 1.75rem;cursor:pointer}
+.avatar-ring{position:absolute;inset:-4px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--gold));animation:spin 6s linear infinite;z-index:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.avatar-inner{
-  position:relative;z-index:1;width:220px;height:220px;
-  border-radius:28px;background:var(--bg2);border:none;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;font-size:5rem;
-  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px var(--border2);
-  transition:box-shadow .3s;
-}
-.avatar-wrap:hover .avatar-inner{box-shadow:0 24px 70px rgba(0,212,255,.2),0 0 0 1.5px rgba(0,212,255,.4)}
-.avatar-inner video{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:none}
-.avatar-inner img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:none}
-.avatar-edit-hint{position:absolute;bottom:8px;right:8px;z-index:2;width:30px;height:30px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#000;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.avatar-inner{position:relative;z-index:1;width:120px;height:120px;border-radius:50%;background:var(--bg2);border:3px solid var(--bg);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.avatar-inner video,.avatar-inner img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
+.avatar-edit-hint{position:absolute;bottom:-2px;right:-2px;z-index:2;width:28px;height:28px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#000;font-weight:700}
 
 /* Animated headline */
 .hero-greeting{font-size:1.1rem;color:var(--text2);font-weight:500;margin-bottom:.5rem;opacity:0;animation:fadeUp .6s .2s forwards}
@@ -89,6 +81,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.cv-hero-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin:.5rem 0 .75rem;opacity:0;animation:fadeUp .6s .72s forwards}
+.cv-dl-btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;text-decoration:none;padding:.65rem 1.6rem;border-radius:100px;font-size:.88rem;font-weight:800;transition:all .2s;box-shadow:0 4px 20px rgba(0,212,255,.3);border:none;font-family:'Inter',sans-serif;cursor:pointer}
+.cv-dl-btn:hover{opacity:.88;transform:translateY(-2px)}
+.cv-dl-btn svg{width:16px;height:16px}
+.deck-dl-btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;text-decoration:none;padding:.65rem 1.6rem;border-radius:100px;font-size:.88rem;font-weight:800;transition:all .2s;box-shadow:0 4px 20px rgba(245,158,11,.3);border:none;font-family:'Inter',sans-serif;cursor:pointer}
+.deck-dl-btn:hover{opacity:.88;transform:translateY(-2px)}
+.deck-dl-btn svg{width:16px;height:16px}
+.intro-play-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--glass2);backdrop-filter:blur(10px);border:1px solid var(--border2);color:var(--text);padding:.62rem 1.3rem;border-radius:100px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.intro-play-btn:hover{border-color:var(--accent);color:var(--accent)}
+.intro-play-btn svg{width:15px;height:15px}
+/* Video intro modal */
+#videoIntroOverlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1.5rem}
+#videoIntroOverlay.open{display:flex}
+.vi-video{width:100%;max-width:860px;border-radius:16px;box-shadow:0 0 80px rgba(0,0,0,.6);outline:none;background:#000}
+.vi-close{position:fixed;top:1rem;right:1rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:38px;height:38px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.vi-close:hover{background:rgba(239,68,68,.3)}
+.vi-caption{color:rgba(255,255,255,.6);font-size:.82rem;text-align:center}
+.cv-dl-btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;text-decoration:none;padding:.65rem 1.6rem;border-radius:100px;font-size:.88rem;font-weight:800;transition:all .2s;box-shadow:0 4px 20px rgba(0,212,255,.3);border:none;font-family:'Inter',sans-serif;cursor:pointer}
+.cv-dl-btn:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,255,.4)}
+.cv-dl-btn svg{width:16px;height:16px}
 
 /* ═══════════════════════════════════════════
    AI CHAT
@@ -124,14 +136,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 .hero-socials{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:1.5rem;opacity:0;animation:fadeUp .6s 1s forwards}
 .hero-social{display:inline-flex;align-items:center;gap:.35rem;background:var(--glass2);backdrop-filter:blur(10px);border:1px solid var(--border2);color:var(--text2);text-decoration:none;padding:.38rem .85rem;border-radius:100px;font-size:.76rem;font-weight:500;transition:all .2s}
 .hero-social:hover{border-color:var(--accent);color:var(--accent)}
-/* CV download button */
-.cv-btn{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;text-decoration:none;padding:.55rem 1.2rem;border-radius:100px;font-size:.82rem;font-weight:800;transition:all .2s;box-shadow:0 4px 18px rgba(0,212,255,.25);cursor:pointer;border:none;font-family:'Inter',sans-serif}
-.cv-btn:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,212,255,.35)}
-.cv-btn svg{width:14px;height:14px;flex-shrink:0}
-.cv-btn-wrap{display:flex;gap:.65rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1.25rem;opacity:0;animation:fadeUp .6s .9s forwards}
-.cv-secondary{display:inline-flex;align-items:center;gap:.4rem;background:var(--glass2);backdrop-filter:blur(10px);border:1px solid var(--border2);color:var(--text2);text-decoration:none;padding:.52rem 1.1rem;border-radius:100px;font-size:.8rem;font-weight:600;transition:all .2s;cursor:pointer;font-family:'Inter',sans-serif}
-.cv-secondary:hover{border-color:var(--accent);color:var(--accent)}
-.cv-secondary svg{width:13px;height:13px}
 
 /* ═══════════════════════════════════════════
    SECTION LAYOUT
@@ -145,10 +149,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 1.5rem;display:
 .stats-row{display:flex;gap:0;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--border2);border-radius:20px;overflow:hidden;margin-bottom:3rem;flex-wrap:wrap}
 .stat{flex:1;min-width:110px;padding:1.4rem 1rem;text-align:center;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
-.stat-n{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;transition:opacity .3s}
+.stat-n{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
 .stat-l{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-top:.2rem}
-@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.stat-n.counted{animation:countUp .5s ease forwards}
 
 /* Cards */
 .grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
@@ -239,38 +241,40 @@ textarea.fi{resize:vertical;min-height:90px}
 .btn-grad:hover{opacity:.85}
 .form-msg{font-size:.76rem;color:var(--accent3);display:none;margin-top:.25rem}
 
+/* Download cards in gallery */
+.download-cards-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.dl-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--border2);border-radius:18px;padding:1.35rem;display:flex;flex-direction:column;gap:.6rem;min-width:260px;flex:1;transition:all .2s}
+.dl-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.dl-card-icon{font-size:2rem}
+.dl-card-title{font-weight:800;font-size:1rem;color:var(--text)}
+.dl-card-desc{font-size:.8rem;color:var(--text2);line-height:1.5}
 /* Gallery */
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
 .gallery-empty{border:2px dashed var(--border2);border-radius:18px;padding:3rem 2rem;text-align:center;color:var(--text2)}
-.gallery-item{background:var(--glass);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .2s;cursor:pointer;position:relative}
+.gallery-item{background:var(--glass);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .2s}
 .gallery-item:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
-.gallery-img{width:100%;height:200px;object-fit:cover;display:block;background:var(--bg3)}
-.gallery-img-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,var(--bg2),var(--bg3));color:var(--text3)}
+.gallery-img{width:100%;height:200px;object-fit:cover;display:block;background:var(--bg3);cursor:pointer}
+.gallery-img-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,var(--bg2),var(--bg3));color:var(--text3);cursor:pointer}
 .gallery-body{padding:1rem}
 .gallery-title{font-weight:700;font-size:.9rem;margin-bottom:.25rem}
 .gallery-desc{font-size:.78rem;color:var(--text2);margin-bottom:.65rem;line-height:1.4}
 .gallery-link{font-size:.72rem;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:.25rem;padding:.22rem .55rem;border:1px solid rgba(0,212,255,.22);border-radius:6px;transition:background .15s}
 .gallery-link:hover{background:rgba(0,212,255,.08)}
 .gallery-tag{font-size:.65rem;background:rgba(168,85,247,.12);color:#c084fc;border:1px solid rgba(168,85,247,.2);padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;margin-bottom:.5rem;display:inline-block}
-
-/* Lightbox */
 .glb-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1.5rem}
 .glb-overlay.open{display:flex}
-.glb-img{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 0 60px rgba(0,0,0,.6);object-fit:contain}
+.glb-img{max-width:90vw;max-height:80vh;border-radius:12px;object-fit:contain}
 .glb-caption{color:var(--text2);font-size:.85rem;text-align:center}
-.glb-close{position:fixed;top:1rem;right:1rem;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.glb-close:hover{background:rgba(239,68,68,.3)}
-
+.glb-close{position:fixed;top:1rem;right:1rem;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer}
 /* Resources */
 .resource-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:18px;padding:1.35rem;transition:all .2s;display:flex;flex-direction:column;gap:.5rem}
-.resource-card:hover{border-color:var(--accent3);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.resource-card:hover{border-color:var(--accent3);transform:translateY(-3px)}
 .resource-icon{font-size:1.8rem}
 .resource-title{font-weight:800;font-size:.95rem}
 .resource-desc{font-size:.8rem;color:var(--text2);line-height:1.55;flex:1}
-.resource-dl{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--accent3),#059669);color:#000;font-weight:700;font-size:.78rem;padding:.45rem .9rem;border-radius:8px;text-decoration:none;transition:opacity .2s;margin-top:.25rem;width:fit-content}
+.resource-dl{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--accent3),#059669);color:#000;font-weight:700;font-size:.78rem;padding:.45rem .9rem;border-radius:8px;text-decoration:none;transition:opacity .2s;width:fit-content;cursor:pointer;border:none;font-family:'Inter',sans-serif}
 .resource-dl:hover{opacity:.85}
-
-/* Email Sig Builder */
+/* Email Sig */
 .sig-builder{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
 @media(max-width:800px){.sig-builder{grid-template-columns:1fr}}
 .sig-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
@@ -278,7 +282,9 @@ textarea.fi{resize:vertical;min-height:90px}
 .sig-preview-wrap{background:var(--glass);border:1px solid var(--border2);border-radius:18px;padding:1.25rem;position:sticky;top:80px}
 .sig-preview-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-weight:700;margin-bottom:.75rem;font-family:'JetBrains Mono',monospace}
 .sig-preview-box{background:#fff;border-radius:10px;padding:1.25rem;min-height:120px;overflow:auto}
-
+/* Stats animated */
+.stat-n.counted{animation:countUp .5s ease forwards}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 /* Footer */
 footer{position:relative;z-index:1;text-align:center;padding:3rem 1.5rem 2rem;font-size:.76rem;color:var(--text3);border-top:1px solid var(--border);margin-top:6rem}
 footer a{color:var(--accent);text-decoration:none}
@@ -408,7 +414,7 @@ textarea.bk-input{resize:vertical;min-height:68px}
 
 <!-- Background video (subtle) -->
 <video id="bgVideo" autoplay muted loop playsinline>
-  <source src="https://raw.githubusercontent.com/techwokx-cloud/techwokx-cloud.github.io/main/georgejabley/assets/1782899853071-MDUfhpop-0.mp4" type="video/mp4">
+  <source src="https://techwokx-cloud.github.io/georgejabley/assets/1782899853071-MDUfhpop-0.mp4" type="video/mp4">
 </video>
 
 <!-- ── NAV ── -->
@@ -434,13 +440,13 @@ textarea.bk-input{resize:vertical;min-height:68px}
 
 <!-- ── HERO ── -->
 <section id="home">
-  <div class="avatar-wrap" onclick="openAdmin('avatar')">
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
     <div class="avatar-inner" id="avatarEl">
-      <video id="avatarVideo" autoplay muted loop playsinline></video>
-      <img id="avatarImg" alt="George Jabley">
+      <video id="avatarVideo" autoplay muted loop playsinline style="display:none"></video>
+      <img id="avatarImg" style="display:none" alt="George Jabley">
       <span id="avatarEmoji">👨🏾‍💻</span>
     </div>
-    <div class="avatar-edit-hint">✎</div>
   </div>
 
   <div class="hero-greeting">Hi, I'm</div>
@@ -470,6 +476,22 @@ textarea.bk-input{resize:vertical;min-height:68px}
     </div>
   </div>
 
+  <!-- ACTION BUTTONS ROW -->
+  <div class="cv-hero-row">
+    <a id="cvDownloadBtn" href="#" download="George_Jabley_CV.pdf" class="cv-dl-btn" onclick="handleCvClick(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download CV
+    </a>
+    <a id="deckDownloadBtn" href="#" download="George_Jabley_Pitch_Deck.pdf" class="deck-dl-btn" onclick="handleDeckClick(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Pitch Deck
+    </a>
+    <button class="intro-play-btn" id="introPlayBtn" onclick="openVideoIntro()" style="display:none">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
+      Watch Intro
+    </button>
+  </div>
+
   <div class="hero-socials">
     <a href="mailto:george.jabley@gmail.com" class="hero-social">✉️ Email</a>
     <a href="https://github.com/techwokx-cloud" target="_blank" class="hero-social">🐙 GitHub</a>
@@ -482,10 +504,10 @@ textarea.bk-input{resize:vertical;min-height:68px}
 <!-- STATS -->
 <div class="section reveal" style="padding-top:1.5rem">
   <div class="stats-row">
-    <div class="stat"><span class="stat-n" data-count="25" data-suffix="+">25+</span><span class="stat-l">Years Exp</span></div>
-    <div class="stat"><span class="stat-n" data-count="1322" data-prefix="" data-format="comma">1,322</span><span class="stat-l">lablab.ai pts</span></div>
-    <div class="stat"><span class="stat-n" data-count="94" data-prefix="#">#94</span><span class="stat-l">Leaderboard</span></div>
-    <div class="stat"><span class="stat-n" data-count="6">6</span><span class="stat-l">Hackathons</span></div>
+    <div class="stat"><span class="stat-n" data-count="25" data-suffix="+">0</span><span class="stat-l">Years Exp</span></div>
+    <div class="stat"><span class="stat-n" data-count="1322" data-format="comma">0</span><span class="stat-l">lablab.ai pts</span></div>
+    <div class="stat"><span class="stat-n" data-count="94" data-prefix="#">0</span><span class="stat-l">Leaderboard</span></div>
+    <div class="stat"><span class="stat-n" data-count="6">0</span><span class="stat-l">Hackathons</span></div>
     <div class="stat"><span class="stat-n" data-static="Legend">Legend</span><span class="stat-l">lablab Level</span></div>
   </div>
 </div>
@@ -635,69 +657,78 @@ textarea.bk-input{resize:vertical;min-height:68px}
 <!-- GALLERY -->
 <section class="section reveal" id="gallery">
   <div class="sec-eyebrow">Visual Portfolio</div>
-  <div class="sec-title">Gallery & <span>Screenshots</span></div>
+  <div class="sec-title">Gallery & <span>Downloads</span></div>
+  <!-- DOWNLOAD CARDS ROW -->
+  <div class="download-cards-row" id="downloadCardsRow" style="display:none">
+    <div class="dl-card" id="deckDlCard" style="display:none">
+      <div class="dl-card-icon">📊</div>
+      <div class="dl-card-title">Pitch Deck</div>
+      <div class="dl-card-desc">George Jabley — AI Solutions Architect · Startup Portfolio 2026</div>
+      <a id="deckDlCardLink" href="#" download="George_Jabley_Pitch_Deck.pdf" class="deck-dl-btn" style="font-size:.78rem;padding:.45rem 1rem" onclick="handleDeckClick(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+    <div class="dl-card" id="cvDlCard" style="display:none">
+      <div class="dl-card-icon">📄</div>
+      <div class="dl-card-title">CV / Resume</div>
+      <div class="dl-card-desc">George Jabley — AI Solutions Architect · Enterprise IT Consultant</div>
+      <a id="cvDlCardLink" href="#" download="George_Jabley_CV.pdf" class="cv-dl-btn" style="font-size:.78rem;padding:.45rem 1rem" onclick="handleCvClick(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download CV
+      </a>
+    </div>
+  </div>
   <div class="gallery-grid" id="galleryGrid">
     <div class="gallery-empty" id="galleryEmpty">
-      <div style="font-size:2.5rem;margin-bottom:.75rem">🖼️</div>
-      <div style="font-weight:700;margin-bottom:.35rem">No photos yet</div>
-      <div style="font-size:.82rem;color:var(--text3)">Add screenshots, project photos, or anything technical via the admin panel.</div>
-      <button class="btn-grad" style="margin-top:1rem;font-size:.8rem;padding:.5rem 1rem" onclick="openAdmin('gallery')">Add Photos →</button>
+      <div style="font-size:2.5rem;margin-bottom:.75rem">&#128444;</div>
+      <div style="font-weight:700;margin-bottom:.35rem;color:var(--text)">No photos yet</div>
+      <div style="font-size:.82rem;color:var(--text3)">Add screenshots and project photos via the admin panel.</div>
+      <button class="btn-grad" style="margin-top:1rem;font-size:.8rem;padding:.5rem 1rem" onclick="openAdmin('gallery')">Add Photos</button>
     </div>
   </div>
 </section>
 
-<!-- RESOURCES -->
+<!-- GALLERY LIGHTBOX -->
+<div class="glb-overlay" id="glbOverlay" onclick="closeGlb()">
+  <button class="glb-close">&#x2715;</button>
+  <img class="glb-img" id="glbImg" src="" alt="">
+  <div class="glb-caption" id="glbCaption"></div>
+</div>
+
+<!-- FREE RESOURCES -->
 <section class="section reveal" id="resources">
   <div class="sec-eyebrow">Free Downloads</div>
   <div class="sec-title">Free <span>Resources</span></div>
   <p style="color:var(--text2);font-size:.95rem;margin-bottom:1.75rem;max-width:560px">Useful tools, templates and guides from TechWokx — free to download.</p>
-  <div class="grid2" id="resourcesGrid">
-    <div class="resource-card">
-      <div class="resource-icon">📋</div>
-      <div class="resource-title">IT Audit Checklist</div>
-      <div class="resource-desc">A step-by-step checklist to audit your IT infrastructure, email setup, DNS and security posture.</div>
-      <a href="#" class="resource-dl" onclick="return false">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Free Download
-      </a>
-    </div>
-    <div class="resource-card">
-      <div class="resource-icon">📧</div>
-      <div class="resource-title">Email Deliverability Guide</div>
-      <div class="resource-desc">Fix SPF, DKIM and DMARC. Stop landing in spam. Practical guide from 25+ years of email engineering.</div>
-      <a href="#" class="resource-dl" onclick="return false">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Free Download
-      </a>
-    </div>
-  </div>
+  <div class="grid2" id="resourcesGrid"></div>
 </section>
 
 <!-- EMAIL SIGNATURE CREATOR -->
 <section class="section reveal" id="email-sig">
   <div class="sec-eyebrow">Free Tool</div>
   <div class="sec-title">Email Signature <span>Creator</span></div>
-  <p style="color:var(--text2);font-size:.95rem;margin-bottom:1.75rem;max-width:560px">Build a professional HTML email signature in seconds. Copy and paste into Gmail, Outlook or any email client.</p>
+  <p style="color:var(--text2);font-size:.95rem;margin-bottom:1.75rem;max-width:560px">Build a professional HTML email signature. Copy and paste into Gmail, Outlook or any email client.</p>
   <div class="sig-builder">
     <div class="sig-form">
       <div class="sig-form-grid">
-        <div class="mf"><label>Full name *</label><input class="mi" id="sig-name" placeholder="George Jabley" oninput="updateSig()"></div>
-        <div class="mf"><label>Job title *</label><input class="mi" id="sig-title" placeholder="Senior IT Consultant" oninput="updateSig()"></div>
-        <div class="mf"><label>Company</label><input class="mi" id="sig-company" placeholder="TechWokx IT Solutions" oninput="updateSig()"></div>
-        <div class="mf"><label>Email</label><input class="mi" id="sig-email" placeholder="george.jabley@gmail.com" oninput="updateSig()"></div>
-        <div class="mf"><label>Phone</label><input class="mi" id="sig-phone" placeholder="+233 XX XXX XXXX" oninput="updateSig()"></div>
-        <div class="mf"><label>Website</label><input class="mi" id="sig-web" placeholder="https://techwokx.online" oninput="updateSig()"></div>
-        <div class="mf"><label>LinkedIn URL</label><input class="mi" id="sig-li" placeholder="https://linkedin.com/in/..." oninput="updateSig()"></div>
-        <div class="mf"><label>Accent colour</label><input type="color" class="mi" id="sig-color" value="#00d4ff" oninput="updateSig()" style="height:38px;padding:.15rem .3rem;cursor:pointer"></div>
-        <div class="mf"><label>Photo URL (optional)</label><input class="mi" id="sig-photo" placeholder="https://..." oninput="updateSig()"></div>
-        <div class="mf"><label>Tagline (optional)</label><input class="mi" id="sig-tag" placeholder="25+ Years IT Experience · Available Remotely" oninput="updateSig()"></div>
+        <div class="mf"><label>Full name *</label><input class="mi" id="sig-name" placeholder="George Jabley"></div>
+        <div class="mf"><label>Job title *</label><input class="mi" id="sig-title" placeholder="Senior IT Consultant"></div>
+        <div class="mf"><label>Company</label><input class="mi" id="sig-company" placeholder="TechWokx IT Solutions"></div>
+        <div class="mf"><label>Email</label><input class="mi" id="sig-email" placeholder="george.jabley@gmail.com"></div>
+        <div class="mf"><label>Phone</label><input class="mi" id="sig-phone" placeholder="+233 XX XXX XXXX"></div>
+        <div class="mf"><label>Website</label><input class="mi" id="sig-web" placeholder="https://techwokx.online"></div>
+        <div class="mf"><label>LinkedIn URL</label><input class="mi" id="sig-li" placeholder="https://linkedin.com/in/..."></div>
+        <div class="mf"><label>Accent colour</label><input type="color" class="mi" id="sig-color" value="#00d4ff" style="height:38px;padding:.15rem .3rem;cursor:pointer"></div>
+        <div class="mf"><label>Photo URL (optional)</label><input class="mi" id="sig-photo" placeholder="https://..."></div>
+        <div class="mf"><label>Tagline (optional)</label><input class="mi" id="sig-tag" placeholder="25+ Years IT Experience"></div>
       </div>
       <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.25rem">
-        <button class="btn-grad" onclick="copySigHtml()">📋 Copy HTML</button>
-        <button class="btn-grad" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="copySigPlain()">📄 Copy Plain Text</button>
-        <button class="btn-save" onclick="downloadSig()">⬇ Download .html</button>
+        <button class="btn-grad" onclick="copySigHtml()">Copy HTML</button>
+        <button class="btn-grad" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="copySigPlain()">Copy Plain Text</button>
+        <button class="btn-save" onclick="downloadSig()">Download .html</button>
       </div>
-      <div id="sigCopyMsg" style="font-size:.76rem;color:var(--accent3);margin-top:.5rem;display:none">✅ Copied to clipboard!</div>
+      <div id="sigCopyMsg" style="font-size:.76rem;color:var(--accent3);margin-top:.5rem;display:none">Copied to clipboard!</div>
     </div>
     <div class="sig-preview-wrap">
       <div class="sig-preview-label">Live Preview</div>
@@ -734,13 +765,6 @@ textarea.bk-input{resize:vertical;min-height:68px}
   <div><button class="footer-admin" onclick="openAdmin('profile')">⚙️ Admin</button></div>
 </footer>
 
-<!-- GALLERY LIGHTBOX -->
-<div class="glb-overlay" id="glbOverlay" onclick="closeGlb()">
-  <button class="glb-close" onclick="closeGlb()">✕</button>
-  <img class="glb-img" id="glbImg" src="" alt="">
-  <div class="glb-caption" id="glbCaption"></div>
-</div>
-
 <!-- CERT LIGHTBOX -->
 <div id="certLightbox" onclick="closeCertLightbox()">
   <img id="certLbImg" src="" alt="Certificate">
@@ -749,6 +773,16 @@ textarea.bk-input{resize:vertical;min-height:68px}
 <!-- ══════════════════════════════════════════════
      BOOKING MODAL
 ══════════════════════════════════════════════ -->
+<!-- VIDEO INTRO MODAL -->
+<div id="videoIntroOverlay">
+  <button class="vi-close" onclick="closeVideoIntro()">✕</button>
+  <video class="vi-video" id="introVideo" controls playsinline preload="none">
+    <source id="introVideoSrc" src="" type="video/mp4">
+    Your browser does not support video.
+  </video>
+  <div class="vi-caption" id="viCaption">Video Introduction — George Jabley</div>
+</div>
+
 <div id="bookingOverlay">
   <div class="bk-modal">
     <button class="bk-close" onclick="closeBooking()">✕</button>
@@ -838,11 +872,7 @@ textarea.bk-input{resize:vertical;min-height:68px}
     <div class="msec" id="msec-avatar">
       <div class="mf"><label>Photo URL (GitHub or any image URL)</label><input class="mi" id="av-photo" placeholder="https://techwokx-cloud.github.io/georgejabley/assets/george_cartoon1.png"></div>
       <div class="mf"><label>Video URL (for animated avatar)</label><input class="mi" id="av-video" placeholder="https://techwokx-cloud.github.io/georgejabley/assets/AIImageToVideo_1782901395.mp4"></div>
-      <div style="font-size:.74rem;color:var(--text3);margin-bottom:.75rem;line-height:1.5;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);padding:.6rem .8rem;border-radius:8px">
-        ⚡ GitHub URLs are auto-converted to raw links.<br>
-        Paste your GitHub blob URL directly — it will work.<br>
-        Example: <code style="font-size:.68rem;color:var(--accent)">https://github.com/techwokx-cloud/techwokx-cloud.github.io/blob/main/georgejabley/assets/george_cartoon1.png</code>
-      </div>
+      <div style="font-size:.75rem;color:var(--text3);margin-bottom:.75rem">Video takes priority over image. Leave blank to use default emoji.</div>
       <button class="btn-save" onclick="saveAvatar()">Save Avatar</button>
     </div>
 
@@ -933,19 +963,30 @@ textarea.bk-input{resize:vertical;min-height:68px}
 
     <!-- CV -->
     <div class="msec" id="msec-cv">
-      <div style="font-size:.82rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">
-        Upload your CV to GitHub at:<br>
+      <div style="font-size:.82rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">Upload your CV to GitHub at:<br>
         <code style="font-size:.74rem;color:var(--accent);background:var(--bg3);padding:.2rem .4rem;border-radius:4px">georgejabley/assets/George_Jabley_CV.pdf</code><br><br>
-        Or paste any direct PDF/file URL below.
+        Or paste any direct PDF/file URL below.</div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.06em">CV / Resume</div>
+      <div class="mf"><label>CV URL (PDF — GitHub raw, Google Drive, Dropbox etc.)</label><input class="mi" id="cv-url" placeholder="https://raw.githubusercontent.com/techwokx-cloud/.../George_Jabley_CV.pdf"></div>
+      <div class="mf"><label>Download filename</label><input class="mi" id="cv-filename" value="George_Jabley_CV.pdf"></div>
+      <button class="btn-save" onclick="saveCvLink()">Save CV</button>
+
+      <div style="border-top:1px solid var(--border);margin:1.1rem 0"></div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--gold);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.06em">Pitch Deck</div>
+      <div class="mf"><label>Pitch Deck URL (PDF — GitHub raw, Google Drive, Dropbox etc.)</label><input class="mi" id="deck-url" placeholder="https://raw.githubusercontent.com/techwokx-cloud/.../George_Jabley_Pitch_Deck.pdf"></div>
+      <div class="mf"><label>Download filename</label><input class="mi" id="deck-filename" value="George_Jabley_AI_Portfolio_2026.pdf"></div>
+      <button class="btn-save" style="background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="saveDeckLink()">Save Pitch Deck</button>
+
+      <div style="border-top:1px solid var(--border);margin:1.1rem 0"></div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--accent2);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.06em">Video Introduction</div>
+      <div class="mf"><label>Video URL (MP4 — GitHub raw, YouTube embed, Vimeo, Cloudinary etc.)</label><input class="mi" id="intro-video-url" placeholder="https://raw.githubusercontent.com/techwokx-cloud/.../intro.mp4"></div>
+      <div class="mf"><label>Caption (shown below video)</label><input class="mi" id="intro-video-caption" placeholder="Video Introduction — George Jabley, AI Solutions Architect" value="Video Introduction — George Jabley, AI Solutions Architect"></div>
+      <div style="font-size:.74rem;color:var(--text3);margin-bottom:.75rem;line-height:1.55;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);padding:.6rem .8rem;border-radius:8px">
+        GitHub blob URLs are auto-converted to raw links.<br>
+        YouTube: paste full watch URL — it will be embedded.<br>
+        Supported: MP4, WebM, YouTube, Vimeo
       </div>
-      <div class="mf"><label>CV / Resume URL</label><input class="mi" id="cv-url" placeholder="https://techwokx-cloud.github.io/georgejabley/assets/George_Jabley_CV.pdf"></div>
-      <div class="mf"><label>Download filename</label><input class="mi" id="cv-filename" placeholder="George_Jabley_CV.pdf" value="George_Jabley_CV.pdf"></div>
-      <div class="mf"><label>Button label</label><input class="mi" id="cv-label" placeholder="Download CV" value="Download CV"></div>
-      <button class="btn-save" onclick="saveCvLink()">Save CV Link</button>
-      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
-        <div style="font-size:.76rem;color:var(--text3);margin-bottom:.4rem;font-weight:600">Supported formats</div>
-        <div style="font-size:.75rem;color:var(--text3);line-height:1.7">✅ PDF (recommended) &nbsp;✅ DOCX &nbsp;✅ Google Drive public link &nbsp;✅ Dropbox / OneDrive</div>
-      </div>
+      <button class="btn-save" style="background:linear-gradient(135deg,var(--accent2),#6d28d9)" onclick="saveIntroVideo()">Save Video Intro</button>
     </div>
 
     <!-- GALLERY ADMIN -->
@@ -953,12 +994,12 @@ textarea.bk-input{resize:vertical;min-height:68px}
       <div id="adminGalleryList" style="margin-bottom:.75rem"></div>
       <div class="add-area">
         <div class="add-label">Add Photo / Screenshot</div>
-        <div class="mf"><label>Title</label><input class="mi" id="ng-title" placeholder="App screenshot or photo title"></div>
-        <div class="mf"><label>Image URL (GitHub raw URL or direct link)</label><input class="mi" id="ng-img" placeholder="https://raw.githubusercontent.com/..."></div>
-        <div class="mf"><label>Description (optional)</label><input class="mi" id="ng-desc" placeholder="Brief description of what this shows"></div>
-        <div class="mf"><label>Tag / Category (optional)</label><input class="mi" id="ng-tag" placeholder="App · Screenshot · Project"></div>
-        <div class="mf"><label>Link URL (optional — e.g. live app or GitHub)</label><input class="mi" id="ng-url" placeholder="https://..."></div>
-        <div class="mf"><label>Link label</label><input class="mi" id="ng-urllbl" placeholder="View Live" value="View →"></div>
+        <div class="mf"><label>Title</label><input class="mi" id="ng-title" placeholder="App screenshot or project photo"></div>
+        <div class="mf"><label>Image URL (GitHub raw or direct link)</label><input class="mi" id="ng-img" placeholder="https://raw.githubusercontent.com/..."></div>
+        <div class="mf"><label>Description (optional)</label><input class="mi" id="ng-desc" placeholder="Brief description"></div>
+        <div class="mf"><label>Tag / Category (optional)</label><input class="mi" id="ng-tag" placeholder="App - Screenshot - Project"></div>
+        <div class="mf"><label>Link URL (optional)</label><input class="mi" id="ng-url" placeholder="https://..."></div>
+        <div class="mf"><label>Link label</label><input class="mi" id="ng-urllbl" placeholder="View Live" value="View"></div>
         <button class="btn-save" onclick="addGalleryItem()">Add to Gallery</button>
       </div>
     </div>
@@ -969,8 +1010,8 @@ textarea.bk-input{resize:vertical;min-height:68px}
       <div class="add-area">
         <div class="add-label">Add Free Resource</div>
         <div class="mf"><label>Title</label><input class="mi" id="nr-title" placeholder="Resource name"></div>
-        <div class="mf"><label>Description</label><textarea class="mi" id="nr-desc" rows="2" style="resize:vertical" placeholder="What does this resource help with?"></textarea></div>
-        <div class="mf"><label>Download URL (PDF, DOCX, Google Drive etc.)</label><input class="mi" id="nr-url" placeholder="https://..."></div>
+        <div class="mf"><label>Description</label><textarea class="mi" id="nr-desc" rows="2" style="resize:vertical" placeholder="What does this help with?"></textarea></div>
+        <div class="mf"><label>Download URL</label><input class="mi" id="nr-url" placeholder="https://..."></div>
         <div class="mf"><label>Icon emoji</label><input class="mi" id="nr-icon" placeholder="📋" value="📄"></div>
         <button class="btn-save" onclick="addResource()">Add Resource</button>
       </div>
@@ -1098,18 +1139,6 @@ function saveProfile() {
 // ══════════════════════════════════════════════════
 //  AVATAR
 // ══════════════════════════════════════════════════
-function toRawUrl(url) {
-  // Convert GitHub blob URL to raw URL for media files
-  if (!url) return url;
-  url = url.trim();
-  // github.com/USER/REPO/blob/BRANCH/PATH -> raw.githubusercontent.com/USER/REPO/BRANCH/PATH
-  url = url.replace(
-    /https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.*)/,
-    'https://raw.githubusercontent.com/$1/$2/$3/$4'
-  );
-  return url;
-}
-
 function applyAvatar() {
   const av = S.get('avatar') || {};
   const videoEl = document.getElementById('avatarVideo');
@@ -1118,39 +1147,26 @@ function applyAvatar() {
   const chatAv  = document.getElementById('chatAv');
   const bkAv    = document.getElementById('bkAv');
 
-  const videoUrl = toRawUrl(av.video);
-  const photoUrl = toRawUrl(av.photo);
-
-  if (videoUrl) {
-    videoEl.src = videoUrl;
-    videoEl.load();
-    videoEl.style.display = 'block';
-    imgEl.style.display = 'none';
-    emoji.style.display = 'none';
-    chatAv.innerHTML = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:50%"><source src="${videoUrl}" type="video/mp4"></video>`;
-    bkAv.innerHTML   = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:50%"><source src="${videoUrl}" type="video/mp4"></video>`;
-  } else if (photoUrl) {
-    imgEl.src = photoUrl;
-    imgEl.style.display = 'block';
-    videoEl.style.display = 'none';
-    emoji.style.display = 'none';
-    chatAv.innerHTML = `<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    bkAv.innerHTML   = `<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-  } else {
-    videoEl.style.display = 'none';
-    imgEl.style.display = 'none';
-    emoji.style.display = '';
+  if (av.video) {
+    videoEl.src = av.video; videoEl.style.display = 'block';
+    imgEl.style.display = 'none'; emoji.style.display = 'none';
+    // Chat avatar
+    chatAv.innerHTML = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;border-radius:50%"><source src="${av.video}" type="video/mp4"></video>`;
+    // Booking avatar
+    bkAv.innerHTML = `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"><source src="${av.video}" type="video/mp4"></video>`;
+  } else if (av.photo) {
+    imgEl.src = av.photo; imgEl.style.display = 'block';
+    videoEl.style.display = 'none'; emoji.style.display = 'none';
+    chatAv.innerHTML = `<img src="${av.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    bkAv.innerHTML   = `<img src="${av.photo}" style="width:100%;height:100%;object-fit:cover;display:block">`;
   }
 }
 applyAvatar();
 
 function saveAvatar() {
-  const video = toRawUrl(document.getElementById('av-video').value.trim());
-  const photo = toRawUrl(document.getElementById('av-photo').value.trim());
+  const video = document.getElementById('av-video').value.trim();
+  const photo = document.getElementById('av-photo').value.trim();
   S.set('avatar', { video, photo });
-  // Update input fields to show converted URL
-  if (video) document.getElementById('av-video').value = video;
-  if (photo) document.getElementById('av-photo').value = photo;
   applyAvatar(); toast('Avatar saved ✓'); closeAdmin();
 }
 
@@ -1393,7 +1409,7 @@ function renderAdminAct() {
   list.innerHTML='';
   extraAct.forEach((a,i)=>{
     const row=document.createElement('div'); row.className='item-row';
-    row.innerHTML=`<span class="item-name">${a.icon} ${a.text.replace(/<[^>]+>/g,'').substring(0,40)}...</span><div class="item-actions"><button class="btn-sm del" onclick="delAct(${i})">✕</button></div>`;
+    row.innerHTML='<span class="item-name">'+(a.icon||'')+' '+(a.text||'').replace(/<[^>]+>/g,'').substring(0,38)+'...</span><div class="item-actions"><button class="btn-sm" onclick="editActivity('+i+')">Edit</button><button class="btn-sm del" onclick="delAct('+i+')">Remove</button></div>';
     list.appendChild(row);
   });
   // Default items
@@ -1432,8 +1448,7 @@ function openAdmin(tab='profile') {
   renderAdminProj(); renderAdminSkills(); renderAdminAi();
   renderAdminCerts(); renderAdminAct();
   document.getElementById('adminOverlay').classList.add('open');
-  loadCvAdmin();
-  mTab(tab, document.querySelector(`.mtab:nth-child(${['profile','avatar','projects','skills','aitools','certs','activity','cv'].indexOf(tab)+1})`)||document.querySelector('.mtab'));
+  mTab(tab, document.querySelector(`.mtab:nth-child(${['profile','avatar','projects','skills','aitools','certs','activity'].indexOf(tab)+1})`)||document.querySelector('.mtab'));
 }
 function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
 document.getElementById('adminOverlay').addEventListener('click', e => { if(e.target===document.getElementById('adminOverlay')) closeAdmin(); });
@@ -1448,9 +1463,6 @@ function mTab(name, btn) {
 // ══════════════════════════════════════════════════
 //  AI CHATBOT
 // ══════════════════════════════════════════════════
-// Chat uses direct Anthropic API via fetch (proxy optional).
-// Set your API key below OR keep chat.php on server for production.
-const CHAT_API_KEY = ''; // Leave empty if using chat.php proxy
 const CHAT_PROXY = 'https://techwokx.online/georgejabley/chat.php';
 const chatMsgs = document.getElementById('chatMessages');
 let chatHistory = [], chatLocked = false;
@@ -1471,22 +1483,8 @@ async function sendChat() {
   chatLocked = true;
 
   try {
-    let res, data;
-    if (CHAT_API_KEY) {
-      // Direct Anthropic API (key in browser - dev/demo only)
-      const SYSTEM = `You are George Jabley's personal AI assistant. Be concise and friendly (2-4 sentences max). George: Senior IT Consultant, Accra Ghana, 25+ yrs experience, techwokx.online. Services: IT support $25/hr, email fix $80 flat, Docker $30/hr, M365 $28/hr, Python scripts $25/hr, DNS/SSL $60 flat, VA roles. Projects: IT Admin Suite, App Architect Studio (IBM Bob Hackathon), Documenso self-hosted e-sign, Email Backup Optimizer, Email Signature Creator, HandFresh e-commerce, Guardian Agent, Lead Intelligence Engine. lablab.ai: 1322pts #94 Legend. Contact: george.jabley@gmail.com. For booking tell them to click 'Book a Call' in the nav.`;
-      res = await fetch('https://api.anthropic.com/v1/messages', {
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':CHAT_API_KEY,'anthropic-version':'2023-06-01'},
-        body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:400, system:SYSTEM, messages:chatHistory })
-      });
-      const raw = await res.json();
-      data = { ok: !!raw.content, text: raw.content?.[0]?.text };
-    } else {
-      // Server-side proxy (recommended for production)
-      res = await fetch(CHAT_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages: chatHistory }) });
-      data = await res.json();
-    }
+    const res = await fetch(CHAT_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages: chatHistory }) });
+    const data = await res.json();
     document.getElementById('chat-typing')?.remove();
     if (data.ok && data.text) {
       chatHistory.push({ role:'assistant', content: data.text });
@@ -1643,126 +1641,216 @@ function submitContact(){
 }
 
 // ══════════════════════════════════════════════════
-//  CV DOWNLOAD
+//  TOAST
 // ══════════════════════════════════════════════════
-function applyCv() {
-  const cv = S.get('cv') || {};
-  const btn = document.getElementById('cvDownloadBtn');
-  if (!btn) return;
-  if (cv.url) btn.href = cv.url;
-  if (cv.filename) btn.download = cv.filename;
-  if (cv.label) btn.querySelector('svg').nextSibling && (btn.innerHTML = btn.innerHTML.replace(/Download CV|[^<]+$/, '') );
-  // Update label text node
-  const textNode = [...btn.childNodes].find(n => n.nodeType === 3);
-  if (textNode && cv.label) textNode.textContent = ' ' + cv.label;
-}
+function toast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;background:var(--accent3);color:#000;padding:.6rem 1.2rem;border-radius:8px;font-weight:800;font-size:.82rem;z-index:999;animation:fadeUp .3s forwards';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
 
-function saveCvLink() {
-  const url      = document.getElementById('cv-url').value.trim();
-  const filename = document.getElementById('cv-filename').value.trim() || 'George_Jabley_CV.pdf';
-  const label    = document.getElementById('cv-label').value.trim() || 'Download CV';
-  if (!url) { toast('Please enter a CV URL'); return; }
-  S.set('cv', { url, filename, label });
-  const btn = document.getElementById('cvDownloadBtn');
-  btn.href     = url;
-  btn.download = filename;
-  // Update button text
-  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${label}`;
-  toast('CV link saved ✓'); closeAdmin();
-}
 
-function trackCvDownload(e) {
-  // If no real file yet, show admin panel instead of 404
-  const btn = document.getElementById('cvDownloadBtn');
-  const cv = S.get('cv') || {};
-  const url = cv.url || btn.href;
-  if (!url || url.includes('George_Jabley_CV.pdf') && !cv.url) {
+// ── CV DOWNLOAD ──
+function handleCvClick(e) {
+  var cv = S.get('cv') || {};
+  var btns = document.querySelectorAll('#cvDownloadBtn,#cvDlCardLink');
+  if (cv.url) {
+    btns.forEach(function(b){ b.href = cv.url; b.download = cv.filename || 'George_Jabley_CV.pdf'; });
+  } else {
     e.preventDefault();
-    if (confirm('No CV file set yet. Open admin to set your CV link?')) openAdmin('cv');
+    if (confirm('CV not set yet. Open admin to add your CV link?')) openAdmin('cv');
   }
 }
-
+function applyCv() {
+  var cv  = S.get('cv') || {};
+  var btns = document.querySelectorAll('#cvDownloadBtn,#cvDlCardLink');
+  btns.forEach(function(b){ if(cv.url){ b.href=cv.url; b.download=cv.filename||'George_Jabley_CV.pdf'; } });
+  var card = document.getElementById('cvDlCard');
+  if (card) card.style.display = cv.url ? '' : 'none';
+  updateDownloadCardsRow();
+}
+function saveCvLink() {
+  var url = document.getElementById('cv-url').value.trim();
+  if (!url) { toast('Please enter a URL'); return; }
+  S.set('cv', { url: toRawUrl(url), filename: document.getElementById('cv-filename').value.trim() || 'George_Jabley_CV.pdf' });
+  applyCv(); toast('CV saved ✓'); loadCvAdmin();
+}
 function loadCvAdmin() {
-  const cv = S.get('cv') || {};
-  const urlEl = document.getElementById('cv-url');
-  const fnEl  = document.getElementById('cv-filename');
-  const lblEl = document.getElementById('cv-label');
-  if (urlEl)  urlEl.value  = cv.url      || '';
-  if (fnEl)   fnEl.value   = cv.filename || 'George_Jabley_CV.pdf';
-  if (lblEl)  lblEl.value  = cv.label    || 'Download CV';
+  var cv = S.get('cv') || {};
+  var u=document.getElementById('cv-url'); if(u) u.value=cv.url||'';
+  var f=document.getElementById('cv-filename'); if(f) f.value=cv.filename||'George_Jabley_CV.pdf';
 }
 applyCv();
 
-// Dynamic favicon from avatar
-(function setFavicon() {
-  const av = S.get('avatar') || {};
+// ── PITCH DECK ──
+function handleDeckClick(e) {
+  var deck = S.get('deck') || {};
+  var btns = document.querySelectorAll('#deckDownloadBtn,#deckDlCardLink');
+  if (deck.url) {
+    btns.forEach(function(b){ b.href=deck.url; b.download=deck.filename||'George_Jabley_Pitch_Deck.pdf'; });
+  } else {
+    e.preventDefault();
+    if (confirm('Pitch deck not set yet. Open admin to add the link?')) openAdmin('cv');
+  }
+}
+function applyDeck() {
+  var deck = S.get('deck') || {};
+  var btns = document.querySelectorAll('#deckDownloadBtn,#deckDlCardLink');
+  btns.forEach(function(b){ if(deck.url){ b.href=deck.url; b.download=deck.filename||'George_Jabley_Pitch_Deck.pdf'; } });
+  var card = document.getElementById('deckDlCard');
+  if (card) card.style.display = deck.url ? '' : 'none';
+  updateDownloadCardsRow();
+}
+function saveDeckLink() {
+  var url = document.getElementById('deck-url').value.trim();
+  if (!url) { toast('Please enter a URL'); return; }
+  S.set('deck', { url: toRawUrl(url), filename: document.getElementById('deck-filename').value.trim() || 'George_Jabley_AI_Portfolio_2026.pdf' });
+  applyDeck(); toast('Pitch deck saved ✓'); loadDeckAdmin();
+}
+function loadDeckAdmin() {
+  var dk = S.get('deck') || {};
+  var u=document.getElementById('deck-url'); if(u) u.value=dk.url||'';
+  var f=document.getElementById('deck-filename'); if(f) f.value=dk.filename||'George_Jabley_AI_Portfolio_2026.pdf';
+}
+applyDeck();
+
+function updateDownloadCardsRow() {
+  var row = document.getElementById('downloadCardsRow');
+  var cv  = S.get('cv') || {};
+  var dk  = S.get('deck') || {};
+  if (row) row.style.display = (cv.url || dk.url) ? '' : 'none';
+}
+
+// ── VIDEO INTRO ──
+function openVideoIntro() {
+  var vi  = S.get('intro') || {};
+  var src = vi.url || '';
+  if (!src) { if(confirm('No intro video set. Open admin?')) openAdmin('cv'); return; }
+  var overlay = document.getElementById('videoIntroOverlay');
+  var video   = document.getElementById('introVideo');
+  var srcEl   = document.getElementById('introVideoSrc');
+  var caption = document.getElementById('viCaption');
+  if (caption) caption.textContent = vi.caption || 'Video Introduction — George Jabley';
+
+  // YouTube / Vimeo: swap video tag for iframe
+  var ytMatch = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  var vmMatch = src.match(/vimeo\.com\/(\d+)/);
+  if (ytMatch || vmMatch) {
+    var iframeSrc = ytMatch
+      ? 'https://www.youtube.com/embed/' + ytMatch[1] + '?autoplay=1'
+      : 'https://player.vimeo.com/video/'  + vmMatch[1] + '?autoplay=1';
+    video.style.display = 'none';
+    var existing = document.getElementById('introIframe');
+    if (!existing) {
+      var ifr = document.createElement('iframe');
+      ifr.id = 'introIframe';
+      ifr.style.cssText = 'width:100%;max-width:860px;height:480px;border:none;border-radius:16px;box-shadow:0 0 80px rgba(0,0,0,.6)';
+      ifr.allow = 'autoplay; fullscreen';
+      ifr.allowFullscreen = true;
+      overlay.insertBefore(ifr, overlay.querySelector('.vi-caption'));
+    }
+    document.getElementById('introIframe').src = iframeSrc;
+  } else {
+    srcEl.src = src; video.load(); video.play().catch(function(){});
+    video.style.display = '';
+    var ifr = document.getElementById('introIframe');
+    if (ifr) { ifr.src=''; }
+  }
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideoIntro() {
+  document.getElementById('videoIntroOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  var video = document.getElementById('introVideo');
+  if (video) { video.pause(); }
+  var ifr = document.getElementById('introIframe');
+  if (ifr) ifr.src = '';
+}
+function applyIntroVideo() {
+  var vi  = S.get('intro') || {};
+  var btn = document.getElementById('introPlayBtn');
+  if (btn) btn.style.display = vi.url ? '' : 'none';
+}
+function saveIntroVideo() {
+  var url = document.getElementById('intro-video-url').value.trim();
+  if (!url) { toast('Please enter a video URL'); return; }
+  var caption = document.getElementById('intro-video-caption').value.trim();
+  S.set('intro', { url: toRawUrl(url), caption: caption });
+  applyIntroVideo(); toast('Video intro saved ✓');
+}
+function loadIntroAdmin() {
+  var vi = S.get('intro') || {};
+  var u=document.getElementById('intro-video-url'); if(u) u.value=vi.url||'';
+  var c=document.getElementById('intro-video-caption'); if(c) c.value=vi.caption||'Video Introduction — George Jabley, AI Solutions Architect';
+}
+applyIntroVideo();
+
+// Close video intro on Escape (add to existing keydown)
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeVideoIntro(); }
+});
+
+// ── FAVICON DYNAMIC ──
+(function() {
+  var av = S.get('avatar') || {};
   if (av.photo) {
-    let link = document.querySelector("link[rel~='icon']");
-    if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
-    link.href = av.photo;
+    var lnk = document.querySelector("link[rel~='icon']");
+    if (!lnk) { lnk = document.createElement('link'); lnk.rel = 'icon'; document.head.appendChild(lnk); }
+    lnk.href = av.photo;
   }
 })();
 
-// ══════════════════════════════════════════════════
-//  STATS COUNTER ANIMATION
-// ══════════════════════════════════════════════════
+// ── STATS COUNTER ──
 function animateStats() {
-  document.querySelectorAll('.stat-n[data-count]').forEach(el => {
-    const target = parseInt(el.dataset.count);
-    const prefix = el.dataset.prefix || '';
-    const suffix = el.dataset.suffix || '';
-    const fmt    = el.dataset.format === 'comma';
-    let start = 0, duration = 1800;
-    const step = timestamp => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      const val = Math.floor(ease * target);
+  document.querySelectorAll('.stat-n[data-count]').forEach(function(el) {
+    var target = parseInt(el.dataset.count);
+    var prefix = el.dataset.prefix || '';
+    var suffix = el.dataset.suffix || '';
+    var fmt    = el.dataset.format === 'comma';
+    var start = null, dur = 1600;
+    function step(ts) {
+      if (!start) start = ts;
+      var prog = Math.min((ts - start) / dur, 1);
+      var ease = 1 - Math.pow(1 - prog, 3);
+      var val  = Math.floor(ease * target);
       el.textContent = prefix + (fmt ? val.toLocaleString() : val) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
+      if (prog < 1) requestAnimationFrame(step);
       else el.textContent = prefix + (fmt ? target.toLocaleString() : target) + suffix;
-    };
+    }
     requestAnimationFrame(step);
-    el.classList.add('counted');
   });
 }
-// Trigger when stats row comes into view
-const statsObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { animateStats(); statsObs.disconnect(); } });
+var statsDone = false;
+var statsObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting && !statsDone) { statsDone = true; animateStats(); }
+  });
 }, { threshold: 0.3 });
-const statsRow = document.querySelector('.stats-row');
-if (statsRow) statsObs.observe(statsRow);
+var sr = document.querySelector('.stats-row');
+if (sr) statsObs.observe(sr);
 
-// ══════════════════════════════════════════════════
-//  GALLERY
-// ══════════════════════════════════════════════════
-const galleryItems = S.get('gallery') || [];
+// ── CV ──
+// CV functions moved to main block above
 
+// ── GALLERY ──
 function renderGallery() {
-  const grid = document.getElementById('galleryGrid');
-  const empty = document.getElementById('galleryEmpty');
-  const items = S.get('gallery') || [];
-  // Remove old dynamic cards
-  grid.querySelectorAll('.gallery-item').forEach(el => el.remove());
-  if (items.length === 0) {
-    if (empty) empty.style.display = '';
-    return;
-  }
+  var grid  = document.getElementById('galleryGrid');
+  var empty = document.getElementById('galleryEmpty');
+  var items = S.get('gallery') || [];
+  grid.querySelectorAll('.gallery-item').forEach(function(el){ el.remove(); });
+  if (items.length === 0) { if (empty) empty.style.display=''; return; }
   if (empty) empty.style.display = 'none';
-  items.forEach((item, i) => {
-    const div = document.createElement('div');
+  items.forEach(function(item, i) {
+    var div = document.createElement('div');
     div.className = 'gallery-item';
-    div.dataset.gi = i;
-    div.innerHTML = `
-      ${item.img
-        ? `<img class="gallery-img" src="${item.img}" alt="${item.title}" loading="lazy" onclick="openGlb('${item.img}','${item.title}')">`
-        : `<div class="gallery-img-placeholder" onclick="openGlb('','${item.title}')">🖼️</div>`}
-      <div class="gallery-body">
-        ${item.tag ? `<span class="gallery-tag">${item.tag}</span>` : ''}
-        <div class="gallery-title">${item.title}</div>
-        ${item.desc ? `<div class="gallery-desc">${item.desc}</div>` : ''}
-        ${item.url ? `<a href="${item.url}" target="_blank" class="gallery-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${item.urllbl || 'View →'}</a>` : ''}
-      </div>`;
+    var imgHtml = item.img
+      ? '<img class="gallery-img" src="' + item.img + '" alt="' + item.title + '" loading="lazy" onclick="openGlb(\'' + item.img + '\',\'' + item.title.replace(/'/g,"") + '\')">'
+      : '<div class="gallery-img-placeholder" onclick="openGlb(\'\',\'' + item.title + '\')">&#128444;</div>';
+    var linkHtml = item.url
+      ? '<a href="' + item.url + '" target="_blank" class="gallery-link">' + (item.urllbl||'View') + '</a>'
+      : '';
+    div.innerHTML = imgHtml + '<div class="gallery-body">'
+      + (item.tag  ? '<span class="gallery-tag">'   + item.tag  + '</span>' : '')
+      + '<div class="gallery-title">' + item.title + '</div>'
+      + (item.desc ? '<div class="gallery-desc">'   + item.desc + '</div>'  : '')
+      + linkHtml + '</div>';
     grid.appendChild(div);
   });
 }
@@ -1770,7 +1858,7 @@ renderGallery();
 
 function openGlb(url, caption) {
   if (!url) return;
-  document.getElementById('glbImg').src = url;
+  document.getElementById('glbImg').src       = url;
   document.getElementById('glbCaption').textContent = caption || '';
   document.getElementById('glbOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1781,258 +1869,256 @@ function closeGlb() {
 }
 
 function renderAdminGallery() {
-  const list = document.getElementById('adminGalleryList');
-  const items = S.get('gallery') || [];
+  var list  = document.getElementById('adminGalleryList');
+  var items = S.get('gallery') || [];
   list.innerHTML = items.length ? '' : '<div style="font-size:.78rem;color:var(--text3)">No gallery items yet</div>';
-  items.forEach((item, i) => {
-    const row = document.createElement('div'); row.className = 'item-row';
-    row.innerHTML = `<span class="item-name">${item.title}</span><div class="item-actions"><button class="btn-sm del" onclick="delGallery(${i})">✕</button></div>`;
+  items.forEach(function(item, i) {
+    var row = document.createElement('div'); row.className = 'item-row';
+    row.innerHTML = '<span class="item-name">' + item.title + '</span>'
+      + '<div class="item-actions">'
+      + '<button class="btn-sm" onclick="editGallery(' + i + ')">Edit</button>'
+      + '<button class="btn-sm del" onclick="delGallery(' + i + ')">Remove</button>'
+      + '</div>';
     list.appendChild(row);
   });
 }
-
+function editGallery(i) {
+  var items = S.get('gallery') || [];
+  var it = items[i]; if (!it) return;
+  document.getElementById('ng-title').value  = it.title  || '';
+  document.getElementById('ng-img').value    = it.img    || '';
+  document.getElementById('ng-desc').value   = it.desc   || '';
+  document.getElementById('ng-tag').value    = it.tag    || '';
+  document.getElementById('ng-url').value    = it.url    || '';
+  document.getElementById('ng-urllbl').value = it.urllbl || 'View';
+  items.splice(i,1); S.set('gallery',items);
+  renderGallery(); renderAdminGallery();
+  toast('Editing - update and click Add to Gallery');
+}
 function addGalleryItem() {
-  const title = document.getElementById('ng-title').value.trim();
+  var title = document.getElementById('ng-title').value.trim();
   if (!title) { toast('Please enter a title'); return; }
-  const item = {
-    title,
+  var items = S.get('gallery') || [];
+  items.push({
+    title:  title,
     img:    toRawUrl(document.getElementById('ng-img').value.trim()),
     desc:   document.getElementById('ng-desc').value.trim(),
     tag:    document.getElementById('ng-tag').value.trim(),
     url:    document.getElementById('ng-url').value.trim(),
-    urllbl: document.getElementById('ng-urllbl').value.trim() || 'View →',
-  };
-  const items = S.get('gallery') || [];
-  items.push(item); S.set('gallery', items);
-  renderGallery(); renderAdminGallery();
-  ['ng-title','ng-img','ng-desc','ng-tag','ng-url'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('ng-urllbl').value = 'View →';
-  toast('Gallery item added ✓');
+    urllbl: document.getElementById('ng-urllbl').value.trim() || 'View',
+  });
+  S.set('gallery', items); renderGallery(); renderAdminGallery();
+  ['ng-title','ng-img','ng-desc','ng-tag','ng-url'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('ng-urllbl').value = 'View';
+  toast('Gallery item added');
 }
-
 function delGallery(i) {
-  const items = S.get('gallery') || [];
-  items.splice(i, 1); S.set('gallery', items);
+  var items = S.get('gallery') || [];
+  items.splice(i,1); S.set('gallery',items);
   renderGallery(); renderAdminGallery();
 }
 
-// ══════════════════════════════════════════════════
-//  FREE RESOURCES
-// ══════════════════════════════════════════════════
-const DEFAULT_RESOURCES = [
-  { icon:'📋', title:'IT Audit Checklist', desc:'Step-by-step checklist to audit your IT infrastructure, email setup, DNS and security posture.', url:'' },
-  { icon:'📧', title:'Email Deliverability Guide', desc:'Fix SPF, DKIM and DMARC. Stop landing in spam. Practical guide from 25+ years of email engineering.', url:'' },
+// ── RESOURCES ──
+var DEFAULT_RESOURCES = [
+  { icon:'📋', title:'IT Audit Checklist',      desc:'Step-by-step checklist to audit IT infrastructure, email, DNS and security.', url:'' },
+  { icon:'📧', title:'Email Deliverability Guide', desc:'Fix SPF, DKIM, DMARC. Stop landing in spam. 25+ years of email engineering.', url:'' },
 ];
-
 function renderResources() {
-  const grid = document.getElementById('resourcesGrid');
-  const items = S.get('resources') || DEFAULT_RESOURCES;
+  var grid  = document.getElementById('resourcesGrid');
+  if (!grid) return;
+  var items = S.get('resources') || DEFAULT_RESOURCES;
   grid.innerHTML = '';
-  items.forEach((r, i) => {
-    const div = document.createElement('div'); div.className = 'resource-card';
-    const dlBtn = r.url
-      ? `<a href="${r.url}" download target="_blank" class="resource-dl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Free Download</a>`
-      : `<span class="resource-dl" style="opacity:.4;cursor:not-allowed" title="URL not set yet"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Coming Soon</span>`;
-    div.innerHTML = `<div class="resource-icon">${r.icon||'📄'}</div><div class="resource-title">${r.title}</div><div class="resource-desc">${r.desc}</div>${dlBtn}`;
+  items.forEach(function(r) {
+    var div = document.createElement('div'); div.className = 'resource-card';
+    var dl  = r.url
+      ? '<a href="' + r.url + '" download target="_blank" class="resource-dl">&#11015; Free Download</a>'
+      : '<span class="resource-dl" style="opacity:.4;cursor:not-allowed">&#11015; Coming Soon</span>';
+    div.innerHTML = '<div class="resource-icon">' + (r.icon||'📄') + '</div>'
+      + '<div class="resource-title">' + r.title + '</div>'
+      + '<div class="resource-desc">'  + r.desc  + '</div>' + dl;
     grid.appendChild(div);
   });
 }
 renderResources();
 
 function renderAdminResources() {
-  const list = document.getElementById('adminResourceList');
-  const items = S.get('resources') || DEFAULT_RESOURCES;
+  var list  = document.getElementById('adminResourceList');
+  if (!list) return;
+  var items = S.get('resources') || DEFAULT_RESOURCES;
   list.innerHTML = '';
-  items.forEach((r, i) => {
-    const row = document.createElement('div'); row.className = 'item-row';
-    const hasUrl = r.url ? '✅' : '⏳';
-    row.innerHTML = `<span class="item-name">${hasUrl} ${r.title}</span><div class="item-actions"><button class="btn-sm" onclick="editResource(${i})">Edit</button><button class="btn-sm del" onclick="delResource(${i})">✕</button></div>`;
+  items.forEach(function(r, i) {
+    var row = document.createElement('div'); row.className = 'item-row';
+    var has = r.url ? '✅' : '⏳';
+    row.innerHTML = '<span class="item-name">' + has + ' ' + r.title + '</span>'
+      + '<div class="item-actions">'
+      + '<button class="btn-sm" onclick="editResource(' + i + ')">Edit</button>'
+      + '<button class="btn-sm del" onclick="delResource(' + i + ')">Remove</button>'
+      + '</div>';
     list.appendChild(row);
   });
 }
-
 function addResource() {
-  const title = document.getElementById('nr-title').value.trim();
+  var title = document.getElementById('nr-title').value.trim();
   if (!title) { toast('Please enter a title'); return; }
-  const items = S.get('resources') || [...DEFAULT_RESOURCES];
-  items.push({
-    icon:  document.getElementById('nr-icon').value.trim() || '📄',
-    title,
-    desc:  document.getElementById('nr-desc').value.trim(),
-    url:   document.getElementById('nr-url').value.trim(),
-  });
+  var items = S.get('resources') || DEFAULT_RESOURCES.slice();
+  items.push({ icon: document.getElementById('nr-icon').value.trim()||'📄', title: title,
+    desc: document.getElementById('nr-desc').value.trim(), url: document.getElementById('nr-url').value.trim() });
   S.set('resources', items); renderResources(); renderAdminResources();
-  ['nr-title','nr-desc','nr-url'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('nr-icon').value = '📄';
-  toast('Resource added ✓');
+  ['nr-title','nr-desc','nr-url'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('nr-icon').value='📄';
+  toast('Resource added');
 }
-
 function editResource(i) {
-  const items = S.get('resources') || DEFAULT_RESOURCES;
-  const r = items[i];
-  document.getElementById('nr-title').value = r.title || '';
-  document.getElementById('nr-desc').value  = r.desc  || '';
-  document.getElementById('nr-url').value   = r.url   || '';
-  document.getElementById('nr-icon').value  = r.icon  || '📄';
-  // Remove old and re-add on save
-  items.splice(i, 1); S.set('resources', items);
+  var items = S.get('resources') || DEFAULT_RESOURCES.slice();
+  var r = items[i]; if (!r) return;
+  document.getElementById('nr-title').value = r.title||'';
+  document.getElementById('nr-desc').value  = r.desc ||'';
+  document.getElementById('nr-url').value   = r.url  ||'';
+  document.getElementById('nr-icon').value  = r.icon ||'📄';
+  items.splice(i,1); S.set('resources',items);
   renderResources(); renderAdminResources();
-  toast('Editing — fill in and click Add Resource');
+  toast('Editing - update and click Add Resource');
 }
-
 function delResource(i) {
-  const items = S.get('resources') || DEFAULT_RESOURCES;
-  items.splice(i, 1); S.set('resources', items);
+  var items = S.get('resources') || DEFAULT_RESOURCES.slice();
+  items.splice(i,1); S.set('resources',items);
   renderResources(); renderAdminResources();
 }
 
-// ══════════════════════════════════════════════════
-//  EMAIL SIGNATURE CREATOR
-// ══════════════════════════════════════════════════
-function sigVal(id) { return (document.getElementById(id)||{}).value||''; }
-
-function buildSigHtml() {
-  const name    = sigVal('sig-name') || 'Your Name';
-  const title   = sigVal('sig-title') || 'Your Title';
-  const company = sigVal('sig-company');
-  const email   = sigVal('sig-email');
-  const phone   = sigVal('sig-phone');
-  const web     = sigVal('sig-web');
-  const li      = sigVal('sig-li');
-  const color   = sigVal('sig-color') || '#00d4ff';
-  const photo   = sigVal('sig-photo');
-  const tag     = sigVal('sig-tag');
-
-  const photoHtml = photo
-    ? `<td style="padding-right:16px;vertical-align:top"><img src="${photo}" width="72" height="72" style="border-radius:50%;object-fit:cover;display:block;border:2px solid ${color}" alt="${name}"></td>`
-    : '';
-
-  const divider = `<div style="width:3px;height:56px;background:${color};border-radius:2px;display:inline-block;vertical-align:middle;margin-right:16px"></div>`;
-
-  const links = [
-    email ? `<a href="mailto:${email}" style="color:${color};text-decoration:none;font-size:12px">${email}</a>` : '',
-    phone ? `<span style="color:#666;font-size:12px">${phone}</span>` : '',
-    web   ? `<a href="${web}" style="color:${color};text-decoration:none;font-size:12px" target="_blank">${web.replace(/https?:\/\//,'')}</a>` : '',
-    li    ? `<a href="${li}" style="color:${color};text-decoration:none;font-size:12px" target="_blank">LinkedIn</a>` : '',
-  ].filter(Boolean).join('<span style="color:#ccc;margin:0 6px">|</span>');
-
-  return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,sans-serif;max-width:520px">
-  <tr>
-    ${photoHtml}
-    <td style="vertical-align:middle">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td style="padding-right:14px;vertical-align:middle">
-            <div style="width:3px;height:52px;background:linear-gradient(180deg,${color},${color}88);border-radius:2px"></div>
-          </td>
-          <td style="vertical-align:middle">
-            <div style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:2px">${name}</div>
-            <div style="font-size:12px;color:#555;margin-bottom:${tag?'2px':'6px'}">${title}${company?' · '+company:''}</div>
-            ${tag ? `<div style="font-size:11px;color:${color};margin-bottom:6px;font-style:italic">${tag}</div>` : ''}
-            <div style="font-size:12px;line-height:1.7">${links}</div>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>`;
+// ── EDIT FUNCTIONS for existing admin sections ──
+function editProject(i) {
+  var ep = S.get('ep') || [];
+  var p  = ep[i]; if (!p) return;
+  document.getElementById('np-t').value = p.t||'';
+  document.getElementById('np-l').value = p.l||'';
+  document.getElementById('np-d').value = p.d||'';
+  document.getElementById('np-u').value = p.u||'';
+  ep.splice(i,1); S.set('ep',ep);
+  document.querySelector('#projectsGrid [data-epid="'+i+'"]') && document.querySelector('#projectsGrid [data-epid="'+i+'"]').remove();
+  renderAdminProj(); toast('Editing project - update and click Add Project');
+}
+function editCert(i) {
+  var ec = S.get('ec') || [];
+  var c  = ec[i]; if (!c) return;
+  document.getElementById('nc-name').value   = c.n     ||'';
+  document.getElementById('nc-org').value    = c.org   ||'';
+  document.getElementById('nc-img').value    = c.img   ||'';
+  document.getElementById('nc-status').value = c.status||'done';
+  document.getElementById('nc-icon').value   = c.icon  ||'';
+  ec.splice(i,1); S.set('ec',ec);
+  document.querySelector('#certsGrid [data-ecid="'+i+'"]') && document.querySelector('#certsGrid [data-ecid="'+i+'"]').remove();
+  renderAdminCerts(); toast('Editing cert - update and click Add Certificate');
+}
+function editActivity(i) {
+  var ea = S.get('ea') || [];
+  var a  = ea[i]; if (!a) return;
+  document.getElementById('na-icon').value = a.icon||'';
+  document.getElementById('na-text').value = a.text||'';
+  document.getElementById('na-date').value = a.date||'';
+  var el = document.querySelector('#activityList [data-eaid="'+i+'"]');
+  if (el) el.remove();
+  ea.splice(i,1); S.set('ea',ea);
+  renderAdminAct(); toast('Editing activity - update and click Add Activity');
+}
+function editAiTool(i) {
+  var tools = S.get('aitools') || DEFAULT_AI.slice();
+  var t = tools[i]; if (!t) return;
+  document.getElementById('nat-icon').value = t.i||'';
+  document.getElementById('nat-name').value = t.n||'';
+  document.getElementById('nat-desc').value = t.d||'';
+  tools.splice(i,1); S.set('aitools',tools);
+  renderAiTools(); renderAdminAi(); toast('Editing AI tool - update and click Add AI Tool');
+}
+function editSkill(ci, si) {
+  var cats = S.get('skills') || DEFAULT_SKILLS;
+  var s = cats[ci].items[si]; if (!s) return;
+  document.getElementById('ns-name').value = s.n||'';
+  document.getElementById('ns-icon').value = s.i||'';
+  document.getElementById('ns-cat').value  = cats[ci].cat;
+  cats[ci].items.splice(si,1);
+  if (!cats[ci].items.length) cats.splice(ci,1);
+  S.set('skills',cats); renderSkills(); renderAdminSkills();
+  toast('Editing skill - update and click Add Skill');
 }
 
+// ── EMAIL SIGNATURE ──
+function sigVal(id){ var el=document.getElementById(id); return el?el.value:''; }
+function buildSigHtml() {
+  var name=sigVal('sig-name')||'Your Name', title=sigVal('sig-title')||'Your Title';
+  var company=sigVal('sig-company'), email=sigVal('sig-email'), phone=sigVal('sig-phone');
+  var web=sigVal('sig-web'), li=sigVal('sig-li'), color=sigVal('sig-color')||'#00d4ff';
+  var photo=sigVal('sig-photo'), tag=sigVal('sig-tag');
+  var photoCell = photo ? '<td style="padding-right:16px;vertical-align:top"><img src="'+photo+'" width="72" height="72" style="border-radius:50%;object-fit:cover;display:block;border:2px solid '+color+'" alt="'+name+'"></td>' : '';
+  var sep = '<span style="color:#ccc;margin:0 6px">|</span>';
+  var links = [
+    email ? '<a href="mailto:'+email+'" style="color:'+color+';text-decoration:none;font-size:12px">'+email+'</a>' : '',
+    phone ? '<span style="color:#666;font-size:12px">'+phone+'</span>' : '',
+    web   ? '<a href="'+web+'" style="color:'+color+';text-decoration:none;font-size:12px" target="_blank">'+web.replace(/https?:\/\//,'')+'</a>' : '',
+    li    ? '<a href="'+li+'" style="color:'+color+';text-decoration:none;font-size:12px" target="_blank">LinkedIn</a>' : '',
+  ].filter(Boolean).join(sep);
+  return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,sans-serif;max-width:520px"><tr>'
+    + photoCell
+    + '<td style="vertical-align:middle"><table cellpadding="0" cellspacing="0" border="0"><tr>'
+    + '<td style="padding-right:14px;vertical-align:middle"><div style="width:3px;height:52px;background:linear-gradient(180deg,'+color+','+color+'88);border-radius:2px"></div></td>'
+    + '<td style="vertical-align:middle">'
+    + '<div style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:2px">'+name+'</div>'
+    + '<div style="font-size:12px;color:#555;margin-bottom:'+(tag?'2px':'6px')+'">'+title+(company?' &middot; '+company:'')+'</div>'
+    + (tag?'<div style="font-size:11px;color:'+color+';margin-bottom:6px;font-style:italic">'+tag+'</div>':'')
+    + '<div style="font-size:12px;line-height:1.7">'+links+'</div>'
+    + '</td></tr></table></td></tr></table>';
+}
 function buildSigPlain() {
-  const lines = [
-    sigVal('sig-name'),
-    sigVal('sig-title') + (sigVal('sig-company') ? ' · ' + sigVal('sig-company') : ''),
-    sigVal('sig-tag'),
-    sigVal('sig-email'),
-    sigVal('sig-phone'),
-    sigVal('sig-web'),
-    sigVal('sig-li'),
-  ].filter(Boolean);
+  var lines = [sigVal('sig-name'), sigVal('sig-title')+(sigVal('sig-company')?' | '+sigVal('sig-company'):''),
+    sigVal('sig-tag'), sigVal('sig-email'), sigVal('sig-phone'), sigVal('sig-web'), sigVal('sig-li')].filter(Boolean);
   return lines.join('\n');
 }
-
 function updateSig() {
-  const preview = document.getElementById('sigPreview');
-  if (preview) preview.innerHTML = buildSigHtml();
+  var p = document.getElementById('sigPreview'); if (p) p.innerHTML = buildSigHtml();
 }
-
 function copySigHtml() {
-  navigator.clipboard.writeText(buildSigHtml()).then(() => {
-    document.getElementById('sigCopyMsg').style.display = 'block';
-    setTimeout(() => document.getElementById('sigCopyMsg').style.display = 'none', 2500);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = buildSigHtml(); document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    document.getElementById('sigCopyMsg').style.display = 'block';
-    setTimeout(() => document.getElementById('sigCopyMsg').style.display = 'none', 2500);
+  var txt = buildSigHtml();
+  navigator.clipboard.writeText(txt).then(function(){ showSigMsg(); }).catch(function(){
+    var ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showSigMsg();
   });
 }
-
-function copySigPlain() {
-  navigator.clipboard.writeText(buildSigPlain()).then(() => toast('Plain text copied ✓')).catch(() => toast('Copy failed — try manual select'));
-}
-
+function copySigPlain() { navigator.clipboard.writeText(buildSigPlain()).then(function(){ toast('Plain text copied'); }); }
+function showSigMsg() { var m=document.getElementById('sigCopyMsg'); if(m){m.style.display='block'; setTimeout(function(){m.style.display='none';},2500);} }
 function downloadSig() {
-  const name = sigVal('sig-name') || 'signature';
-  const blob = new Blob([`<!DOCTYPE html><html><body>${buildSigHtml()}</body></html>`], { type:'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `${name.replace(/\s+/g,'-')}-email-signature.html`;
-  a.click(); URL.revokeObjectURL(a.href);
+  var name=sigVal('sig-name')||'signature';
+  var blob=new Blob(['<!DOCTYPE html><html><body>'+buildSigHtml()+'</body></html>'],{type:'text/html'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name.replace(/\s+/g,'-')+'-email-signature.html'; a.click(); URL.revokeObjectURL(a.href);
 }
-
-// Pre-fill sig with George's data
-(function prefillSig() {
-  const prof = S.get('profile') || {};
-  const av   = S.get('avatar') || {};
-  const fields = {
-    'sig-name':    'George Jabley',
-    'sig-title':   'Senior IT Consultant',
-    'sig-company': 'TechWokx IT Solutions',
-    'sig-email':   'george.jabley@gmail.com',
-    'sig-web':     'https://techwokx.online',
-    'sig-li':      'https://linkedin.com/in/george-jabley-bb0270384',
-    'sig-tag':     '25+ Years IT Experience · Available Remotely',
-    'sig-color':   '#00d4ff',
-    'sig-photo':   av.photo || '',
-  };
-  Object.entries(fields).forEach(([id, val]) => {
-    const el = document.getElementById(id);
-    if (el && !el.value) el.value = val;
-  });
+// Pre-fill sig with George's data and wire inputs
+(function(){
+  var av = S.get('avatar')||{};
+  var fields = {'sig-name':'George Jabley','sig-title':'Senior IT Consultant','sig-company':'TechWokx IT Solutions',
+    'sig-email':'george.jabley@gmail.com','sig-web':'https://techwokx.online',
+    'sig-li':'https://linkedin.com/in/george-jabley-bb0270384',
+    'sig-tag':'25+ Years IT Experience | Available Remotely','sig-color':'#00d4ff','sig-photo':av.photo||''};
+  Object.keys(fields).forEach(function(id){ var el=document.getElementById(id); if(el&&!el.value) el.value=fields[id]; });
+  document.querySelectorAll('.sig-builder input,.sig-builder select').forEach(function(el){ el.addEventListener('input',updateSig); });
   updateSig();
-  // Set animation interval for sig preview refresh
-  document.querySelectorAll('.sig-builder input,.sig-builder select').forEach(el => {
-    el.addEventListener('input', updateSig);
-  });
 })();
 
-// ══════════════════════════════════════════════════
-//  INIT extra admin renders on open
-// ══════════════════════════════════════════════════
-// Patch admin open to include new tabs
-const _baseOpenAdmin = openAdmin;
-openAdmin = function(tab='profile') {
-  const p = S.get('profile')||{};
-  document.getElementById('ap-title').value = p.title||'';
-  const av = S.get('avatar')||{};
-  document.getElementById('av-photo').value = av.photo||'';
-  document.getElementById('av-video').value = av.video||'';
+// ── PATCH openAdmin to include new tabs ──
+var _origOpen = openAdmin;
+openAdmin = function(tab) {
+  var p = S.get('profile')||{};
+  var titleEl = document.getElementById('ap-title');
+  if (titleEl) titleEl.value = p.title||'';
+  var av = S.get('avatar')||{};
+  var phEl = document.getElementById('av-photo'); if(phEl) phEl.value = av.photo||'';
+  var viEl = document.getElementById('av-video'); if(viEl) viEl.value = av.video||'';
   renderAdminProj(); renderAdminSkills(); renderAdminAi();
-  renderAdminCerts(); renderAdminAct(); loadCvAdmin();
-  renderAdminGallery(); renderAdminResources();
+  renderAdminCerts(); renderAdminAct();
+  loadCvAdmin(); loadDeckAdmin(); loadIntroAdmin(); renderAdminGallery(); renderAdminResources();
   document.getElementById('adminOverlay').classList.add('open');
-  const tabOrder = ['profile','avatar','projects','skills','aitools','certs','activity','cv','gallery','resources'];
-  const idx = tabOrder.indexOf(tab);
-  const btn = document.querySelectorAll('.mtab')[idx >= 0 ? idx : 0];
-  mTab(tab, btn);
+  var tabOrder = ['profile','avatar','projects','skills','aitools','certs','activity','cv','gallery','resources'];
+  var idx = tabOrder.indexOf(tab||'profile');
+  var btn = document.querySelectorAll('.mtab')[idx>=0?idx:0];
+  mTab(tab||'profile', btn);
 };
 
-// ══════════════════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════════════════
-function toast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;background:var(--accent3);color:#000;padding:.6rem 1.2rem;border-radius:8px;font-weight:800;font-size:.82rem;z-index:999;animation:fadeUp .3s forwards';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
 </script>
 </body>
 </html>
