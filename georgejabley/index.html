@@ -136,21 +136,12 @@
 
   .hero-figure{ position:relative; z-index:1; align-self:end; justify-self:end; width:100%; max-width:460px; }
   .hero-figure .hero-video{
-    width:100%; display:block; border-radius:10px; margin-left:auto;
+    width:100%; aspect-ratio:3/4; object-fit:cover; display:block; border-radius:10px; margin-left:auto;
     filter:drop-shadow(0 24px 34px rgba(22,35,59,0.22));
     opacity:0; transform:translateY(40px) scale(.97); animation:riseIn 1s cubic-bezier(.2,.7,.3,1) .15s forwards;
-    background:var(--navy-soft);
+    background:var(--parchment-dim);
   }
-  .hero-figure .img-accent{
-    position:absolute; width:34%; left:-6%; bottom:-4%; z-index:2;
-    filter:drop-shadow(0 18px 22px rgba(22,35,59,0.22));
-    transform:rotate(-7deg) translateY(30px); opacity:0;
-    animation:riseInAccent 1s cubic-bezier(.2,.7,.3,1) .55s forwards;
-    transition:transform .3s ease;
-  }
-  .hero-figure .img-accent:hover{ transform:rotate(-3deg) translateY(0) scale(1.04); }
   @keyframes riseIn{ to{ opacity:1; transform:translateY(0) scale(1); } }
-  @keyframes riseInAccent{ to{ opacity:1; transform:rotate(-7deg) translateY(0); } }
 
   .hero-stamp{
     position:absolute; top:52px; right:0; z-index:3;
@@ -161,7 +152,7 @@
   }
   @media (max-width:820px){
     .hero .wrap{ grid-template-columns:1fr; min-height:auto; }
-    .hero-figure{ justify-self:center; order:-1; padding-top:44px; max-width:280px;}
+    .hero-figure{ justify-self:center; order:-1; padding-top:44px; max-width:320px;}
     .hero-copy{ padding:24px 0 40px; text-align:left; }
     .hero-stamp{ display:none; }
   }
@@ -264,7 +255,7 @@
   .quiz-panel.active{ display:block; opacity:1; transform:translateX(0); }
   .quiz-q-icon{ color:var(--ochre); width:38px; height:38px; margin-bottom:14px; }
   .quiz-q-icon svg{ width:100%; height:100%; }
-  .quiz-panel h3{ font-size:21px; line-height:1.35; margin-bottom:22px; max-width:540px; color:var(--navy); }
+  .quiz-panel h3{ font-size:21px; line-height:1.35; margin-bottom:22px; max-width:100%; color:var(--navy); }
   .quiz-subhead{ font-size:14px; color:var(--navy-soft); margin-bottom:22px; max-width:480px; }
 
   .quiz-options{ display:flex; flex-direction:column; gap:10px; }
@@ -437,6 +428,23 @@
     background:var(--white); border:1.5px solid var(--navy); border-radius:10px;
     padding:28px; max-width:460px;
   }
+  .fallback-form{ display:flex; flex-direction:column; gap:10px; }
+  .fallback-form.fallback-row{ flex-direction:row; }
+  .fallback-form.fallback-row input{ flex:1; }
+  .fallback-form.fallback-row button{ flex:none; }
+  .fallback-form input, .fallback-form textarea{
+    font-family:'Inter'; font-size:14px; color:var(--navy); background:var(--parchment);
+    border:1.5px solid var(--line); border-radius:6px; padding:11px 13px; width:100%;
+  }
+  .fallback-form textarea{ resize:vertical; min-height:70px; }
+  .fallback-form input:focus, .fallback-form textarea:focus{ outline:none; border-color:var(--ochre); }
+  .fallback-form button{
+    font-family:'IBM Plex Mono'; font-size:12.5px; text-transform:uppercase; letter-spacing:.05em;
+    background:var(--navy); color:var(--parchment); border:none; border-radius:6px;
+    padding:12px 20px; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .fallback-form button:hover{ transform:translateY(-2px); box-shadow:0 5px 0 var(--ochre); }
+  .fallback-note{ font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--sage); margin-top:8px; }
   .foot-bottom{ margin-top:60px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono'; font-size:11px; color:var(--navy-soft); }
 
   /* ---------- Exit-intent popup ---------- */
@@ -492,7 +500,7 @@
         <a href="#tools">Tools</a>
         <a href="#contact">Contact</a>
       </div>
-      <a class="book-now-flash" href="mailto:george.jabley@gmail.com?subject=Booking%20Request">Book Me Now</a>
+      <!-- Replace this Calendly link with your real scheduling link once set up --><a class="book-now-flash" href="https://calendly.com/george-jabley/15min" target="_blank" rel="noopener">Book Me Now</a>
     </div>
   </div>
 </nav>
@@ -506,7 +514,7 @@
       <p class="lede">Inboxes cleared. Calendars locked in. Travel booked before you ask. Social media that never misses a post. Twelve-plus years of admin expertise, accelerated by AI — so nothing falls through the cracks.</p>
       <a class="hero-audit-cta" href="#audit">Take the Free 60-Second Audit <span>→</span></a>
       <div class="cta-row">
-        <a class="btn btn-inverse" href="mailto:george.jabley@gmail.com?subject=Booking%20Request">Book me</a>
+        <a class="btn btn-inverse" href="https://calendly.com/george-jabley/15min" target="_blank" rel="noopener">Book me</a>
         <a class="btn btn-ghost" href="https://wa.me/233264375628" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn btn-ghost" href="George_Jabley_VA_CV.docx">Download CV</a>
       </div>
@@ -516,7 +524,6 @@
       <video class="hero-video" autoplay muted loop playsinline poster="george_hero.png">
         <source src="https://res.cloudinary.com/db0utv5ve/video/upload/v1784399867/GeorgeJableyVA_coo7he.mp4" type="video/mp4">
       </video>
-      <img class="img-accent" src="george_hero.png" alt="George Jabley">
     </div>
   </div>
 </header>
@@ -544,7 +551,7 @@
 
         <div class="quiz-panel active" data-step="1">
           <div class="quiz-q-icon">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="16" width="36" height="26" rx="3"/><path d="M6 18l18 13 18-13"/><line x1="13" y1="8" x2="33" y2="8"/><line x1="16" y1="4" x2="30" y2="4"/><circle cx="40" cy="10" r="4" fill="currentColor" stroke="none"/></svg>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="32" height="24" rx="2"/><path d="M8 16l16 12 16-12"/></svg>
           </div>
           <h3>What is the current state of your inbox?</h3>
           <div class="quiz-options">
@@ -556,7 +563,7 @@
 
         <div class="quiz-panel" data-step="2">
           <div class="quiz-q-icon">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="36" height="34" rx="3"/><line x1="6" y1="18" x2="42" y2="18"/><line x1="14" y1="4" x2="14" y2="12"/><line x1="34" y1="4" x2="34" y2="12"/><circle cx="24" cy="30" r="8"/><line x1="24" y1="30" x2="24" y2="25"/><line x1="24" y1="30" x2="28" y2="30"/></svg>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="10" width="32" height="30" rx="2"/><line x1="8" y1="18" x2="40" y2="18"/><line x1="16" y1="6" x2="16" y2="14"/><line x1="32" y1="6" x2="32" y2="14"/></svg>
           </div>
           <h3>How do you feel about your daily calendar?</h3>
           <div class="quiz-options">
@@ -568,7 +575,7 @@
 
         <div class="quiz-panel" data-step="3">
           <div class="quiz-q-icon">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="9" r="4"/><path d="M16 13v9l-6 8"/><path d="M16 22l7 5"/><path d="M10 30l-4 8"/><path d="M23 27l4 11"/><line x1="26" y1="19" x2="26" y2="31"/><line x1="19" y1="25" x2="33" y2="25"/></svg>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="24" r="8"/><circle cx="34" cy="24" r="8"/><path d="M22 24h9"/><path d="M28 20l4 4-4 4"/></svg>
           </div>
           <h3>When you have a new task or project, what do you do?</h3>
           <div class="quiz-options">
@@ -580,7 +587,7 @@
 
         <div class="quiz-panel" data-step="4">
           <div class="quiz-q-icon">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="19" cy="22" r="10"/><rect x="15" y="18" width="8" height="8" rx="1"/><circle cx="34" cy="32" r="6"/><line x1="19" y1="8" x2="19" y2="12"/><line x1="19" y1="32" x2="19" y2="36"/><line x1="5" y1="22" x2="9" y2="22"/><line x1="29" y1="22" x2="33" y2="22"/><line x1="34" y1="22" x2="34" y2="24"/><line x1="34" y1="40" x2="34" y2="42"/><line x1="24" y1="32" x2="26" y2="32"/><line x1="42" y1="32" x2="44" y2="32"/></svg>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 12a16 16 0 1 0 4 10"/><path d="M36 6v8h-8"/></svg>
           </div>
           <h3>How much time do you spend on manual data entry or repetitive admin?</h3>
           <div class="quiz-options">
@@ -592,7 +599,7 @@
 
         <div class="quiz-panel" data-step="5">
           <div class="quiz-q-icon">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="42" x2="24" y2="16"/><path d="M24 16l-6 6"/><path d="M24 16l6 6"/><line x1="10" y1="12" x2="38" y2="12"/><path d="M16 12l-3-5"/><path d="M32 12l3-5"/></svg>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="40" x2="24" y2="18"/><path d="M17 25l7-7 7 7"/><line x1="10" y1="14" x2="38" y2="14"/></svg>
           </div>
           <h3>What is the biggest thing holding your business back right now?</h3>
           <div class="quiz-options">
@@ -614,7 +621,7 @@
                Set up a MailerLite Automation triggered by this form's submission to: (1) email the subscriber their
                1-pager result + recommendations based on their Zone tag, and (2) send a copy/notification to
                george.jabley@gmail.com with the lead's answers so George gets it in his inbox too. -->
-          <div class="ml-embedded" data-form="PASTE_YOUR_MAILERLITE_QUIZ_FORM_ID_HERE"></div>
+          <div class="ml-embedded" data-form="PASTE_YOUR_MAILERLITE_QUIZ_FORM_ID_HERE" data-fallback="quiz"></div>
 
           <button class="quiz-cta-btn quiz-reveal-btn" id="quizRevealBtn">Calculate My Score →</button>
         </div>
@@ -925,7 +932,7 @@
         <p>Tired of playing catch-up? Let's clear your plate so you can start scaling your business — not just surviving the day. Let's get you back to being the CEO.</p>
         <p>Every hour I take off your plate is an hour back in your business. Tell me what's piling up — and I'll tell you how fast it disappears.</p>
         <div class="cta-row" style="margin-bottom:32px;">
-          <a class="btn btn-inverse" href="mailto:george.jabley@gmail.com?subject=Booking%20Request">Book me</a>
+          <a class="btn btn-inverse" href="https://calendly.com/george-jabley/15min" target="_blank" rel="noopener">Book me</a>
           <a class="btn btn-ghost" href="https://wa.me/233264375628" target="_blank" rel="noopener">WhatsApp</a>
         </div>
 
@@ -934,7 +941,7 @@
              Email field, a text field "WhatsApp Number", and a paragraph/textarea field "Message"
              — then set the submit button text to "Send Message". -->
         <div class="lead-form-wrap">
-          <div class="ml-embedded" data-form="PASTE_YOUR_MAILERLITE_FOOTER_FORM_ID_HERE"></div>
+          <div class="ml-embedded" data-form="PASTE_YOUR_MAILERLITE_FOOTER_FORM_ID_HERE" data-fallback="footer"></div>
         </div>
       </div>
     </div>
@@ -1185,6 +1192,101 @@
     overlay.addEventListener('click', (e) => { if (e.target === overlay) hidePopup(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hidePopup(); });
   })();
+
+  // ---------- MailerLite fallback forms ----------
+  // If a real MailerLite form ID hasn't been wired in yet (still a PASTE_YOUR_... placeholder),
+  // or the MailerLite widget fails to render, show a working fallback form instead of a blank box.
+  // The fallback builds a mailto: link from what's typed in, so it always works with zero setup.
+  (function(){
+    const configs = {
+      quiz: {
+        fields: [
+          { name: 'name', label: 'Your Name', type: 'text', required: true },
+          { name: 'company', label: 'Business / Company', type: 'text' },
+          { name: 'email', label: 'Email (report sent here)', type: 'email', required: true },
+          { name: 'whatsapp', label: 'WhatsApp Number', type: 'tel' },
+        ],
+        button: 'Calculate My Score →',
+        subject: 'Business Audit Result Request',
+      },
+      footer: {
+        fields: [
+          { name: 'name', label: 'Your Name', type: 'text', required: true },
+          { name: 'email', label: 'Email', type: 'email', required: true },
+          { name: 'whatsapp', label: 'WhatsApp Number', type: 'tel' },
+          { name: 'message', label: 'Message', type: 'textarea' },
+        ],
+        button: 'Send Message',
+        subject: 'Contact from website',
+      },
+      exit: {
+        fields: [
+          { name: 'email', label: 'your@email.com', type: 'email', required: true, bare: true },
+        ],
+        button: 'Send It →',
+        subject: 'Inbox Zero Checklist Request',
+      },
+    };
+
+    function buildFallback(container, kind){
+      const cfg = configs[kind];
+      if (!cfg) return;
+
+      const form = document.createElement('form');
+      form.className = kind === 'exit' ? 'fallback-form fallback-row' : 'fallback-form';
+
+      cfg.fields.forEach(f => {
+        const el = document.createElement(f.type === 'textarea' ? 'textarea' : 'input');
+        if (f.type !== 'textarea') el.type = f.type;
+        el.name = f.name;
+        el.placeholder = f.label;
+        if (f.required) el.required = true;
+        form.appendChild(el);
+      });
+
+      const btn = document.createElement('button');
+      btn.type = 'submit';
+      btn.textContent = cfg.button;
+      form.appendChild(btn);
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        let body = '';
+        cfg.fields.forEach(f => {
+          body += `${f.label}: ${data.get(f.name) || '—'}\n`;
+        });
+        const mailto = `mailto:george.jabley@gmail.com?subject=${encodeURIComponent(cfg.subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailto;
+      });
+
+      container.innerHTML = '';
+      container.appendChild(form);
+
+      if (kind !== 'exit'){
+        const note = document.createElement('div');
+        note.className = 'fallback-note';
+        note.textContent = 'Opens your email client to send this — no account needed.';
+        container.appendChild(note);
+      }
+    }
+
+    document.querySelectorAll('.ml-embedded[data-fallback]').forEach(el => {
+      const formId = el.getAttribute('data-form') || '';
+      const kind = el.getAttribute('data-fallback');
+      if (formId.indexOf('PASTE_YOUR') === 0){
+        buildFallback(el, kind);
+      } else {
+        // Real form ID present — give MailerLite's widget a moment to render;
+        // if it still hasn't populated the box, fall back so it's never left blank.
+        setTimeout(() => {
+          if (!el.hasChildNodes() || el.children.length === 0){
+            buildFallback(el, kind);
+          }
+        }, 3000);
+      }
+    });
+  })();
 </script>
 
 
@@ -1198,7 +1300,7 @@
     <!-- MailerLite embedded form — replace data-form value with your real MailerLite form ID.
          Configure this one as a single-field (Email) form with button text "Send It →",
          and set its background to transparent/dark to match this popup. -->
-    <div class="ml-embedded exit-embed" data-form="PASTE_YOUR_MAILERLITE_EXIT_POPUP_FORM_ID_HERE"></div>
+    <div class="ml-embedded exit-embed" data-form="PASTE_YOUR_MAILERLITE_EXIT_POPUP_FORM_ID_HERE" data-fallback="exit"></div>
 
     <a href="#" class="exit-dismiss" id="exitDismiss">No thanks, I'll figure it out myself</a>
   </div>
