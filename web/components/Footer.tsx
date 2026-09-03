@@ -67,16 +67,11 @@ export default function Footer() {
 
       <div className="container-page mt-14 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-6">
         <div className="col-span-2 sm:col-span-3 lg:col-span-1">
-          <img
-            src="/Techwokx_footer_logo.png"
-            alt="TechWokx"
-            className="h-12 w-12"
-          />
-          <div className="mt-3 text-lg font-extrabold tracking-tight">
-            TechWokx
-          </div>
-          <div className="text-[10px] font-medium tracking-[0.14em] text-mist">
-            INTELLIGENT SOLUTIONS. SECURE FUTURES.
+          <span className="text-xl font-extrabold tracking-tight">
+            Tech<span className="bg-brand-gradient bg-clip-text text-transparent">Wokx</span>
+          </span>
+          <div className="mt-0.5 text-[10px] font-medium tracking-[0.14em] text-mist">
+            AI FOR YOUR WEBSITE
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-mist">
             We turn ordinary business websites into intelligent business
