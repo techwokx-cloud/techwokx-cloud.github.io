@@ -6,17 +6,35 @@ import {
   Search,
   Wrench,
   Rocket,
+  UserX,
+  Eye,
+  FileSearch,
+  Mail,
+  UserCheck,
+  Bot,
+  MessageCircle,
+  ThumbsUp,
+  ShieldCheck,
+  Zap as ZapIcon,
 } from "lucide-react";
 import CTABand from "@/components/CTABand";
+import TransformIllustration from "@/components/illustrations/TransformIllustration";
+import TeamIllustration from "@/components/illustrations/TeamIllustration";
 
-const traditional = ["Information", "Visitor", "Finds information", "Contact form", "Human responds"];
+const traditional = [
+  { icon: UserX, label: "Information" },
+  { icon: Eye, label: "Visitor" },
+  { icon: FileSearch, label: "Finds information" },
+  { icon: Mail, label: "Contact form" },
+  { icon: UserCheck, label: "Human responds" },
+];
 const aiPowered = [
-  "Visitor",
-  "AI understands intent",
-  "AI answers",
-  "AI recommends",
-  "AI qualifies",
-  "AI takes action",
+  { icon: Eye, label: "Visitor" },
+  { icon: Bot, label: "AI understands intent" },
+  { icon: MessageCircle, label: "AI answers" },
+  { icon: ThumbsUp, label: "AI recommends" },
+  { icon: ShieldCheck, label: "AI qualifies" },
+  { icon: ZapIcon, label: "AI takes action" },
 ];
 
 const philosophy = [
@@ -68,15 +86,32 @@ export default function AboutPage() {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <TransformIllustration />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-navy-800 py-16">
+        <div className="container-page">
+          <div className="mx-auto max-w-xl text-center">
+            <p className="eyebrow">The shift</p>
+            <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
+              From A Website That Waits To One That Acts
+            </h2>
+          </div>
+          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <div className="card-dark rounded-xl p-5">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-mist">
                 Your website today
               </p>
-              <ol className="space-y-2.5">
-                {traditional.map((step, i) => (
-                  <li key={step} className="flex items-center gap-2 text-white/80">
-                    <span className="text-mist">{i + 1}.</span> {step}
+              <ol className="space-y-3">
+                {traditional.map((step) => (
+                  <li key={step.label} className="flex items-center gap-2.5 text-white/80">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/5">
+                      <step.icon size={13} className="text-mist" />
+                    </span>
+                    {step.label}
                   </li>
                 ))}
               </ol>
@@ -85,10 +120,13 @@ export default function AboutPage() {
               <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-violet">
                 With TechWokx AI
               </p>
-              <ol className="space-y-2.5">
-                {aiPowered.map((step, i) => (
-                  <li key={step} className="flex items-center gap-2 text-white/90">
-                    <span className="text-violet">{i + 1}.</span> {step}
+              <ol className="space-y-3">
+                {aiPowered.map((step) => (
+                  <li key={step.label} className="flex items-center gap-2.5 text-white/90">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet/15">
+                      <step.icon size={13} className="text-violet" />
+                    </span>
+                    {step.label}
                   </li>
                 ))}
               </ol>
@@ -173,10 +211,8 @@ export default function AboutPage() {
               Builders. Problem solvers. AI enthusiasts.
             </p>
           </div>
-          <div className="flex aspect-video items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-blue-100">
-            <span className="text-sm font-medium text-navy/40">
-              Team photo placeholder
-            </span>
+          <div>
+            <TeamIllustration />
           </div>
         </div>
       </section>
