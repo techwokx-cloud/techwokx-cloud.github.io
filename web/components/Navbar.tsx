@@ -8,29 +8,29 @@ type NavItem = { label: string; href: string; blurb?: string };
 
 const productItems: NavItem[] = [
   { label: "AI Platform", href: "/solutions", blurb: "The engine behind every agent" },
-  { label: "AI Assistant", href: "/solutions", blurb: "Answers visitor questions 24/7" },
-  { label: "AI Sales", href: "/solutions", blurb: "Qualifies leads, closes more deals" },
-  { label: "AI Support", href: "/solutions", blurb: "Resolves issues without a queue" },
-  { label: "AI Search", href: "/solutions", blurb: "Natural-language knowledge search" },
-  { label: "AI Booking", href: "/solutions", blurb: "Books appointments automatically" },
+  { label: "AI Assistant", href: "/solutions#automate-support", blurb: "Answers visitor questions 24/7" },
+  { label: "AI Sales", href: "/solutions#generate-more-leads", blurb: "Qualifies leads, closes more deals" },
+  { label: "AI Support", href: "/solutions#automate-support", blurb: "Resolves issues without a queue" },
+  { label: "AI Search", href: "/solutions#unlock-knowledge", blurb: "Natural-language knowledge search" },
+  { label: "AI Booking", href: "/solutions#automate-bookings", blurb: "Books appointments automatically" },
 ];
 
 const solutionsItems: NavItem[] = [
-  { label: "Generate More Leads", href: "/solutions" },
-  { label: "Increase Sales", href: "/solutions" },
-  { label: "Automate Support", href: "/solutions" },
-  { label: "Automate Bookings", href: "/solutions" },
-  { label: "Unlock Knowledge", href: "/solutions" },
-  { label: "Automate Operations", href: "/solutions" },
+  { label: "Generate More Leads", href: "/solutions#generate-more-leads" },
+  { label: "Increase Sales", href: "/solutions#increase-sales" },
+  { label: "Automate Support", href: "/solutions#automate-support" },
+  { label: "Automate Bookings", href: "/solutions#automate-bookings" },
+  { label: "Unlock Knowledge", href: "/solutions#unlock-knowledge" },
+  { label: "Automate Operations", href: "/solutions#automate-operations" },
 ];
 
 const industryItems: NavItem[] = [
-  { label: "Hospitality", href: "/industries" },
-  { label: "Healthcare", href: "/industries" },
-  { label: "Retail & E-commerce", href: "/industries" },
-  { label: "Professional Services", href: "/industries" },
-  { label: "Education", href: "/industries" },
-  { label: "Real Estate", href: "/industries" },
+  { label: "Hospitality", href: "/industries#hospitality" },
+  { label: "Healthcare", href: "/industries#healthcare" },
+  { label: "Retail & E-commerce", href: "/industries#retail-ecommerce" },
+  { label: "Professional Services", href: "/industries#professional-services" },
+  { label: "Education", href: "/industries#education" },
+  { label: "Real Estate", href: "/industries#real-estate" },
 ];
 
 function NavDropdown({

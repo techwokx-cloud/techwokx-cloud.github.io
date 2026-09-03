@@ -13,36 +13,42 @@ import CTABand from "@/components/CTABand";
 
 const solutions = [
   {
+    id: "generate-more-leads",
     icon: Target,
     title: "Generate More Leads",
     desc: "AI engages visitors, qualifies them and captures high-intent leads.",
     flow: ["Visitor", "AI Chat", "Qualified", "CRM"],
   },
   {
+    id: "increase-sales",
     icon: TrendingUp,
     title: "Increase Sales",
     desc: "AI recommends, persuades and turns interest into sales.",
     flow: ["Visitor", "AI Recommends", "Purchase"],
   },
   {
+    id: "automate-support",
     icon: Headphones,
     title: "Automate Support",
     desc: "AI answers questions, resolves issues and escalates only when needed.",
     flow: ["Customer", "AI Support", "Human (rare)"],
   },
   {
+    id: "automate-bookings",
     icon: CalendarClock,
     title: "Automate Bookings",
     desc: "AI checks availability, schedules appointments and sends reminders.",
     flow: ["Visitor", "AI Booking", "Calendar"],
   },
   {
+    id: "unlock-knowledge",
     icon: BookOpen,
     title: "Unlock Knowledge",
     desc: "AI finds answers from your content so your team and customers get instant help.",
     flow: ["Question", "AI Knowledge", "Answer"],
   },
   {
+    id: "automate-operations",
     icon: Settings2,
     title: "Automate Operations",
     desc: "AI connects tools and systems to automate repetitive business tasks.",
@@ -102,7 +108,8 @@ export default function SolutionsPage() {
             {solutions.map((s) => (
               <div
                 key={s.title}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                id={s.id}
+                className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50">
                   <s.icon size={22} className="text-violet-600" />

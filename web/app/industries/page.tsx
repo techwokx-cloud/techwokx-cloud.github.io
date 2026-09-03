@@ -10,6 +10,7 @@ import CTABand from "@/components/CTABand";
 
 const industries = [
   {
+    id: "hospitality",
     icon: Bell,
     name: "Hospitality",
     desc: "AI concierge, instant guest support and seamless bookings.",
@@ -18,6 +19,7 @@ const industries = [
     prompts: ["Check availability", "Hotel amenities", "Nearby attractions"],
   },
   {
+    id: "healthcare",
     icon: Cross,
     name: "Healthcare",
     desc: "Answer patient questions, schedule appointments and reduce no-shows.",
@@ -26,6 +28,7 @@ const industries = [
     prompts: ["Book appointment", "Clinic hours", "Insurance info"],
   },
   {
+    id: "retail-ecommerce",
     icon: ShoppingCart,
     name: "Retail & E-commerce",
     desc: "AI product advisor, personalized recommendations and order support.",
@@ -34,6 +37,7 @@ const industries = [
     prompts: ["Find products", "Track order", "Returns & refunds"],
   },
   {
+    id: "professional-services",
     icon: Briefcase,
     name: "Professional Services",
     desc: "Qualify leads, book consultations and deliver instant information.",
@@ -42,6 +46,7 @@ const industries = [
     prompts: ["Book a consultation", "Our services", "Case studies"],
   },
   {
+    id: "education",
     icon: GraduationCap,
     name: "Education",
     desc: "Engage students, answer questions and streamline admissions.",
@@ -50,6 +55,7 @@ const industries = [
     prompts: ["Programs & courses", "Admission process", "Tuition & fees"],
   },
   {
+    id: "real-estate",
     icon: Home,
     name: "Real Estate",
     desc: "AI property advisor, lead capture and appointment booking.",
@@ -115,7 +121,8 @@ export default function IndustriesPage() {
             {industries.map((ind) => (
               <div
                 key={ind.name}
-                className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm"
+                id={ind.id}
+                className="scroll-mt-24 overflow-hidden rounded-2xl border border-slate-200 shadow-sm"
               >
                 <div className="flex items-center gap-3 border-b border-slate-100 p-5">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50">
