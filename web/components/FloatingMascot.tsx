@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { openChatWidget } from "@/lib/chat-events";
 
-const SIZE = 190;
+const Mascot3D = dynamic(() => import("@/components/Mascot3D"), { ssr: false });
+
+const SIZE = 220;
 const MOVE_INTERVAL_MS = 6000;
 const WAVE_INTERVAL_MS = 8000;
 
@@ -49,7 +52,7 @@ export default function FloatingMascot() {
 
     const waveTimer = setInterval(() => {
       setWaving(true);
-      setTimeout(() => setWaving(false), 1600);
+      setTimeout(() => setWaving(false), 1800);
     }, WAVE_INTERVAL_MS);
 
     return () => {
@@ -61,8 +64,8 @@ export default function FloatingMascot() {
   const handleTouch = () => {
     setWaving(true);
     setGreeting(true);
-    setTimeout(() => setWaving(false), 1600);
-    setTimeout(() => setGreeting(false), 2600);
+    setTimeout(() => setWaving(false), 1800);
+    setTimeout(() => setGreeting(false), 2800);
   };
 
   if (reducedMotion) return null;
@@ -87,14 +90,10 @@ export default function FloatingMascot() {
         aria-label="Chat with the TechWokx AI assistant"
         className={`pointer-events-auto block cursor-pointer transition-transform duration-500 ${
           bumping ? "scale-90" : "scale-100"
-        } ${waving ? "animate-mascot-wave" : "animate-mascot-bob"}`}
+        }`}
         style={{ width: SIZE, height: SIZE }}
       >
-        <img
-          src="/mascot-robot.png"
-          alt="TechWokx AI assistant mascot"
-          className="h-full w-full object-contain drop-shadow-[0_8px_16px_rgba(124,58,237,0.35)]"
-        />
+        <Mascot3D waving={waving} />
       </button>
     </div>
   );
