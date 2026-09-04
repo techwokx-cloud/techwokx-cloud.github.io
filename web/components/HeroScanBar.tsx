@@ -1,16 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Globe,
-  CheckCircle2,
-  Clock,
-  ShieldCheck,
-  Check,
-  Mail,
-  Building2,
-  MessageCircle,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Globe, CheckCircle2, Clock, ShieldCheck, Check } from "lucide-react";
 
 const countryCodes = [
   { code: "+233", label: "🇬🇭 +233" },
@@ -36,6 +27,7 @@ export default function HeroScanBar() {
   const [whatsapp, setWhatsapp] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const handleUrlSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,8 +42,23 @@ export default function HeroScanBar() {
     setSubmitted(true);
   };
 
+  // Click outside the expanded details step collapses it back to step 1.
+  useEffect(() => {
+    if (!showDetails || submitted) return;
+    const handleClick = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setShowDetails(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [showDetails, submitted]);
+
   return (
-    <div className="card-dark relative overflow-hidden rounded-2xl border-violet/30 bg-navy-800 p-6 shadow-glow sm:p-8">
+    <div
+      ref={rootRef}
+      className="card-dark relative overflow-hidden rounded-2xl border-violet/30 bg-navy-800 p-6 shadow-glow sm:p-8"
+    >
       <div className="text-center">
         <h2 className="text-2xl font-extrabold text-white sm:text-3xl">
           See Your AI Opportunity in{" "}
@@ -120,8 +127,8 @@ export default function HeroScanBar() {
             <span className="text-white">{url}</span>?
           </p>
 
-          <div className="flex items-center gap-2 rounded-xl bg-white px-3 py-2.5">
-            <Building2 size={18} className="shrink-0 text-slate-400" />
+          <div className="flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5">
+            <img src="/icons/building-icon.png" alt="" className="h-[18px] w-[18px] shrink-0 opacity-70" />
             <input
               type="text"
               required
@@ -133,8 +140,8 @@ export default function HeroScanBar() {
             />
           </div>
 
-          <div className="flex items-center gap-2 rounded-xl bg-white px-3 py-2.5">
-            <Mail size={18} className="shrink-0 text-slate-400" />
+          <div className="flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5">
+            <img src="/icons/mail-icon.png" alt="" className="h-[18px] w-[18px] shrink-0" />
             <input
               type="email"
               required
@@ -145,8 +152,8 @@ export default function HeroScanBar() {
             />
           </div>
 
-          <div className="flex items-center gap-2 rounded-xl bg-white px-2 py-2.5 sm:px-3">
-            <MessageCircle size={18} className="shrink-0 text-slate-400" />
+          <div className="flex items-center gap-2.5 rounded-xl bg-white px-2 py-2.5 sm:px-3">
+            <img src="/icons/whatsapp-icon.png" alt="" className="h-[18px] w-[18px] shrink-0" />
             <select
               value={countryCode}
               onChange={(e) => setCountryCode(e.target.value)}

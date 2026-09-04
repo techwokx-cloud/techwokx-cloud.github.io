@@ -133,3 +133,12 @@ body {
   animation: icon-pulse 2.2s ease-in-out infinite;
 }
 
+@keyframes circuit-flow {
+  0% { stroke-dasharray: 2 6; stroke-dashoffset: 0; }
+  100% { stroke-dasharray: 2 6; stroke-dashoffset: -32; }
+}
+.animate-circuit-flow {
+  stroke-linecap: round;
+  animation: circuit-flow 2.4s linear infinite;
+}
+

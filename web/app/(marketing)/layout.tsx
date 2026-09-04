@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
-import FloatingMascot from "@/components/FloatingMascot";
+import MetaPixel from "@/components/MetaPixel";
 
 export default function MarketingLayout({
   children,
@@ -10,10 +10,10 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <MetaPixel />
       <Navbar />
       <main>{children}</main>
       <Footer />
-      <FloatingMascot />
       <ChatWidget />
     </>
   );

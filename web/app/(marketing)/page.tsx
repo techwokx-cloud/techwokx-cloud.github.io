@@ -5,11 +5,12 @@ import {
   Zap,
   ArrowUpRight,
   MessageCircle,
-  CalendarCheck,
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
 import Reveal from "@/components/Reveal";
 import Typewriter from "@/components/Typewriter";
+import CircuitLines from "@/components/CircuitLines";
+import BookingMiniDemo from "@/components/BookingMiniDemo";
 
 export const metadata: Metadata = {
   title: "AI For Your Website — Free Website Scan & AI Retrofit",
@@ -27,6 +28,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-gradient-radial bg-ink pb-20 pt-16 sm:pt-24">
         <div className="container-page relative">
+          <CircuitLines />
           {/* Decorative floating chips — only shown where there's real room */}
           <div className="pointer-events-none absolute left-0 top-8 hidden w-64 flex-col gap-4 xl:flex">
             <div
@@ -78,16 +80,10 @@ export default function HomePage() {
               <span className="text-xs font-medium text-white/85">AI Qualifies</span>
             </div>
             <div
-              className="card-dark flex items-center gap-2 rounded-full py-2 pl-2.5 pr-4 animate-chip-float"
+              className="animate-chip-float"
               style={{ animationDelay: "800ms" }}
             >
-              <span
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500/15 animate-icon-pulse"
-                style={{ animationDelay: "500ms" }}
-              >
-                <CalendarCheck size={15} className="text-orange-400" />
-              </span>
-              <span className="text-xs font-medium text-white/85">AI Books</span>
+              <BookingMiniDemo />
             </div>
             <div
               className="card-dark flex items-center gap-2 rounded-full py-2 pl-2.5 pr-4 animate-chip-float"
@@ -207,14 +203,17 @@ export default function HomePage() {
           fabricated testimonial, until there's a real client to feature. */}
       <section className="py-20" style={{ backgroundColor: "rgb(247,247,248)" }}>
         <div className="container-page">
-          <Reveal>
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="eyebrow">Featured Client</p>
-              <h2 className="mt-3 text-3xl font-extrabold text-navy sm:text-4xl">
-                Real Businesses. Real Results.
-              </h2>
-            </div>
-          </Reveal>
+          <div className="mx-auto max-w-2xl text-center">
+            <Reveal as="span" className="eyebrow">Featured Client</Reveal>
+            <h2 className="mt-3 text-3xl font-extrabold text-navy sm:text-4xl">
+              <Reveal as="span">Real Businesses.</Reveal>{" "}
+              <Reveal as="span" delay={200} variant="scale">
+                <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">
+                  Real Results.
+                </span>
+              </Reveal>
+            </h2>
+          </div>
 
           <Reveal delay={150}>
             <div className="mx-auto mt-10 max-w-3xl rounded-2xl border-2 border-dashed border-violet-200 bg-white p-8 text-center sm:p-10">

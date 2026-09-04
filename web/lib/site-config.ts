@@ -17,4 +17,10 @@ export const siteConfig = {
   /** Default message pre-filled when a visitor is handed off to WhatsApp. */
   whatsappFallbackMessage:
     "Hi TechWokx! I was chatting with your AI assistant and it couldn't answer my question:",
+
+  /** Meta (Facebook/Instagram) Pixel ID for ad conversion tracking.
+   *  Get this from Meta Events Manager (business.facebook.com/events_manager).
+   *  Set to null to disable tracking entirely (no script loads).
+   */
+  metaPixelId: null as string | null,
 };
