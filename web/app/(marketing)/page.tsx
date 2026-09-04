@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Star,
   UserCheck,
@@ -8,6 +9,14 @@ import {
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "AI For Your Website — Free Website Scan & AI Retrofit",
+  description:
+    "Free 60-second AI website scan. Get your AI Readiness Score, top opportunities, and a personalized retrofit plan — AI sales, support, booking and knowledge agents added to your existing site.",
+  alternates: { canonical: "/" },
+  openGraph: { url: "/", title: "TechWokx — Your Website. Now Intelligent." },
+};
 
 const logoSlots = [1, 2, 3, 4, 5, 6];
 

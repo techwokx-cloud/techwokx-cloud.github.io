@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   BrainCircuit,
   Users,
@@ -16,6 +17,14 @@ import {
 } from "lucide-react";
 import TeamIllustration from "@/components/illustrations/TeamIllustration";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "TechWokx transforms ordinary business websites into intelligent business systems. Our mission: make every business website intelligent enough to understand, engage and help its customers.",
+  alternates: { canonical: "/about" },
+  openGraph: { url: "/about", title: "About TechWokx — The Web Is Changing. Businesses Should Too." },
+};
 
 const traditional = [
   { icon: UserX, label: "Information" },

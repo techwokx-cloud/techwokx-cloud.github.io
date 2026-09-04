@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "AI By Industry — Hospitality, Healthcare, Retail, Real Estate & More",
+  description:
+    "TechWokx adapts AI to your industry: Hospitality, Healthcare, Retail & E-commerce, Professional Services, Education and Real Estate — each with its own AI assistant setup.",
+  alternates: { canonical: "/industries" },
+  openGraph: { url: "/industries", title: "AI That Understands Your Industry | TechWokx" },
+};
 
 const industryZones = [
   { label: "Hospitality", left: "0%", width: "33.333%" },

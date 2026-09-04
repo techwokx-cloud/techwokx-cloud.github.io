@@ -1,23 +1,8 @@
-# TechWokx Ghana — robots.txt
-User-agent: *
+User-Agent: *
 Allow: /
-Disallow: /dashboard.html
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /login/
 
-# Sitemap
 Sitemap: https://techwokx.online/sitemap.xml
-
-# Allow all major crawlers
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /

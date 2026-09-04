@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Check,
   MessageSquare,
@@ -7,6 +8,14 @@ import {
   Globe,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Pricing — One-Time AI Website Projects",
+  description:
+    "Simple, one-time project pricing for AI website retrofits: AI Assistant, AI Business, and AI Business Platform. Custom website builds include hosting from Year 2.",
+  alternates: { canonical: "/pricing" },
+  openGraph: { url: "/pricing", title: "Pricing | TechWokx" },
+};
 
 const plans = [
   {

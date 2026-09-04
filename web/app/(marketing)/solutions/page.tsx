@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Bot,
   MessageCircle,
@@ -10,6 +11,14 @@ import {
   Sparkles,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "AI Solutions — Generate Leads, Increase Sales, Automate Support",
+  description:
+    "Turn repetitive work into intelligent action: AI agents that generate leads, increase sales, automate support and bookings, unlock knowledge search, and automate operations.",
+  alternates: { canonical: "/solutions" },
+  openGraph: { url: "/solutions", title: "AI Solutions | TechWokx" },
+};
 
 export default function SolutionsPage() {
   return (
