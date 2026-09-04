@@ -236,10 +236,14 @@ export default function PricingPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
 
+      <section className="py-14" style={{ backgroundColor: "rgb(245,243,255)" }}>
+        <div className="container-page">
           <Reveal>
-            <div className="mx-auto mt-10 flex max-w-3xl flex-col items-start gap-4 rounded-2xl border border-violet-200 bg-violet-50 p-6 sm:flex-row sm:items-center">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white">
+            <div className="mx-auto flex max-w-3xl flex-col items-start gap-4 rounded-2xl border border-violet-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-50">
                 <Globe size={20} className="text-violet-600" />
               </div>
               <div>
@@ -256,9 +260,13 @@ export default function PricingPage() {
               </div>
             </div>
           </Reveal>
+        </div>
+      </section>
 
+      <section className="py-20" style={{ backgroundColor: "rgb(248,249,250)" }}>
+        <div className="container-page">
           <Reveal delay={200} variant="scale">
-            <div className="mt-16">
+            <div className="mt-4">
               <img
                 src="/mockups/journey-grows.png"
                 alt="How Your AI Journey Grows: Scan, Retrofit, Automate, Grow — plus 100% Secure, Quick Setup, No Code Needed, Works With What You Use, Always Improving"

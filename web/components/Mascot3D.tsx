@@ -33,7 +33,7 @@ function RobotModel({ waving }: { waving: boolean }) {
   });
 
   return (
-    <group ref={group} scale={2.6} position={[0, -0.9, 0]}>
+    <group ref={group} scale={1} position={[0, -1, 0]}>
       <primitive object={scene} />
     </group>
   );
@@ -42,7 +42,7 @@ function RobotModel({ waving }: { waving: boolean }) {
 export default function Mascot3D({ waving }: { waving: boolean }) {
   return (
     <Canvas
-      camera={{ position: [0, 0, 3.4], fov: 32 }}
+      camera={{ position: [0, 0, 4.6], fov: 32 }}
       gl={{ alpha: true, antialias: true }}
       style={{ background: "transparent" }}
     >
