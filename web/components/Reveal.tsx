@@ -36,16 +36,22 @@ export default function Reveal({
   }, []);
 
   const hidden =
-    variant === "scale" ? "opacity-0 scale-95" : "opacity-0 translate-y-6";
+    variant === "scale"
+      ? "opacity-0 scale-75"
+      : "opacity-0 translate-y-16";
   const shown = "opacity-100 scale-100 translate-y-0";
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible ? shown : hidden
-      } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all ease-out ${visible ? shown : hidden} ${className}`}
+      style={{
+        transitionDelay: `${delay}ms`,
+        transitionDuration: "900ms",
+        transitionTimingFunction: visible
+          ? "cubic-bezier(0.22, 1.4, 0.36, 1)"
+          : undefined,
+      }}
     >
       {children}
     </div>

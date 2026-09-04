@@ -30,7 +30,7 @@ function whatsappLink(question?: string) {
 const GREETING: Message = {
   id: "greeting",
   from: "bot",
-  text: "👋 Hi! I'm the TechWokx AI Assistant. Ask me about pricing, industries, how the scan works, or anything else — and if I don't know, I'll get you straight to our team on WhatsApp.",
+  text: "👋 Hi! I'm the TechWokx AI Assistant. Ask me about pricing, industries, how the scan works, or anything else — and if I don't know, I'll get you straight to our team on WhatsApp. Or you can scan your website right now to see your existing readiness score.",
 };
 
 export default function ChatWidget() {

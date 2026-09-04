@@ -79,7 +79,7 @@ export default function HomePage() {
               <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
                 Your Website.
                 <br />
-                Now <span className="bg-brand-gradient bg-clip-text text-transparent">Intelligent.</span>
+                Now <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">Intelligent.</span>
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-lg text-mist">
                 TechWokx adds an AI layer to your website so it can understand,

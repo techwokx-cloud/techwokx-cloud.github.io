@@ -17,7 +17,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/90 backdrop-blur-md shadow-[0_1px_0_0_rgba(139,92,246,0.15)]">
+    <header className="sticky top-0 z-50 bg-ink/80 backdrop-blur-md">
       <div className="container-page flex h-20 items-center justify-between">
         <Link href="/" className="focus-ring flex items-center gap-2">
           <img
@@ -27,17 +27,17 @@ export default function Navbar() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1.5 lg:flex">
+        <nav className="hidden items-center gap-1.5 lg:flex">
           {navLinks.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`focus-ring relative rounded-full px-4 py-2 text-sm font-medium transition ${
+                className={`focus-ring group relative rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
                   active
-                    ? "bg-brand-gradient text-white shadow-glow"
-                    : "text-white/70 hover:bg-white/10 hover:text-white"
+                    ? "bg-brand-gradient text-white shadow-glow scale-105"
+                    : "text-white/75 hover:scale-105 hover:bg-brand-gradient hover:text-white hover:shadow-glow"
                 }`}
               >
                 {item.label}

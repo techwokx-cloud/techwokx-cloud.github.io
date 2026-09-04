@@ -1,0 +1,101 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { openChatWidget } from "@/lib/chat-events";
+
+const SIZE = 84;
+const MOVE_INTERVAL_MS = 5500;
+const WAVE_INTERVAL_MS = 9000;
+
+function randomPoint() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const margin = SIZE + 20;
+  // Keep clear of the top nav and the bottom-right chat button.
+  const minY = 100;
+  const maxY = Math.max(minY + 100, h - 160);
+  const maxX = Math.max(margin, w - margin - 90);
+  return {
+    x: margin + Math.random() * (maxX - margin),
+    y: minY + Math.random() * (maxY - minY),
+  };
+}
+
+export default function FloatingMascot() {
+  const [pos, setPos] = useState({ x: 40, y: 140 });
+  const [waving, setWaving] = useState(false);
+  const [bumping, setBumping] = useState(false);
+  const [greeting, setGreeting] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    if (!initialized.current) {
+      initialized.current = true;
+      setPos(randomPoint());
+    }
+
+    const moveTimer = setInterval(() => {
+      setPos(randomPoint());
+      setBumping(true);
+      setTimeout(() => setBumping(false), 500);
+    }, MOVE_INTERVAL_MS);
+
+    const waveTimer = setInterval(() => {
+      setWaving(true);
+      setTimeout(() => setWaving(false), 1400);
+    }, WAVE_INTERVAL_MS);
+
+    return () => {
+      clearInterval(moveTimer);
+      clearInterval(waveTimer);
+    };
+  }, [reducedMotion]);
+
+  const handleTouch = () => {
+    setWaving(true);
+    setGreeting(true);
+    setTimeout(() => setWaving(false), 1400);
+    setTimeout(() => setGreeting(false), 2600);
+  };
+
+  if (reducedMotion) return null;
+
+  return (
+    <div
+      className="pointer-events-none fixed z-40 hidden transition-all duration-[3200ms] ease-in-out lg:block"
+      style={{ left: pos.x, top: pos.y }}
+    >
+      {greeting && (
+        <div className="pointer-events-none absolute -top-11 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy-800 px-3 py-1.5 text-xs font-medium text-white shadow-glow">
+          Need help with your website? 👋
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={() => {
+          handleTouch();
+          openChatWidget();
+        }}
+        onMouseEnter={handleTouch}
+        aria-label="Chat with the TechWokx AI assistant"
+        className={`pointer-events-auto block cursor-pointer transition-transform duration-500 ${
+          bumping ? "scale-90" : "scale-100"
+        } ${waving ? "animate-mascot-wave" : "animate-mascot-bob"}`}
+        style={{ width: SIZE, height: SIZE }}
+      >
+        <img
+          src="/mascot-robot.png"
+          alt="TechWokx AI assistant mascot"
+          className="h-full w-full object-contain drop-shadow-[0_8px_16px_rgba(124,58,237,0.35)]"
+        />
+      </button>
+    </div>
+  );
+}

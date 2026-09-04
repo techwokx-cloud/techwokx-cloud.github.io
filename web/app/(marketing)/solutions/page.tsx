@@ -73,7 +73,7 @@ export default function SolutionsPage() {
               <p className="eyebrow">Intelligent solutions that drive real results</p>
               <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
                 What Do You Want AI To Do For{" "}
-                <span className="bg-brand-gradient bg-clip-text text-transparent">
+                <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">
                   Your Business?
                 </span>
               </h1>

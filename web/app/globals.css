@@ -80,5 +80,35 @@ body {
   .btn-gradient:active {
     transform: translateY(1px);
   }
+
+  .text-shimmer {
+    background-size: 200% auto;
+    animation: gradient-shimmer 3.5s ease-in-out infinite;
+  }
+}
+
+@keyframes gradient-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes mascot-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-2deg); }
+}
+.animate-mascot-bob {
+  animation: mascot-bob 3.2s ease-in-out infinite;
+}
+
+@keyframes mascot-wave {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(-14deg); }
+  30% { transform: rotate(10deg); }
+  45% { transform: rotate(-10deg); }
+  60% { transform: rotate(8deg); }
+  75% { transform: rotate(-4deg); }
+}
+.animate-mascot-wave {
+  animation: mascot-wave 1.4s ease-in-out;
 }
 

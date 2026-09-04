@@ -4,6 +4,7 @@ import {
   TrendingUp,
   Rocket,
   Sparkles,
+  Globe,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 
@@ -14,7 +15,7 @@ const plans = [
     name: "AI Assistant",
     tagline: "Add an intelligent assistant to your website.",
     price: "$79",
-    period: "/month",
+    period: "one-time",
     features: [
       "AI Website Assistant",
       "Answer Customer Questions",
@@ -32,7 +33,7 @@ const plans = [
     name: "AI Business",
     tagline: "Turn your website into a lead and sales machine.",
     price: "$199",
-    period: "/month",
+    period: "one-time",
     features: [
       "Everything in Starter",
       "AI Sales Agent",
@@ -51,7 +52,7 @@ const plans = [
     name: "AI Business Platform",
     tagline: "Full AI automation for growing businesses.",
     price: "Custom",
-    period: "",
+    period: "one-time",
     features: [
       "Everything in Growth",
       "AI Support Agent",
@@ -77,7 +78,7 @@ export default function PricingPage() {
               <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
                 Start Small.
                 <br />
-                <span className="bg-brand-gradient bg-clip-text text-transparent">
+                <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">
                   Grow Into AI.
                 </span>
               </h1>
@@ -87,10 +88,10 @@ export default function PricingPage() {
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-xs text-mist">
                 <span className="flex items-center gap-1.5">
-                  <Check size={13} className="text-violet" /> No Setup Fees
+                  <Check size={13} className="text-violet" /> One-Time Project Cost
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Check size={13} className="text-violet" /> Cancel Anytime
+                  <Check size={13} className="text-violet" /> No Recurring Fees
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Check size={13} className="text-violet" /> 30-Day Money Back
@@ -201,8 +202,8 @@ export default function PricingPage() {
                     </span>
                     <span className="text-slate-400">{plan.period}</span>
                   </div>
-                  {plan.period && (
-                    <p className="text-xs text-slate-400">Billed monthly</p>
+                  {plan.period && plan.price !== "Custom" && (
+                    <p className="text-xs text-slate-400">One-time project fee</p>
                   )}
                   <ul className="mt-6 flex-1 space-y-2.5">
                     {plan.features.map((f) => (
@@ -226,6 +227,26 @@ export default function PricingPage() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal>
+            <div className="mx-auto mt-10 flex max-w-3xl flex-col items-start gap-4 rounded-2xl border border-violet-200 bg-violet-50 p-6 sm:flex-row sm:items-center">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white">
+                <Globe size={20} className="text-violet-600" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-navy">
+                  Building a brand new custom website?
+                </p>
+                <p className="mt-1 text-sm text-slate-600">
+                  Custom website builds are also a one-time project fee.
+                  Hosting, SSL, backups, monitoring and a baseline AI
+                  allowance are included — billed annually starting Year 2.
+                  AI retrofits on an existing site don&apos;t need hosting,
+                  so it&apos;s not part of those packages above.
+                </p>
+              </div>
+            </div>
+          </Reveal>
 
           <Reveal delay={200} variant="scale">
             <div className="mt-16">
