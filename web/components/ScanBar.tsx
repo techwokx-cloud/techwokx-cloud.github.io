@@ -22,7 +22,6 @@ export default function ScanBar({ compact = false }: { compact?: boolean }) {
 
   return (
     <div
-      id="scan"
       className={`card-dark bg-brand-gradient-radial relative overflow-hidden rounded-2xl border-violet/20 bg-navy-800 ${
         compact ? "p-6" : "p-8"
       }`}

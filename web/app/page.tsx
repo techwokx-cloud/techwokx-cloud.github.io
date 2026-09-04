@@ -1,50 +1,13 @@
 import {
-  MessageCircle,
-  Filter,
-  CalendarCheck,
-  BookOpen,
-  Headphones,
-  Cog,
   Star,
   UserCheck,
   Zap,
   ArrowUpRight,
+  MessageCircle,
+  CalendarCheck,
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
 import CTABand from "@/components/CTABand";
-
-const features = [
-  {
-    icon: MessageCircle,
-    title: "AI Conversations",
-    desc: "Engage visitors instantly and keep the conversation going.",
-  },
-  {
-    icon: Filter,
-    title: "More Qualified Leads",
-    desc: "AI qualifies and captures leads that are ready to buy.",
-  },
-  {
-    icon: CalendarCheck,
-    title: "Automated Bookings",
-    desc: "Let AI handle scheduling so you never miss an opportunity.",
-  },
-  {
-    icon: BookOpen,
-    title: "Smart Knowledge",
-    desc: "AI answers questions using your content and documents.",
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Support",
-    desc: "Deliver instant support without increasing your workload.",
-  },
-  {
-    icon: Cog,
-    title: "Business Automation",
-    desc: "AI connects with your tools and automates what slows you down.",
-  },
-];
 
 const logos = [
   "Hospitality Group",
@@ -123,7 +86,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="relative mx-auto mt-10 max-w-2xl">
+          <div id="scan" className="relative mx-auto mt-10 max-w-2xl scroll-mt-24">
             <HeroScanBar />
             <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm italic text-violet/80">
               <span aria-hidden>↴</span> It&apos;s fast, free and simple!
@@ -160,27 +123,12 @@ export default function HomePage() {
       {/* What you get */}
       <section className="bg-ink py-20">
         <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">What you get</p>
-            <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">
-              A Smarter Website. A Stronger Business.
-            </h2>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="card-dark flex flex-col gap-3 rounded-xl p-6 transition hover:border-violet/40"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-violet/30 bg-navy-600">
-                  <f.icon size={20} strokeWidth={1.75} color="url(#icon-gradient)" />
-                </div>
-                <h3 className="font-semibold text-white">{f.title}</h3>
-                <p className="text-sm text-mist">{f.desc}</p>
-              </div>
-            ))}
-          </div>
+          <img
+            src="/mockups/smart-website.png"
+            alt="What You Get — A Smarter Website. A Stronger Business: AI Conversations, More Qualified Leads, Automated Bookings, Smart Knowledge, 24/7 Support, Business Automation"
+            className="mx-auto w-full max-w-5xl"
+            style={{ aspectRatio: "1020 / 294" }}
+          />
         </div>
       </section>
 

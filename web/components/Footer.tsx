@@ -30,12 +30,12 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Industries",
     links: [
-      { label: "Hospitality", href: "/industries#hospitality" },
-      { label: "Healthcare", href: "/industries#healthcare" },
-      { label: "Retail & E-commerce", href: "/industries#retail-ecommerce" },
-      { label: "Professional Services", href: "/industries#professional-services" },
-      { label: "Education", href: "/industries#education" },
-      { label: "Real Estate", href: "/industries#real-estate" },
+      { label: "Hospitality", href: "/#scan" },
+      { label: "Healthcare", href: "/#scan" },
+      { label: "Retail & E-commerce", href: "/#scan" },
+      { label: "Professional Services", href: "/#scan" },
+      { label: "Education", href: "/#scan" },
+      { label: "Real Estate", href: "/#scan" },
     ],
   },
   {
