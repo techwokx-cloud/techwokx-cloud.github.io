@@ -53,22 +53,32 @@ body {
   color: #a78bfa;
 }
 
-.card-dark {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
+/* Custom component classes live in @layer components so that Tailwind
+   utility classes (e.g. bg-navy-800) always win when combined with
+   these, matching Tailwind's intended cascade. Without this layer,
+   card-dark's translucent background silently overrode explicit bg-*
+   utilities anywhere both were used together — invisible on fixed/
+   floating elements like the chat widget that aren't guaranteed to sit
+   over a dark section. */
+@layer components {
+  .card-dark {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+  }
+
+  .btn-gradient {
+    background-image: linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%);
+    color: white;
+    font-weight: 600;
+    transition: filter 0.15s ease, transform 0.15s ease;
+  }
+  .btn-gradient:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+  .btn-gradient:active {
+    transform: translateY(1px);
+  }
 }
 
-.btn-gradient {
-  background-image: linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%);
-  color: white;
-  font-weight: 600;
-  transition: filter 0.15s ease, transform 0.15s ease;
-}
-.btn-gradient:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-}
-.btn-gradient:active {
-  transform: translateY(1px);
-}
