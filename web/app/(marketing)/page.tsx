@@ -9,14 +9,7 @@ import {
 import HeroScanBar from "@/components/HeroScanBar";
 import Reveal from "@/components/Reveal";
 
-const logos = [
-  "Hospitality Group",
-  "Cura Health",
-  "Modern Retail",
-  "Summit Consulting",
-  "EduFuture",
-  "Prime Properties",
-];
+const logoSlots = [1, 2, 3, 4, 5, 6];
 
 export default function HomePage() {
   return (
@@ -74,13 +67,20 @@ export default function HomePage() {
           </div>
 
           <div className="mx-auto max-w-3xl text-center">
-            <Reveal>
-              <p className="eyebrow">Turn your website into an AI business engine</p>
-              <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
-                Your Website.
-                <br />
-                Now <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">Intelligent.</span>
-              </h1>
+            <Reveal as="span" className="eyebrow">
+              Turn your website into an AI business engine
+            </Reveal>
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
+              <Reveal as="span">Your Website.</Reveal>
+              <br />
+              <Reveal as="span" delay={200} variant="scale">
+                Now{" "}
+                <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">
+                  Intelligent.
+                </span>
+              </Reveal>
+            </h1>
+            <Reveal delay={380}>
               <p className="mx-auto mt-5 max-w-xl text-lg text-mist">
                 TechWokx adds an AI layer to your website so it can understand,
                 engage and help your customers 24/7.
@@ -88,7 +88,7 @@ export default function HomePage() {
             </Reveal>
           </div>
 
-          <Reveal delay={150}>
+          <Reveal delay={500}>
             <div id="scan" className="relative mx-auto mt-10 max-w-2xl scroll-mt-24">
               <HeroScanBar />
               <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm italic text-violet/80">
@@ -97,18 +97,42 @@ export default function HomePage() {
             </div>
           </Reveal>
 
-          <Reveal delay={300}>
+          <Reveal delay={650}>
             <div className="mx-auto mt-16 max-w-4xl">
               <p className="text-center text-xs font-medium uppercase tracking-[0.14em] text-mist">
                 Trusted by forward-thinking businesses
               </p>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-70">
-                {logos.map((logo) => (
-                  <span key={logo} className="text-sm font-semibold text-white/70">
-                    {logo}
-                  </span>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+                {logoSlots.map((i) => (
+                  <div
+                    key={i}
+                    className="flex h-11 w-32 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03]"
+                  >
+                    <span className="text-[10px] uppercase tracking-wide text-white/25">
+                      Client logo
+                    </span>
+                  </div>
                 ))}
               </div>
+              <p className="mt-3 text-center text-[11px] text-white/30">
+                Client logos manageable from the dashboard — placeholders for now.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* AI Website Scanner feature */}
+      <section className="bg-ink py-20">
+        <div className="container-page">
+          <Reveal variant="scale">
+            <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl shadow-[0_0_60px_-10px_rgba(124,58,237,0.45)]">
+              <img
+                src="/mockups/scanner-feature.png"
+                alt="AI Website Scanner — Discover Your Best AI Opportunities. Free 60-second audit with AI Readiness Score, Top Opportunity Areas, and Personalized Recommendations."
+                className="w-full"
+                style={{ aspectRatio: "1023 / 610" }}
+              />
             </div>
           </Reveal>
         </div>
@@ -138,6 +162,43 @@ export default function HomePage() {
               className="mx-auto w-full max-w-5xl"
               style={{ aspectRatio: "1020 / 294" }}
             />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Featured client — honestly a reserved/placeholder spot, not a
+          fabricated testimonial, until there's a real client to feature. */}
+      <section className="py-20" style={{ backgroundColor: "rgb(247,247,248)" }}>
+        <div className="container-page">
+          <Reveal>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="eyebrow">Featured Client</p>
+              <h2 className="mt-3 text-3xl font-extrabold text-navy sm:text-4xl">
+                Real Businesses. Real Results.
+              </h2>
+            </div>
+          </Reveal>
+
+          <Reveal delay={150}>
+            <div className="mx-auto mt-10 max-w-3xl rounded-2xl border-2 border-dashed border-violet-200 bg-white p-8 text-center sm:p-10">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50">
+                <Star size={26} className="text-violet-400" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-navy">
+                This spot is reserved for your success story.
+              </h3>
+              <p className="mx-auto mt-2 max-w-md text-sm text-slate-500">
+                We&apos;re just getting started — the first business to go
+                through a full AI retrofit with TechWokx gets featured here,
+                with real before/after results.
+              </p>
+              <a
+                href="/#scan"
+                className="btn-gradient focus-ring mt-6 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm"
+              >
+                Become Our Featured Client →
+              </a>
+            </div>
           </Reveal>
         </div>
       </section>

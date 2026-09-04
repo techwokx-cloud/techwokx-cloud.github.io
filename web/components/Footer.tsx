@@ -64,7 +64,7 @@ export default function Footer() {
           <img
             src="/Techwokx_Logo_full_final.png"
             alt="TechWokx — Intelligent Solutions. Secure Futures."
-            className="h-14 w-auto"
+            className="h-16 w-auto"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-mist">
             We turn ordinary business websites into intelligent business

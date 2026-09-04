@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Sparkles, Menu, X, LayoutDashboard } from "lucide-react";
 
 const navLinks = [
+  { label: "Home", href: "/" },
   { label: "Solutions", href: "/solutions" },
   { label: "Industries", href: "/industries" },
   { label: "Pricing", href: "/pricing" },
@@ -18,12 +19,12 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-ink/80 backdrop-blur-md">
-      <div className="container-page flex h-20 items-center justify-between">
+      <div className="container-page flex h-24 items-center justify-between">
         <Link href="/" className="focus-ring flex items-center gap-2">
           <img
             src="/Techwokx_Logo_full_final.png"
             alt="TechWokx — Intelligent Solutions. Secure Futures."
-            className="h-12 w-auto sm:h-14"
+            className="h-14 w-auto sm:h-16"
           />
         </Link>
 

@@ -8,6 +8,8 @@ type RevealProps = {
   className?: string;
   /** "up" (default) fades and slides up; "scale" fades and scales in — nicer for images. */
   variant?: "up" | "scale";
+  /** Render as a span instead of a div, for use inside inline contexts like <h1>/<p>. */
+  as?: "div" | "span";
 };
 
 export default function Reveal({
@@ -15,8 +17,9 @@ export default function Reveal({
   delay = 0,
   className = "",
   variant = "up",
+  as = "div",
 }: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -41,10 +44,13 @@ export default function Reveal({
       : "opacity-0 translate-y-16";
   const shown = "opacity-100 scale-100 translate-y-0";
 
+  const Tag = as;
+  const display = as === "span" ? "inline-block" : "block";
+
   return (
-    <div
-      ref={ref}
-      className={`transition-all ease-out ${visible ? shown : hidden} ${className}`}
+    <Tag
+      ref={ref as React.Ref<HTMLDivElement & HTMLSpanElement>}
+      className={`${display} transition-all ease-out ${visible ? shown : hidden} ${className}`}
       style={{
         transitionDelay: `${delay}ms`,
         transitionDuration: "900ms",
@@ -54,6 +60,6 @@ export default function Reveal({
       }}
     >
       {children}
-    </div>
+    </Tag>
   );
 }
