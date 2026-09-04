@@ -8,6 +8,7 @@ import {
   Globe,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import LiveCounter from "@/components/LiveCounter";
 
 export const metadata: Metadata = {
   title: "Pricing — One-Time AI Website Projects",
@@ -84,9 +85,8 @@ export default function PricingPage() {
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Reveal>
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-                Start Small.
-                <br />
+              <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+                Start Small.{" "}
                 <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">
                   Grow Into AI.
                 </span>
@@ -144,24 +144,33 @@ export default function PricingPage() {
               </svg>
 
               <div className="card-dark w-full max-w-xs shrink-0 rounded-2xl p-6">
-                <p className="text-xs font-semibold uppercase tracking-wide text-mist">
-                  AI Performance
+                <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-mist">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                  AI Performance — Live
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-2xl font-bold text-white">128</p>
+                    <p className="text-2xl font-bold text-white">
+                      <LiveCounter value={128} tickEvery={5200} tickAmount={1} />
+                    </p>
                     <p className="text-mist">Leads <span className="text-emerald-400">+28%</span></p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">42</p>
+                    <p className="text-2xl font-bold text-white">
+                      <LiveCounter value={42} tickEvery={7800} tickAmount={1} />
+                    </p>
                     <p className="text-mist">Bookings <span className="text-emerald-400">+35%</span></p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">1,248</p>
+                    <p className="text-2xl font-bold text-white">
+                      <LiveCounter value={1248} tickEvery={3400} tickAmount={1} />
+                    </p>
                     <p className="text-mist">Conversations <span className="text-emerald-400">+42%</span></p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">81%</p>
+                    <p className="text-2xl font-bold text-white">
+                      <LiveCounter value={81} suffix="%" tickEvery={9000} tickAmount={0} />
+                    </p>
                     <p className="text-mist">AI Resolution</p>
                   </div>
                 </div>
