@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import CTABand from "@/components/CTABand";
 import NewsletterForm from "@/components/NewsletterForm";
+import ScoreRing from "@/components/ScoreRing";
 
 const guides = [
   {
@@ -194,10 +195,7 @@ export default function ResourcesPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="card-dark col-span-2 flex items-center gap-6 rounded-xl p-5 sm:col-span-1">
-                <div className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-4 border-violet/40">
-                  <span className="text-2xl font-extrabold">72</span>
-                  <span className="absolute -bottom-1 text-[10px] text-mist">/100</span>
-                </div>
+                <ScoreRing score={72} size={96} />
                 <div>
                   <p className="text-xs font-semibold text-mist">AI WEBSITE AUDIT</p>
                   <p className="text-sm text-white/80">AI Readiness Score</p>

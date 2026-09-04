@@ -12,6 +12,7 @@ import {
   Code2,
   Puzzle,
   RefreshCw,
+  Sparkles,
 } from "lucide-react";
 import CTABand from "@/components/CTABand";
 
@@ -94,8 +95,8 @@ export default function PricingPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-brand-gradient-radial bg-ink py-20">
-        <div className="container-page grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div>
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
               Start Small.
               <br />
@@ -103,11 +104,11 @@ export default function PricingPage() {
                 Grow Into AI.
               </span>
             </h1>
-            <p className="mt-5 max-w-md text-lg text-mist">
+            <p className="mx-auto mt-5 max-w-md text-lg text-mist">
               Begin with your website. Add intelligence as your business
               grows.
             </p>
-            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-mist">
+            <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-xs text-mist">
               <span className="flex items-center gap-1.5">
                 <Check size={13} className="text-violet" /> No Setup Fees
               </span>
@@ -119,26 +120,61 @@ export default function PricingPage() {
               </span>
             </div>
           </div>
-          <div className="card-dark rounded-2xl p-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-mist">
-              AI Performance
-            </p>
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="text-2xl font-bold text-white">128</p>
-                <p className="text-mist">Leads <span className="text-emerald-400">+28%</span></p>
+
+          <div className="mt-14 flex flex-col items-center justify-center gap-6 xl:flex-row">
+            <div className="w-56 shrink-0 rounded-xl border border-white/10 bg-navy-800 p-4">
+              <div className="mb-3 flex gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-rose-400/70" />
+                <span className="h-2 w-2 rounded-full bg-amber-400/70" />
+                <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-white">42</p>
-                <p className="text-mist">Bookings <span className="text-emerald-400">+35%</span></p>
+              <p className="text-sm font-semibold text-white">Your Website</p>
+              <p className="text-xs text-mist">Your business online</p>
+              <div className="mt-3 space-y-1.5">
+                <div className="h-2 w-3/4 rounded-full bg-white/10" />
+                <div className="h-2 w-1/2 rounded-full bg-white/10" />
+                <div className="mt-1.5 h-10 rounded-lg bg-white/5" />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-white">1,248</p>
-                <p className="text-mist">Conversations <span className="text-emerald-400">+42%</span></p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-white">81%</p>
-                <p className="text-mist">AI Resolution</p>
+            </div>
+
+            <svg width="48" height="2" className="hidden text-violet/40 xl:block">
+              <line x1="0" y1="1" x2="48" y2="1" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
+            </svg>
+            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-gradient shadow-glow">
+              <div className="absolute inset-0 animate-pulse rounded-full bg-brand-gradient opacity-40 blur-md" />
+              <Sparkles size={24} className="relative text-white" />
+            </div>
+            <svg width="48" height="2" className="hidden text-blue-400/40 xl:block">
+              <line x1="0" y1="1" x2="48" y2="1" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
+            </svg>
+            <div className="btn-gradient shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold">
+              TechWokx AI Layer
+            </div>
+            <svg width="48" height="2" className="hidden text-blue-400/40 xl:block">
+              <line x1="0" y1="1" x2="48" y2="1" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
+            </svg>
+
+            <div className="card-dark w-full max-w-xs shrink-0 rounded-2xl p-6">
+              <p className="text-xs font-semibold uppercase tracking-wide text-mist">
+                AI Performance
+              </p>
+              <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-2xl font-bold text-white">128</p>
+                  <p className="text-mist">Leads <span className="text-emerald-400">+28%</span></p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-white">42</p>
+                  <p className="text-mist">Bookings <span className="text-emerald-400">+35%</span></p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-white">1,248</p>
+                  <p className="text-mist">Conversations <span className="text-emerald-400">+42%</span></p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-white">81%</p>
+                  <p className="text-mist">AI Resolution</p>
+                </div>
               </div>
             </div>
           </div>

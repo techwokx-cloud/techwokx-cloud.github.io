@@ -5,6 +5,8 @@ import {
   Briefcase,
   GraduationCap,
   Home,
+  Sparkles,
+  TrendingUp,
 } from "lucide-react";
 import CTABand from "@/components/CTABand";
 
@@ -88,15 +90,45 @@ export default function IndustriesPage() {
               Scan My Website →
             </a>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            {industries.map((ind) => (
+          <div className="relative mx-auto aspect-square w-full max-w-md">
+            <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
+              <g stroke="#8b5cf6" strokeOpacity="0.35" strokeWidth="0.4" strokeDasharray="1.5 1.5">
+                <line x1="50" y1="50" x2="50" y2="12" />
+                <line x1="50" y1="50" x2="83" y2="28" />
+                <line x1="50" y1="50" x2="83" y2="72" />
+                <line x1="50" y1="50" x2="50" y2="88" />
+                <line x1="50" y1="50" x2="17" y2="72" />
+                <line x1="50" y1="50" x2="17" y2="28" />
+              </g>
+            </svg>
+
+            {/* Center portal */}
+            <div
+              className="absolute flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand-gradient shadow-glow"
+              style={{ left: "50%", top: "50%" }}
+            >
+              <div className="absolute inset-0 animate-pulse rounded-full bg-brand-gradient opacity-40 blur-md" />
+              <Sparkles size={24} className="relative text-white" />
+            </div>
+
+            {[
+              { label: "Hospitality", icon: Bell, ring: "border-pink-400/50", tint: "text-pink-400", pos: { left: "50%", top: "12%" } },
+              { label: "Healthcare", icon: Cross, ring: "border-emerald-400/50", tint: "text-emerald-400", pos: { left: "83%", top: "28%" } },
+              { label: "Retail & E-commerce", icon: ShoppingCart, ring: "border-orange-400/50", tint: "text-orange-400", pos: { left: "83%", top: "72%" } },
+              { label: "Professional Services", icon: Briefcase, ring: "border-violet/50", tint: "text-violet", pos: { left: "50%", top: "88%" } },
+              { label: "Education", icon: GraduationCap, ring: "border-azure/50", tint: "text-azure", pos: { left: "17%", top: "72%" } },
+              { label: "Real Estate", icon: Home, ring: "border-blue-400/50", tint: "text-blue-400", pos: { left: "17%", top: "28%" } },
+            ].map((node) => (
               <div
-                key={ind.name}
-                className="card-dark flex flex-col items-center gap-2 rounded-xl p-4 text-center"
+                key={node.label}
+                className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
+                style={node.pos}
               >
-                <ind.icon size={22} className="text-violet" />
-                <span className="text-xs font-medium text-white/80">
-                  {ind.name}
+                <div className={`flex h-14 w-14 items-center justify-center rounded-full border-2 ${node.ring} bg-navy-800 shadow-glow`}>
+                  <node.icon size={22} className={node.tint} />
+                </div>
+                <span className="whitespace-nowrap text-xs font-medium text-white/80">
+                  {node.label}
                 </span>
               </div>
             ))}
@@ -157,15 +189,33 @@ export default function IndustriesPage() {
             ))}
           </div>
 
-          <div className="mx-auto mt-16 flex max-w-2xl flex-col items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
-            <p className="eyebrow">Any industry. Any website.</p>
-            <h3 className="text-xl font-bold text-navy">
-              Don&apos;t See Your Industry?
-            </h3>
-            <p className="text-slate-500">
-              If you have a website, TechWokx can help you unlock AI
-              opportunities.
-            </p>
+          <div className="mx-auto mt-16 flex max-w-3xl flex-col items-center gap-6 rounded-2xl border border-slate-200 bg-slate-50 p-8 sm:flex-row sm:justify-between sm:text-left">
+            <div className="text-center sm:text-left">
+              <p className="eyebrow">Any industry. Any website.</p>
+              <h3 className="mt-1 text-xl font-bold text-navy">
+                Don&apos;t See Your Industry?
+              </h3>
+              <p className="mt-1 text-slate-500">
+                If you have a website, TechWokx can help you unlock AI
+                opportunities.
+              </p>
+            </div>
+            <div className="flex shrink-0 items-center gap-3">
+              <div className="w-40 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm">
+                <div className="mb-2 flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                </div>
+                <div className="flex items-center gap-1.5 text-xs font-medium text-violet-600">
+                  <TrendingUp size={12} /> Your Website
+                </div>
+              </div>
+              <div className="text-slate-300">→</div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-navy-800">
+                <Sparkles size={18} className="text-violet-400" />
+              </div>
+            </div>
           </div>
         </div>
       </section>

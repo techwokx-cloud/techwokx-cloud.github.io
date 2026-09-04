@@ -10,6 +10,10 @@ import {
   Bot,
   Rocket,
   TrendingUp,
+  Star,
+  UserCheck,
+  Zap,
+  ArrowUpRight,
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
 import CTABand from "@/components/CTABand";
@@ -95,6 +99,55 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-gradient-radial bg-ink pb-20 pt-16 sm:pt-24">
         <div className="container-page relative">
+          {/* Decorative floating chips — only shown where there's real room */}
+          <div className="pointer-events-none absolute left-0 top-8 hidden w-64 flex-col gap-4 xl:flex">
+            <div className="card-dark flex items-center gap-2 rounded-full py-2 pl-2.5 pr-4">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-violet/15">
+                <MessageCircle size={15} className="text-violet" />
+              </span>
+              <span className="text-xs font-medium text-white/85">AI Answers</span>
+            </div>
+            <div className="card-dark w-56 rounded-2xl p-3.5">
+              <p className="text-xs text-white/80">
+                🤖 Hi! I&apos;m your AI Assistant.
+              </p>
+              <p className="mt-1 text-xs text-white/80">How can I help you today?</p>
+              <div className="mt-2.5 flex items-center gap-2 rounded-lg bg-navy-700 px-2.5 py-2">
+                <span className="flex-1 text-[11px] text-mist">Ask me anything...</span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-azure">
+                  <ArrowUpRight size={11} className="text-white" />
+                </span>
+              </div>
+            </div>
+            <div className="card-dark flex items-center gap-2 self-start rounded-full py-2 pl-2.5 pr-4">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-pink-500/15">
+                <Star size={15} className="text-pink-400" />
+              </span>
+              <span className="text-xs font-medium text-white/85">AI Recommends</span>
+            </div>
+          </div>
+
+          <div className="pointer-events-none absolute right-0 top-8 hidden w-56 flex-col items-end gap-4 xl:flex">
+            <div className="card-dark flex items-center gap-2 rounded-full py-2 pl-2.5 pr-4">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15">
+                <UserCheck size={15} className="text-azure" />
+              </span>
+              <span className="text-xs font-medium text-white/85">AI Qualifies</span>
+            </div>
+            <div className="card-dark flex items-center gap-2 rounded-full py-2 pl-2.5 pr-4">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500/15">
+                <CalendarCheck size={15} className="text-orange-400" />
+              </span>
+              <span className="text-xs font-medium text-white/85">AI Books</span>
+            </div>
+            <div className="card-dark flex items-center gap-2 rounded-full py-2 pl-2.5 pr-4">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-violet/15">
+                <Zap size={15} className="text-violet" />
+              </span>
+              <span className="text-xs font-medium text-white/85">AI Takes Action</span>
+            </div>
+          </div>
+
           <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow">Turn your website into an AI business engine</p>
             <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
