@@ -271,7 +271,7 @@ export default function PricingPage() {
               <img
                 src="/mockups/journey-grows.png"
                 alt="How Your AI Journey Grows: Scan, Retrofit, Automate, Grow — plus 100% Secure, Quick Setup, No Code Needed, Works With What You Use, Always Improving"
-                className="mx-auto w-full max-w-4xl"
+                className="mx-auto w-full max-w-6xl"
                 style={{ aspectRatio: "896 / 293" }}
               />
             </div>

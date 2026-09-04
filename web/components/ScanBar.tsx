@@ -1,25 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import { Globe, Sparkles, CheckCircle2, Clock, ShieldCheck, Check } from "lucide-react";
-
-function normalizeUrl(value: string) {
-  const trimmed = value.trim();
-  if (!trimmed) return trimmed;
-  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
-}
+import Link from "next/link";
+import { Globe, Sparkles, CheckCircle2, Clock, ShieldCheck } from "lucide-react";
 
 export default function ScanBar({ compact = false }: { compact?: boolean }) {
-  const [url, setUrl] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!url.trim()) return;
-    setUrl(normalizeUrl(url));
-    setSubmitted(true);
-  };
-
   return (
     <div
       className={`card-dark bg-brand-gradient-radial relative overflow-hidden rounded-2xl border-violet/20 bg-navy-800 ${
@@ -45,39 +27,13 @@ export default function ScanBar({ compact = false }: { compact?: boolean }) {
           </div>
         </div>
 
-        {submitted ? (
-          <div className="flex w-full items-center gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3.5 text-sm text-emerald-300 xl:w-auto xl:min-w-[380px]">
-            <Check size={16} className="shrink-0" />
-            Thanks! The AI Website Scanner is almost ready — we&apos;ll
-            email you a scored report the moment it&apos;s live.
-          </div>
-        ) : (
-          <form
-            className="flex w-full flex-col gap-3 sm:flex-row xl:w-auto"
-            onSubmit={handleSubmit}
-          >
-            <label className="sr-only" htmlFor="scan-url">
-              Website URL
-            </label>
-            <input
-              id="scan-url"
-              type="text"
-              inputMode="url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              onBlur={() => setUrl((v) => normalizeUrl(v))}
-              placeholder="Enter your website URL"
-              className="focus-ring w-full min-w-0 rounded-xl border border-white/10 bg-navy-700 px-4 py-3.5 text-sm text-white placeholder:text-mist sm:flex-1 xl:w-72 xl:flex-none"
-            />
-            <button
-              type="submit"
-              className="btn-gradient focus-ring flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm"
-            >
-              <Sparkles size={16} />
-              Scan My Website
-            </button>
-          </form>
-        )}
+        <Link
+          href="/#scan"
+          className="btn-gradient focus-ring flex w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-8 py-4 text-base shadow-glow xl:w-auto"
+        >
+          <Sparkles size={18} />
+          Scan My Website
+        </Link>
       </div>
 
       <div className="relative mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-mist">
@@ -94,4 +50,3 @@ export default function ScanBar({ compact = false }: { compact?: boolean }) {
     </div>
   );
 }
-

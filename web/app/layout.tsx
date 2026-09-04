@@ -33,6 +33,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  verification: {
+    other: {
+      "msvalidate.01": "278BD81BD4CD151DD7EC2F1DEDA2C0CA",
+    },
+  },
   robots: {
     index: true,
     follow: true,
