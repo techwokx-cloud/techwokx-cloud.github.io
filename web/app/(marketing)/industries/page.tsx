@@ -32,7 +32,7 @@ export default function IndustriesPage() {
 
       {/* Industry cards — clickable regions over the real card images,
           each jumping to the homepage scan section. */}
-      <section className="bg-white py-16">
+      <section className="py-16" style={{ backgroundColor: "rgb(247,247,250)" }}>
         <div className="container-page">
           <Reveal variant="scale">
             <div className="relative mx-auto w-full max-w-5xl">

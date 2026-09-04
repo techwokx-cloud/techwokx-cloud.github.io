@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bot, X, Send, MessageCircle, ExternalLink, User } from "lucide-react";
+import { Bot, X, Send, MessageCircle, ExternalLink, User, Mic, Volume2, VolumeX } from "lucide-react";
 import { findAnswer } from "@/lib/chat-knowledge";
 import { siteConfig } from "@/lib/site-config";
 import { OPEN_CHAT_EVENT } from "@/lib/chat-events";
+import {
+  speak,
+  stopSpeaking,
+  isSpeechRecognitionSupported,
+  createSpeechRecognizer,
+} from "@/lib/voice";
 
 type Message = {
   id: string;
@@ -32,7 +38,11 @@ export default function ChatWidget() {
   const [showTeaser, setShowTeaser] = useState(false);
   const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [input, setInput] = useState("");
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [listening, setListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasGreetedRef = useRef(false);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setShowTeaser(true), 4000);
@@ -52,12 +62,22 @@ export default function ChatWidget() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, open]);
 
-  const send = (e: React.FormEvent) => {
-    e.preventDefault();
-    const question = input.trim();
-    if (!question) return;
+  // Voice welcome — speaks the greeting once, the first time the panel opens.
+  useEffect(() => {
+    if (open && voiceEnabled && !hasGreetedRef.current) {
+      hasGreetedRef.current = true;
+      speak(GREETING.text);
+    }
+    if (!open) stopSpeaking();
+  }, [open, voiceEnabled]);
 
-    const userMsg: Message = { id: crypto.randomUUID(), from: "user", text: question };
+  useEffect(() => {
+    return () => stopSpeaking();
+  }, []);
+
+  const sendMessage = (question: string) => {
+    if (!question.trim()) return;
+    const userMsg: Message = { id: crypto.randomUUID(), from: "user", text: question.trim() };
     const answer = findAnswer(question);
 
     const botMsg: Message = answer
@@ -70,7 +90,40 @@ export default function ChatWidget() {
         };
 
     setMessages((m) => [...m, userMsg, botMsg]);
+    if (voiceEnabled) speak(botMsg.text);
     setInput("");
+  };
+
+  const send = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage(input);
+  };
+
+  const toggleVoice = () => {
+    setVoiceEnabled((v) => {
+      if (v) stopSpeaking();
+      return !v;
+    });
+  };
+
+  const toggleListening = () => {
+    if (listening) {
+      recognitionRef.current?.stop();
+      setListening(false);
+      return;
+    }
+    const recognizer = createSpeechRecognizer(
+      (transcript) => {
+        setListening(false);
+        sendMessage(transcript);
+      },
+      () => setListening(false)
+    );
+    if (!recognizer) return;
+    recognitionRef.current = recognizer;
+    setListening(true);
+    stopSpeaking();
+    recognizer.start();
   };
 
   return (
@@ -108,6 +161,19 @@ export default function ChatWidget() {
               className="focus-ring rounded-md p-1.5 text-mist hover:text-white"
             >
               <X size={18} />
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between border-b border-white/10 bg-navy-800 px-4 py-1.5">
+            <span className="text-[11px] text-mist">
+              {listening ? "Listening…" : "Voice replies"}
+            </span>
+            <button
+              onClick={toggleVoice}
+              aria-label={voiceEnabled ? "Turn off voice replies" : "Turn on voice replies"}
+              className="focus-ring flex items-center gap-1 rounded-md px-1.5 py-1 text-mist hover:text-white"
+            >
+              {voiceEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
             </button>
           </div>
 
@@ -162,9 +228,23 @@ export default function ChatWidget() {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything..."
+              placeholder={listening ? "Listening…" : "Ask me anything..."}
               className="focus-ring w-full min-w-0 rounded-lg border border-white/10 bg-navy-700 px-3 py-2.5 text-sm text-white placeholder:text-mist"
             />
+            {isSpeechRecognitionSupported() && (
+              <button
+                type="button"
+                onClick={toggleListening}
+                aria-label={listening ? "Stop voice input" : "Ask by voice"}
+                className={`focus-ring flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition ${
+                  listening
+                    ? "border-rose-400/50 bg-rose-500/15 text-rose-300"
+                    : "border-white/10 text-mist hover:text-white"
+                }`}
+              >
+                <Mic size={16} className={listening ? "animate-pulse" : ""} />
+              </button>
+            )}
             <button
               type="submit"
               aria-label="Send"

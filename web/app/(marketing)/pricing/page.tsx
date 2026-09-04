@@ -213,7 +213,7 @@ export default function PricingPage() {
                     ))}
                   </ul>
                   <a
-                    href="#"
+                    href="/#scan"
                     className={`focus-ring mt-7 inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition ${
                       plan.highlight
                         ? "btn-gradient"

@@ -115,7 +115,7 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-white py-20 text-navy">
+      <section className="py-20" style={{ backgroundColor: "rgb(247,247,248)" }}>
         <div className="container-page">
           <Reveal variant="scale">
             <img

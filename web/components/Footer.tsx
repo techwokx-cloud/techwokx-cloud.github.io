@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Linkedin, Twitter, Youtube, Facebook, MessageSquare, Mail, Phone, MapPin, ShieldCheck, ChevronRight } from "lucide-react";
 import ScanBar from "@/components/ScanBar";
+import { openChatWidget } from "@/lib/chat-events";
 
 const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -111,9 +114,13 @@ export default function Footer() {
           <div>
             <div className="text-sm font-semibold">Have questions?</div>
             <div className="text-sm text-mist">We&apos;re here to help you succeed.</div>
-            <Link href="/about" className="focus-ring text-sm font-medium text-violet">
+            <button
+              type="button"
+              onClick={openChatWidget}
+              className="focus-ring text-sm font-medium text-violet hover:underline"
+            >
               Contact Us →
-            </Link>
+            </button>
           </div>
         </div>
         <div className="flex items-start gap-3">

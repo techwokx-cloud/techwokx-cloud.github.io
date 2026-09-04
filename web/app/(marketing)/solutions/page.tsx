@@ -98,7 +98,7 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="bg-white py-20 text-navy">
+      <section className="py-20" style={{ backgroundColor: "rgb(251,251,252)" }}>
         <div className="container-page">
           <Reveal variant="scale">
             <img
@@ -111,7 +111,7 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-violet-50 to-indigo-50 py-20">
+      <section className="py-20" style={{ backgroundColor: "rgb(250,250,253)" }}>
         <div className="container-page">
           <Reveal variant="scale">
             <img
