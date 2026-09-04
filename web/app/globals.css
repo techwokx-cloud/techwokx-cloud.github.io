@@ -142,3 +142,39 @@ body {
   animation: circuit-flow 2.4s linear infinite;
 }
 
+@keyframes flow-travel {
+  0% { left: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+.animate-flow-travel {
+  animation: flow-travel 2.4s linear infinite;
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+.animate-scan-sweep {
+  animation: scan-sweep 2.8s ease-in-out infinite;
+}
+
+@keyframes badge-fade-in {
+  0% { opacity: 0; transform: translateX(-6px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.animate-badge-fade {
+  animation: badge-fade-in 0.5s ease-out both;
+}
+
+@keyframes click-ripple {
+  0% { box-shadow: 0 0 0 0 rgba(139,92,246,0.5); }
+  100% { box-shadow: 0 0 0 14px rgba(139,92,246,0); }
+}
+.animate-click-ripple {
+  animation: click-ripple 1.8s ease-out infinite;
+}
+

@@ -11,6 +11,7 @@ import Reveal from "@/components/Reveal";
 import Typewriter from "@/components/Typewriter";
 import CircuitLines from "@/components/CircuitLines";
 import BookingMiniDemo from "@/components/BookingMiniDemo";
+import ScannerShowcase from "@/components/ScannerShowcase";
 
 export const metadata: Metadata = {
   title: "AI For Your Website — Free Website Scan & AI Retrofit",
@@ -158,16 +159,7 @@ export default function HomePage() {
       {/* AI Website Scanner feature */}
       <section className="bg-ink py-20">
         <div className="container-page">
-          <Reveal variant="scale">
-            <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl shadow-[0_0_60px_-10px_rgba(124,58,237,0.45)]">
-              <img
-                src="/mockups/scanner-feature.png"
-                alt="AI Website Scanner — Discover Your Best AI Opportunities. Free 60-second audit with AI Readiness Score, Top Opportunity Areas, and Personalized Recommendations."
-                className="w-full"
-                style={{ aspectRatio: "1023 / 610" }}
-              />
-            </div>
-          </Reveal>
+          <ScannerShowcase />
         </div>
       </section>
 
