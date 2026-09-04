@@ -3,18 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { openChatWidget } from "@/lib/chat-events";
 
-const SIZE = 84;
-const MOVE_INTERVAL_MS = 5500;
-const WAVE_INTERVAL_MS = 9000;
+const SIZE = 190;
+const MOVE_INTERVAL_MS = 6000;
+const WAVE_INTERVAL_MS = 8000;
 
 function randomPoint() {
   const w = window.innerWidth;
   const h = window.innerHeight;
   const margin = SIZE + 20;
   // Keep clear of the top nav and the bottom-right chat button.
-  const minY = 100;
-  const maxY = Math.max(minY + 100, h - 160);
-  const maxX = Math.max(margin, w - margin - 90);
+  const minY = 110;
+  const maxY = Math.max(minY + 100, h - SIZE - 180);
+  const maxX = Math.max(margin, w - margin - 140);
   return {
     x: margin + Math.random() * (maxX - margin),
     y: minY + Math.random() * (maxY - minY),
@@ -49,7 +49,7 @@ export default function FloatingMascot() {
 
     const waveTimer = setInterval(() => {
       setWaving(true);
-      setTimeout(() => setWaving(false), 1400);
+      setTimeout(() => setWaving(false), 1600);
     }, WAVE_INTERVAL_MS);
 
     return () => {
@@ -61,7 +61,7 @@ export default function FloatingMascot() {
   const handleTouch = () => {
     setWaving(true);
     setGreeting(true);
-    setTimeout(() => setWaving(false), 1400);
+    setTimeout(() => setWaving(false), 1600);
     setTimeout(() => setGreeting(false), 2600);
   };
 
@@ -73,7 +73,7 @@ export default function FloatingMascot() {
       style={{ left: pos.x, top: pos.y }}
     >
       {greeting && (
-        <div className="pointer-events-none absolute -top-11 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy-800 px-3 py-1.5 text-xs font-medium text-white shadow-glow">
+        <div className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy-800 px-4 py-2 text-sm font-medium text-white shadow-glow">
           Need help with your website? 👋
         </div>
       )}
