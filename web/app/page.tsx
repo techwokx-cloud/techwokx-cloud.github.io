@@ -5,11 +5,6 @@ import {
   BookOpen,
   Headphones,
   Cog,
-  Globe,
-  SearchCheck,
-  Bot,
-  Rocket,
-  TrendingUp,
   Star,
   UserCheck,
   Zap,
@@ -17,39 +12,6 @@ import {
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
 import CTABand from "@/components/CTABand";
-
-const steps = [
-  {
-    n: "1",
-    title: "Scan",
-    desc: "We analyze your website in 60 seconds.",
-    icon: Globe,
-  },
-  {
-    n: "2",
-    title: "Discover",
-    desc: "Get your AI readiness score and top opportunities.",
-    icon: SearchCheck,
-  },
-  {
-    n: "3",
-    title: "Retrofit",
-    desc: "We add the right AI capabilities to your website.",
-    icon: Bot,
-  },
-  {
-    n: "4",
-    title: "Automate",
-    desc: "AI works 24/7 to engage, qualify and support customers.",
-    icon: Rocket,
-  },
-  {
-    n: "5",
-    title: "Grow",
-    desc: "More leads, more sales, happier customers, less manual work.",
-    icon: TrendingUp,
-  },
-];
 
 const features = [
   {
@@ -186,40 +148,12 @@ export default function HomePage() {
       {/* How it works */}
       <section className="bg-white py-20 text-navy">
         <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">How it works</p>
-            <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">
-              From Website to AI Business Engine
-            </h2>
-            <p className="mt-3 text-slate-500">
-              We make it simple to add intelligence that drives real results.
-            </p>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {steps.map((step, i) => (
-              <div key={step.n} className="relative">
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50">
-                    <step.icon size={22} strokeWidth={1.75} className="text-violet-600" />
-                  </div>
-                  <div className="mt-4">
-                    <span className="text-sm font-bold text-violet-600">
-                      {step.n}. {step.title}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                    {step.desc}
-                  </p>
-                </div>
-                {i < steps.length - 1 && (
-                  <span className="absolute -right-4 top-1/2 z-10 hidden -translate-y-1/2 text-violet-300 lg:block">
-                    ›
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+          <img
+            src="/mockups/from-website.png"
+            alt="From Website to AI Business Engine: Scan, Discover, Retrofit, Automate, Grow"
+            className="mx-auto w-full max-w-4xl"
+            style={{ aspectRatio: "844 / 295" }}
+          />
         </div>
       </section>
 

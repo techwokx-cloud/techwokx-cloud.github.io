@@ -19,12 +19,12 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Solutions",
     links: [
-      { label: "Generate More Leads", href: "/solutions#generate-more-leads" },
-      { label: "Increase Sales", href: "/solutions#increase-sales" },
-      { label: "Automate Support", href: "/solutions#automate-support" },
-      { label: "Automate Bookings", href: "/solutions#automate-bookings" },
-      { label: "Unlock Knowledge", href: "/solutions#unlock-knowledge" },
-      { label: "Automate Operations", href: "/solutions#automate-operations" },
+      { label: "Generate More Leads", href: "/solutions" },
+      { label: "Increase Sales", href: "/solutions" },
+      { label: "Automate Support", href: "/solutions" },
+      { label: "Automate Bookings", href: "/solutions" },
+      { label: "Unlock Knowledge", href: "/solutions" },
+      { label: "Automate Operations", href: "/solutions" },
     ],
   },
   {

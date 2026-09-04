@@ -3,15 +3,6 @@ import {
   MessageSquare,
   TrendingUp,
   Rocket,
-  Search,
-  Wrench,
-  Zap,
-  BarChart3,
-  ShieldCheck,
-  Gauge,
-  Code2,
-  Puzzle,
-  RefreshCw,
   Sparkles,
 } from "lucide-react";
 import CTABand from "@/components/CTABand";
@@ -74,21 +65,6 @@ const plans = [
     cta: "Talk to an Expert",
     highlight: false,
   },
-];
-
-const journey = [
-  { icon: Search, title: "Scan", desc: "Discover your AI opportunities." },
-  { icon: Wrench, title: "Retrofit", desc: "We add the right AI capabilities." },
-  { icon: Zap, title: "Automate", desc: "AI works 24/7 to engage, qualify and convert." },
-  { icon: BarChart3, title: "Grow", desc: "More leads, more sales, happier customers." },
-];
-
-const trust = [
-  { icon: ShieldCheck, title: "100% Secure", desc: "Enterprise-grade security." },
-  { icon: Rocket, title: "Quick Setup", desc: "Get started in days, not months." },
-  { icon: Code2, title: "No Code Needed", desc: "Manage everything easily." },
-  { icon: Puzzle, title: "Works With What You Use", desc: "Connect your favorite tools." },
-  { icon: RefreshCw, title: "Always Improving", desc: "Continuous AI updates." },
 ];
 
 export default function PricingPage() {
@@ -245,30 +221,12 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-16">
-            <h3 className="text-center text-xl font-bold text-navy">
-              How Your AI Journey Grows
-            </h3>
-            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {journey.map((j) => (
-                <div key={j.title} className="flex flex-col items-center text-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-50">
-                    <j.icon size={22} className="text-violet-600" />
-                  </div>
-                  <h4 className="mt-3 font-semibold text-navy">{j.title}</h4>
-                  <p className="mt-1 text-sm text-slate-500">{j.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-16 grid grid-cols-2 gap-8 rounded-2xl bg-slate-50 p-8 sm:grid-cols-5">
-            {trust.map((t) => (
-              <div key={t.title} className="flex flex-col items-center gap-2 text-center">
-                <t.icon size={20} className="text-violet-600" />
-                <p className="text-xs font-semibold text-navy">{t.title}</p>
-                <p className="text-xs text-slate-500">{t.desc}</p>
-              </div>
-            ))}
+            <img
+              src="/mockups/journey-grows.png"
+              alt="How Your AI Journey Grows: Scan, Retrofit, Automate, Grow — plus 100% Secure, Quick Setup, No Code Needed, Works With What You Use, Always Improving"
+              className="mx-auto w-full max-w-4xl"
+              style={{ aspectRatio: "896 / 293" }}
+            />
           </div>
         </div>
       </section>
