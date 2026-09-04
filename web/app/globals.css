@@ -67,6 +67,7 @@ body {
 }
 .btn-gradient:hover {
   filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 .btn-gradient:active {
   transform: translateY(1px);

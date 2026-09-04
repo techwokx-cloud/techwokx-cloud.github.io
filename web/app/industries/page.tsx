@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CTABand from "@/components/CTABand";
+import Reveal from "@/components/Reveal";
 
 const industryZones = [
   { label: "Hospitality", left: "0%", width: "33.333%" },
@@ -19,12 +19,14 @@ export default function IndustriesPage() {
       {/* Hero */}
       <section className="bg-ink py-14">
         <div className="container-page">
-          <img
-            src="/mockups/industry-hero.png"
-            alt="AI That Understands Your Industry — TechWokx adapts AI to Hospitality, Healthcare, Retail & E-commerce, Professional Services, Education and Real Estate"
-            className="mx-auto w-full max-w-5xl"
-            style={{ aspectRatio: "1018 / 404" }}
-          />
+          <Reveal variant="scale">
+            <img
+              src="/mockups/industry-hero.png"
+              alt="AI That Understands Your Industry — TechWokx adapts AI to Hospitality, Healthcare, Retail & E-commerce, Professional Services, Education and Real Estate"
+              className="mx-auto w-full max-w-5xl"
+              style={{ aspectRatio: "1018 / 404" }}
+            />
+          </Reveal>
         </div>
       </section>
 
@@ -32,55 +34,53 @@ export default function IndustriesPage() {
           each jumping to the homepage scan section. */}
       <section className="bg-white py-16">
         <div className="container-page">
-          <div className="relative mx-auto w-full max-w-5xl">
-            <img
-              src="/mockups/industry-solutions-1.png"
-              alt="AI Solutions For Your Industry — Hospitality, Healthcare, Retail & E-commerce"
-              className="w-full"
-              style={{ aspectRatio: "1024 / 454" }}
-            />
-            {industryZones.map((z) => (
-              <Link
-                key={z.label}
-                href="/#scan"
-                aria-label={`Scan my website for ${z.label}`}
-                className="focus-ring absolute inset-y-0 transition hover:bg-black/5"
-                style={{ left: z.left, width: z.width }}
+          <Reveal variant="scale">
+            <div className="relative mx-auto w-full max-w-5xl">
+              <img
+                src="/mockups/industry-solutions-1.png"
+                alt="AI Solutions For Your Industry — Hospitality, Healthcare, Retail & E-commerce"
+                className="w-full"
+                style={{ aspectRatio: "1024 / 454" }}
               />
-            ))}
-          </div>
+              {industryZones.map((z) => (
+                <Link
+                  key={z.label}
+                  href="/#scan"
+                  aria-label={`Scan my website for ${z.label}`}
+                  className="focus-ring absolute inset-y-0 transition hover:bg-black/5"
+                  style={{ left: z.left, width: z.width }}
+                />
+              ))}
+            </div>
+          </Reveal>
 
-          <div className="relative mx-auto mt-6 w-full max-w-5xl">
-            <img
-              src="/mockups/industry-solutions-2.png"
-              alt="AI Solutions For Your Industry — Professional Services, Education, Real Estate. Don't see your industry? TechWokx can help any website."
-              className="w-full"
-              style={{ aspectRatio: "1024 / 444" }}
-            />
-            {industryZones2.map((z) => (
-              <Link
-                key={z.label}
-                href="/#scan"
-                aria-label={`Scan my website for ${z.label}`}
-                className="focus-ring absolute top-0 transition hover:bg-black/5"
-                style={{ left: z.left, width: z.width, height: "83%" }}
+          <Reveal variant="scale" delay={150}>
+            <div className="relative mx-auto mt-6 w-full max-w-5xl">
+              <img
+                src="/mockups/industry-solutions-2.png"
+                alt="AI Solutions For Your Industry — Professional Services, Education, Real Estate. Don't see your industry? TechWokx can help any website."
+                className="w-full"
+                style={{ aspectRatio: "1024 / 444" }}
               />
-            ))}
-            <Link
-              href="/#scan"
-              aria-label="Don't see your industry — scan my website"
-              className="focus-ring absolute inset-x-0 bottom-0 transition hover:bg-black/5"
-              style={{ height: "17%" }}
-            />
-          </div>
+              {industryZones2.map((z) => (
+                <Link
+                  key={z.label}
+                  href="/#scan"
+                  aria-label={`Scan my website for ${z.label}`}
+                  className="focus-ring absolute top-0 transition hover:bg-black/5"
+                  style={{ left: z.left, width: z.width, height: "83%" }}
+                />
+              ))}
+              <Link
+                href="/#scan"
+                aria-label="Don't see your industry — scan my website"
+                className="focus-ring absolute inset-x-0 bottom-0 transition hover:bg-black/5"
+                style={{ height: "17%" }}
+              />
+            </div>
+          </Reveal>
         </div>
       </section>
-
-      <CTABand
-        heading="See What AI Can Do For"
-        highlight="Your Business"
-        subtext="Discover your industry-specific AI opportunities in 60 seconds."
-      />
     </>
   );
 }

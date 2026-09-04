@@ -7,6 +7,7 @@ import {
   CalendarCheck,
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
+import Reveal from "@/components/Reveal";
 
 const logos = [
   "Hospitality Group",
@@ -73,61 +74,71 @@ export default function HomePage() {
           </div>
 
           <div className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow">Turn your website into an AI business engine</p>
-            <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
-              Your Website.
-              <br />
-              Now <span className="bg-brand-gradient bg-clip-text text-transparent">Intelligent.</span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-mist">
-              TechWokx adds an AI layer to your website so it can understand,
-              engage and help your customers 24/7.
-            </p>
+            <Reveal>
+              <p className="eyebrow">Turn your website into an AI business engine</p>
+              <h1 className="mt-4 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
+                Your Website.
+                <br />
+                Now <span className="bg-brand-gradient bg-clip-text text-transparent">Intelligent.</span>
+              </h1>
+              <p className="mx-auto mt-5 max-w-xl text-lg text-mist">
+                TechWokx adds an AI layer to your website so it can understand,
+                engage and help your customers 24/7.
+              </p>
+            </Reveal>
           </div>
 
-          <div id="scan" className="relative mx-auto mt-10 max-w-2xl scroll-mt-24">
-            <HeroScanBar />
-            <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm italic text-violet/80">
-              <span aria-hidden>↴</span> It&apos;s fast, free and simple!
-            </p>
-          </div>
-
-          <div className="mx-auto mt-16 max-w-4xl">
-            <p className="text-center text-xs font-medium uppercase tracking-[0.14em] text-mist">
-              Trusted by forward-thinking businesses
-            </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-70">
-              {logos.map((logo) => (
-                <span key={logo} className="text-sm font-semibold text-white/70">
-                  {logo}
-                </span>
-              ))}
+          <Reveal delay={150}>
+            <div id="scan" className="relative mx-auto mt-10 max-w-2xl scroll-mt-24">
+              <HeroScanBar />
+              <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm italic text-violet/80">
+                <span aria-hidden>↴</span> It&apos;s fast, free and simple!
+              </p>
             </div>
-          </div>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="mx-auto mt-16 max-w-4xl">
+              <p className="text-center text-xs font-medium uppercase tracking-[0.14em] text-mist">
+                Trusted by forward-thinking businesses
+              </p>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-70">
+                {logos.map((logo) => (
+                  <span key={logo} className="text-sm font-semibold text-white/70">
+                    {logo}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* How it works */}
       <section className="bg-white py-20 text-navy">
         <div className="container-page">
-          <img
-            src="/mockups/from-website.png"
-            alt="From Website to AI Business Engine: Scan, Discover, Retrofit, Automate, Grow"
-            className="mx-auto w-full max-w-4xl"
-            style={{ aspectRatio: "844 / 295" }}
-          />
+          <Reveal variant="scale">
+            <img
+              src="/mockups/from-website.png"
+              alt="From Website to AI Business Engine: Scan, Discover, Retrofit, Automate, Grow"
+              className="mx-auto w-full max-w-4xl"
+              style={{ aspectRatio: "844 / 295" }}
+            />
+          </Reveal>
         </div>
       </section>
 
       {/* What you get */}
       <section className="bg-ink py-20">
         <div className="container-page">
-          <img
-            src="/mockups/smart-website.png"
-            alt="What You Get — A Smarter Website. A Stronger Business: AI Conversations, More Qualified Leads, Automated Bookings, Smart Knowledge, 24/7 Support, Business Automation"
-            className="mx-auto w-full max-w-5xl"
-            style={{ aspectRatio: "1020 / 294" }}
-          />
+          <Reveal variant="scale">
+            <img
+              src="/mockups/smart-website.png"
+              alt="What You Get — A Smarter Website. A Stronger Business: AI Conversations, More Qualified Leads, Automated Bookings, Smart Knowledge, 24/7 Support, Business Automation"
+              className="mx-auto w-full max-w-5xl"
+              style={{ aspectRatio: "1020 / 294" }}
+            />
+          </Reveal>
         </div>
       </section>
     </>
