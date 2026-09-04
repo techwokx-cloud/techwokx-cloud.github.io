@@ -16,6 +16,7 @@ import {
   Zap as ZapIcon,
 } from "lucide-react";
 import TeamIllustration from "@/components/illustrations/TeamIllustration";
+import AboutHeroIllustration from "@/components/illustrations/AboutHeroIllustration";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
@@ -52,15 +53,39 @@ const why = [
 export default function AboutPage() {
   return (
     <>
-      <section className="py-14" style={{ backgroundColor: "rgb(1,2,10)" }}>
-        <div className="container-page">
-          <Reveal variant="scale">
-            <img
-              src="/mockups/about-header.png"
-              alt="The Web Is Changing. Businesses Should Too. We transform ordinary business websites into intelligent business systems that understand, engage and deliver results."
-              className="mx-auto w-full max-w-5xl"
-              style={{ aspectRatio: "1019 / 387" }}
-            />
+      <section className="relative overflow-hidden bg-brand-gradient-radial bg-ink py-20">
+        <div className="container-page grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <Reveal>
+            <div>
+              <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+                The Web Is Changing.
+                <br />
+                Businesses Should{" "}
+                <span className="text-shimmer bg-brand-gradient bg-clip-text text-transparent">
+                  Too.
+                </span>
+              </h1>
+              <p className="mt-5 max-w-lg text-lg text-mist">
+                We transform ordinary business websites into intelligent
+                business systems that understand, engage and deliver results.
+              </p>
+              <a
+                href="/#scan"
+                className="btn-gradient focus-ring relative mt-7 inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3.5 text-sm shadow-glow"
+              >
+                <span className="absolute inset-0 rounded-xl animate-click-ripple" />
+                <span className="relative">Scan My Website</span>
+                <span className="relative" aria-hidden>→</span>
+              </a>
+              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-mist">
+                <span>✓ 100% Free</span>
+                <span>✓ 60-Second Audit</span>
+                <span>✓ No Credit Card</span>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={150} variant="scale">
+            <AboutHeroIllustration />
           </Reveal>
         </div>
       </section>
