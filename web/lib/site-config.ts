@@ -22,5 +22,5 @@ export const siteConfig = {
    *  Get this from Meta Events Manager (business.facebook.com/events_manager).
    *  Set to null to disable tracking entirely (no script loads).
    */
-  metaPixelId: null as string | null,
+  metaPixelId: "440897446242409" as string | null,
 };
