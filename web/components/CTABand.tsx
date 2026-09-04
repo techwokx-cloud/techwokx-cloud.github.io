@@ -1,5 +1,7 @@
-import Link from "next/link";
+"use client";
+
 import { ArrowRight, CheckCircle2, Clock, ShieldCheck, Bot } from "lucide-react";
+import { openChatWidget } from "@/lib/chat-events";
 
 export default function CTABand({
   heading,
@@ -41,13 +43,14 @@ export default function CTABand({
               </span>
             </div>
           </div>
-          <Link
-            href="/#scan"
+          <button
+            type="button"
+            onClick={openChatWidget}
             className="btn-gradient focus-ring flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm"
           >
             {buttonLabel}
             <ArrowRight size={16} />
-          </Link>
+          </button>
         </div>
       </div>
     </section>

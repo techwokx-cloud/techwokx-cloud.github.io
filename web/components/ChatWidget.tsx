@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Bot, X, Send, MessageCircle, ExternalLink, User } from "lucide-react";
 import { findAnswer } from "@/lib/chat-knowledge";
 import { siteConfig } from "@/lib/site-config";
+import { OPEN_CHAT_EVENT } from "@/lib/chat-events";
 
 type Message = {
   id: string;
@@ -36,6 +37,15 @@ export default function ChatWidget() {
   useEffect(() => {
     const t = setTimeout(() => setShowTeaser(true), 4000);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const openHandler = () => {
+      setOpen(true);
+      setShowTeaser(false);
+    };
+    window.addEventListener(OPEN_CHAT_EVENT, openHandler);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, openHandler);
   }, []);
 
   useEffect(() => {

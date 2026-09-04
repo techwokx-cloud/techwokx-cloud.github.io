@@ -3,9 +3,6 @@ import {
   Users,
   Layout,
   TrendingUp,
-  Search,
-  Wrench,
-  Rocket,
   UserX,
   Eye,
   FileSearch,
@@ -18,7 +15,6 @@ import {
   Zap as ZapIcon,
 } from "lucide-react";
 import CTABand from "@/components/CTABand";
-import TransformIllustration from "@/components/illustrations/TransformIllustration";
 import TeamIllustration from "@/components/illustrations/TeamIllustration";
 
 const traditional = [
@@ -37,24 +33,6 @@ const aiPowered = [
   { icon: ZapIcon, label: "AI takes action" },
 ];
 
-const philosophy = [
-  {
-    icon: Search,
-    title: "Scan",
-    desc: "Discover the opportunity hiding inside your existing website.",
-  },
-  {
-    icon: Wrench,
-    title: "Retrofit",
-    desc: "Add the right AI capabilities without a rebuild.",
-  },
-  {
-    icon: Rocket,
-    title: "Grow",
-    desc: "Turn intelligence into leads, sales and time saved.",
-  },
-];
-
 const why = [
   { icon: BrainCircuit, title: "AI-Native", desc: "Built with AI at the core, not bolted on as an afterthought." },
   { icon: Users, title: "Business-Focused", desc: "Every capability is judged by the business impact it creates." },
@@ -65,30 +43,14 @@ const why = [
 export default function AboutPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-brand-gradient-radial bg-ink py-20">
-        <div className="container-page grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div>
-            <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              The Web Is Changing.
-              <br />
-              Businesses Should{" "}
-              <span className="bg-brand-gradient bg-clip-text text-transparent">Too.</span>
-            </h1>
-            <p className="mt-5 max-w-lg text-lg text-mist">
-              We transform ordinary business websites into intelligent
-              business systems that understand, engage and deliver results.
-            </p>
-            <a
-              href="/#scan"
-              className="btn-gradient focus-ring mt-7 inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm"
-            >
-              Scan My Website →
-            </a>
-          </div>
-
-          <div>
-            <TransformIllustration />
-          </div>
+      <section className="py-14" style={{ backgroundColor: "rgb(1,2,10)" }}>
+        <div className="container-page">
+          <img
+            src="/mockups/about-header.png"
+            alt="The Web Is Changing. Businesses Should Too. We transform ordinary business websites into intelligent business systems that understand, engage and deliver results."
+            className="mx-auto w-full max-w-5xl"
+            style={{ aspectRatio: "1019 / 387" }}
+          />
         </div>
       </section>
 
@@ -135,36 +97,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white py-20 text-navy">
-        <div className="container-page mx-auto max-w-2xl text-center">
-          <p className="eyebrow">Our mission</p>
-          <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">
-            Make every business website intelligent enough to understand,
-            engage and help its customers.
-          </h2>
-        </div>
-      </section>
-
-      <section className="bg-navy-800 py-20">
+      <section className="py-16" style={{ backgroundColor: "rgb(248,249,251)" }}>
         <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Our approach</p>
-            <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">
-              Simple. Practical. Powerful.
-            </h2>
-          </div>
-          <div className="relative mt-14 grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <div className="absolute left-0 right-0 top-8 hidden h-px bg-white/10 sm:block" />
-            {philosophy.map((p) => (
-              <div key={p.title} className="relative flex flex-col items-center text-center">
-                <div className="z-10 flex h-16 w-16 items-center justify-center rounded-full border border-violet/40 bg-navy-700">
-                  <p.icon size={26} className="text-violet" />
-                </div>
-                <h3 className="mt-4 text-lg font-bold">{p.title}</h3>
-                <p className="mt-1.5 max-w-[220px] text-sm text-mist">{p.desc}</p>
-              </div>
-            ))}
-          </div>
+          <img
+            src="/mockups/our-mission.png"
+            alt="Our Mission — Make every business website intelligent enough to understand, engage and help its customers. AI-Native, Business-Focused, Built Around Your Existing Website, Designed To Grow With You. Our Approach: Simple. Practical. Powerful. Scan, Retrofit, Automate, Grow."
+            className="mx-auto w-full max-w-5xl"
+            style={{ aspectRatio: "1022 / 622" }}
+          />
         </div>
       </section>
 
