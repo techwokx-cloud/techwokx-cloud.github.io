@@ -1,11 +1,17 @@
 import {
   MessageCircle,
-  Star,
-  Zap,
-  UserCheck,
+  Filter,
   CalendarCheck,
+  BookOpen,
+  Headphones,
+  Cog,
+  Globe,
+  SearchCheck,
+  Bot,
+  Rocket,
+  TrendingUp,
 } from "lucide-react";
-import ScanBar from "@/components/ScanBar";
+import HeroScanBar from "@/components/HeroScanBar";
 import CTABand from "@/components/CTABand";
 
 const steps = [
@@ -13,31 +19,31 @@ const steps = [
     n: "1",
     title: "Scan",
     desc: "We analyze your website in 60 seconds.",
-    icon: "🌐",
+    icon: Globe,
   },
   {
     n: "2",
     title: "Discover",
     desc: "Get your AI readiness score and top opportunities.",
-    icon: "🔍",
+    icon: SearchCheck,
   },
   {
     n: "3",
     title: "Retrofit",
     desc: "We add the right AI capabilities to your website.",
-    icon: "🤖",
+    icon: Bot,
   },
   {
     n: "4",
     title: "Automate",
     desc: "AI works 24/7 to engage, qualify and support customers.",
-    icon: "⚡",
+    icon: Rocket,
   },
   {
     n: "5",
     title: "Grow",
     desc: "More leads, more sales, happier customers, less manual work.",
-    icon: "📈",
+    icon: TrendingUp,
   },
 ];
 
@@ -48,7 +54,7 @@ const features = [
     desc: "Engage visitors instantly and keep the conversation going.",
   },
   {
-    icon: UserCheck,
+    icon: Filter,
     title: "More Qualified Leads",
     desc: "AI qualifies and captures leads that are ready to buy.",
   },
@@ -58,17 +64,17 @@ const features = [
     desc: "Let AI handle scheduling so you never miss an opportunity.",
   },
   {
-    icon: Star,
+    icon: BookOpen,
     title: "Smart Knowledge",
     desc: "AI answers questions using your content and documents.",
   },
   {
-    icon: MessageCircle,
+    icon: Headphones,
     title: "24/7 Support",
     desc: "Deliver instant support without increasing your workload.",
   },
   {
-    icon: Zap,
+    icon: Cog,
     title: "Business Automation",
     desc: "AI connects with your tools and automates what slows you down.",
   },
@@ -103,9 +109,9 @@ export default function HomePage() {
           </div>
 
           <div className="relative mx-auto mt-10 max-w-2xl">
-            <ScanBar />
-            <p className="mt-4 text-center text-sm italic text-mist">
-              It&apos;s fast, free and simple.
+            <HeroScanBar />
+            <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm italic text-violet/80">
+              <span aria-hidden>↴</span> It&apos;s fast, free and simple!
             </p>
           </div>
 
@@ -138,23 +144,26 @@ export default function HomePage() {
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {steps.map((step) => (
-              <div
-                key={step.n}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50 text-2xl">
-                  {step.icon}
+            {steps.map((step, i) => (
+              <div key={step.n} className="relative">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50">
+                    <step.icon size={22} strokeWidth={1.75} className="text-violet-600" />
+                  </div>
+                  <div className="mt-4">
+                    <span className="text-sm font-bold text-violet-600">
+                      {step.n}. {step.title}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                    {step.desc}
+                  </p>
                 </div>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-sm font-semibold text-violet">
-                    {step.n}.
+                {i < steps.length - 1 && (
+                  <span className="absolute -right-4 top-1/2 z-10 hidden -translate-y-1/2 text-violet-300 lg:block">
+                    ›
                   </span>
-                  <h3 className="text-lg font-bold text-navy">{step.title}</h3>
-                </div>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                  {step.desc}
-                </p>
+                )}
               </div>
             ))}
           </div>
@@ -178,7 +187,7 @@ export default function HomePage() {
                 className="card-dark flex flex-col gap-3 rounded-xl p-6 transition hover:border-violet/40"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-violet/30 bg-navy-600">
-                  <f.icon size={20} className="text-violet" />
+                  <f.icon size={20} strokeWidth={1.75} color="url(#icon-gradient)" />
                 </div>
                 <h3 className="font-semibold text-white">{f.title}</h3>
                 <p className="text-sm text-mist">{f.desc}</p>

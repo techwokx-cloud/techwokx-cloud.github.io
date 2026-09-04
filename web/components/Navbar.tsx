@@ -99,13 +99,12 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-md">
       <div className="container-page flex h-[72px] items-center justify-between">
-        <Link href="/" className="focus-ring flex flex-col leading-none">
-          <span className="text-xl font-extrabold tracking-tight">
-            Tech<span className="bg-brand-gradient bg-clip-text text-transparent">Wokx</span>
-          </span>
-          <span className="mt-0.5 text-[10px] font-medium tracking-[0.14em] text-mist">
-            AI FOR YOUR WEBSITE
-          </span>
+        <Link href="/" className="focus-ring flex items-center gap-2">
+          <img
+            src="/Techwokx_Logo_full_final.png"
+            alt="TechWokx — Intelligent Solutions. Secure Futures."
+            className="h-9 w-auto sm:h-10"
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">

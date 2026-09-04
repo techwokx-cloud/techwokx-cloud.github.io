@@ -31,6 +31,17 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased bg-ink text-white">
+        {/* Shared gradient defs so icons across the site can use
+            stroke={"url(#icon-gradient)"} to match the mockups' gradient
+            line-icon style. */}
+        <svg width="0" height="0" className="absolute" aria-hidden="true">
+          <defs>
+            <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#a78bfa" />
+              <stop offset="100%" stopColor="#60a5fa" />
+            </linearGradient>
+          </defs>
+        </svg>
         <Navbar />
         <main>{children}</main>
         <Footer />
