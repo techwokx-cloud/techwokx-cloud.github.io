@@ -7,7 +7,6 @@ import {
   CalendarCheck,
 } from "lucide-react";
 import HeroScanBar from "@/components/HeroScanBar";
-import CTABand from "@/components/CTABand";
 
 const logos = [
   "Hospitality Group",
@@ -131,13 +130,6 @@ export default function HomePage() {
           />
         </div>
       </section>
-
-      <CTABand
-        heading="Ready to See Your"
-        highlight="AI Opportunity?"
-        subtext="Join businesses across Ghana and beyond discovering the power of AI."
-        buttonLabel="Scan My Website Now"
-      />
     </>
   );
 }
