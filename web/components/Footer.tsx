@@ -39,15 +39,6 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
     ],
   },
   {
-    title: "Resources",
-    links: [
-      { label: "Guides", href: "/resources" },
-      { label: "Insights", href: "/resources" },
-      { label: "Case Studies", href: "/resources" },
-      { label: "AI Website Scanner", href: "/#scan" },
-    ],
-  },
-  {
     title: "Company",
     links: [
       { label: "About Us", href: "/about" },
@@ -65,12 +56,12 @@ export default function Footer() {
         <ScanBar />
       </div>
 
-      <div className="container-page mt-14 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="container-page mt-14 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
         <div className="col-span-2 sm:col-span-3 lg:col-span-1">
           <img
             src="/Techwokx_Logo_full_final.png"
             alt="TechWokx — Intelligent Solutions. Secure Futures."
-            className="h-9 w-auto"
+            className="h-14 w-auto"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-mist">
             We turn ordinary business websites into intelligent business
