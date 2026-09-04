@@ -239,18 +239,19 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="py-14" style={{ backgroundColor: "rgb(245,243,255)" }}>
+      <section className="py-16" style={{ backgroundColor: "rgb(245,243,255)" }}>
         <div className="container-page">
           <Reveal>
-            <div className="mx-auto flex max-w-3xl flex-col items-start gap-4 rounded-2xl border border-violet-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-50">
-                <Globe size={20} className="text-violet-600" />
+            <div className="mx-auto flex max-w-3xl flex-col items-start gap-5 rounded-2xl border-l-4 border-l-violet-600 bg-white p-7 shadow-xl shadow-violet-200/50 sm:flex-row sm:items-center">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
+                <Globe size={26} className="text-white" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-navy">
+                <p className="eyebrow">Good to know</p>
+                <p className="mt-1 text-base font-bold text-navy">
                   Building a brand new custom website?
                 </p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1.5 text-sm text-slate-600">
                   Custom website builds are also a one-time project fee.
                   Hosting, SSL, backups, monitoring and a baseline AI
                   allowance are included — billed annually starting Year 2.
