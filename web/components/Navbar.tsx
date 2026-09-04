@@ -39,6 +39,12 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <Link
+            href="/login"
+            className="focus-ring hidden text-sm text-white/70 transition hover:text-white sm:inline-block"
+          >
+            Log In
+          </Link>
+          <Link
             href="/#scan"
             className="btn-gradient focus-ring hidden items-center gap-2 rounded-lg px-4 py-2.5 text-sm sm:inline-flex"
           >
@@ -69,6 +75,13 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+          <Link
+            href="/login"
+            className="focus-ring py-3 text-sm text-white/85"
+            onClick={() => setMobileOpen(false)}
+          >
+            Log In
+          </Link>
           <Link
             href="/#scan"
             className="btn-gradient focus-ring mt-4 flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm"

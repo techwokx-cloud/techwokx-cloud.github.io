@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "TechWokx — AI For Your Website",
@@ -32,9 +29,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased bg-ink text-white">
-        {/* Shared gradient defs so icons across the site can use
-            stroke={"url(#icon-gradient)"} to match the mockups' gradient
-            line-icon style. */}
+        {/* Shared gradient defs so icons across the site (marketing +
+            dashboard) can use stroke={"url(#icon-gradient)"} to match the
+            mockups' gradient line-icon style. */}
         <svg width="0" height="0" className="absolute" aria-hidden="true">
           <defs>
             <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -43,11 +40,9 @@ export default function RootLayout({
             </linearGradient>
           </defs>
         </svg>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <ChatWidget />
+        {children}
       </body>
     </html>
   );
 }
+
