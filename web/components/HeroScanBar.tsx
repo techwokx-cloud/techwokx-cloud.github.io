@@ -10,6 +10,7 @@ import {
   Loader2,
   AlertTriangle,
   RotateCcw,
+  Package,
 } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 import AnimatedScoreRing from "@/components/AnimatedScoreRing";
@@ -40,6 +41,13 @@ type ScanReport = {
   url: string;
   readinessScore: number;
   opportunities: { area: string; level: string; reason: string }[];
+  businessCase?: {
+    summary: string;
+    recommendedPackage: { name: string; price: string; period: string };
+    estimatedTimeline: string;
+    projectedOutcomes: string[];
+    courseOfAction: string[];
+  };
 };
 
 type Step = "url" | "loading" | "error" | "results" | "details" | "submitted";
@@ -124,6 +132,22 @@ export default function HeroScanBar() {
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
+  }, [step]);
+
+  // Auto-reset back to the empty state a few seconds after showing the
+  // confirmation, so the widget doesn't sit there permanently with a
+  // stale "Thanks, X!" message — ready for the next visitor or another scan.
+  useEffect(() => {
+    if (step !== "submitted") return;
+    const timer = setTimeout(() => {
+      setStep("url");
+      setUrl("");
+      setBusinessName("");
+      setEmail("");
+      setWhatsapp("");
+      setReport(null);
+    }, 6000);
+    return () => clearTimeout(timer);
   }, [step]);
 
   return (
@@ -238,6 +262,41 @@ export default function HeroScanBar() {
               </div>
             ))}
           </div>
+
+          {report.businessCase && (
+            <div className="mt-5 rounded-xl border border-violet/20 bg-navy-700/60 p-4">
+              <p className="text-sm text-white/90">{report.businessCase.summary}</p>
+
+              <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+                <span className="flex items-center gap-1.5 text-white">
+                  <Package size={14} className="text-violet" />
+                  {report.businessCase.recommendedPackage.name}{" "}
+                  <span className="text-mist">
+                    ({report.businessCase.recommendedPackage.price},{" "}
+                    {report.businessCase.recommendedPackage.period})
+                  </span>
+                </span>
+                <span className="flex items-center gap-1.5 text-white">
+                  <Clock size={14} className="text-violet" />
+                  {report.businessCase.estimatedTimeline} to launch
+                </span>
+              </div>
+
+              {report.businessCase.projectedOutcomes.length > 0 && (
+                <div className="mt-3 space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-mist">
+                    What this means for you
+                  </p>
+                  {report.businessCase.projectedOutcomes.map((outcome) => (
+                    <p key={outcome} className="flex items-start gap-1.5 text-xs text-white/80">
+                      <CheckCircle2 size={13} className="mt-0.5 shrink-0 text-emerald-400" />
+                      {outcome}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
             <button
