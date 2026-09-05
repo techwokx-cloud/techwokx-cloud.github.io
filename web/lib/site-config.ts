@@ -23,4 +23,7 @@ export const siteConfig = {
    *  Set to null to disable tracking entirely (no script loads).
    */
   metaPixelId: "440897446242409" as string | null,
+
+  /** Base URL for the TechWokx AI Gateway backend (the VPS). */
+  apiBaseUrl: "https://api.techwokx.online",
 };
