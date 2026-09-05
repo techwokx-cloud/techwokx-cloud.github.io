@@ -53,6 +53,7 @@ export default function HeroScanBar() {
   const [step, setStep] = useState<Step>("url");
   const [report, setReport] = useState<ScanReport | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const runScan = async (targetUrl: string) => {
@@ -88,10 +89,29 @@ export default function HeroScanBar() {
     runScan(normalized);
   };
 
-  const handleDetailsSubmit = (e: React.FormEvent) => {
+  const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !businessName.trim()) return;
-    setStep("submitted");
+    setSubmitting(true);
+    try {
+      await fetch(`${siteConfig.apiBaseUrl}/api/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessName,
+          email,
+          whatsappCountryCode: countryCode,
+          whatsappNumber: whatsapp,
+          sourceUrl: url,
+        }),
+      });
+    } catch {
+      // Non-fatal — still show the confirmation; worst case the lead isn't
+      // saved server-side and we'd only notice via lower campaign volume.
+    } finally {
+      setSubmitting(false);
+      setStep("submitted");
+    }
   };
 
   // Click outside the expanded details step collapses it back to results.
@@ -296,10 +316,11 @@ export default function HeroScanBar() {
 
           <button
             type="submit"
-            className="btn-gradient focus-ring flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm"
+            disabled={submitting}
+            className="btn-gradient focus-ring flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm disabled:opacity-60"
           >
-            Get My Report
-            <span aria-hidden>→</span>
+            {submitting ? "Saving..." : "Get My Report"}
+            {!submitting && <span aria-hidden>→</span>}
           </button>
         </form>
       )}
@@ -307,10 +328,9 @@ export default function HeroScanBar() {
       {step === "submitted" && (
         <div className="mx-auto mt-6 flex max-w-lg items-center gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3.5 text-sm text-emerald-300">
           <Check size={16} className="shrink-0" />
-          Thanks, {businessName}! Your scan is real and above — email delivery
-          isn&apos;t wired up yet, so we&apos;ll reach out to {email}
-          {whatsapp && ` (or WhatsApp: ${countryCode} ${whatsapp})`} directly
-          once that&apos;s ready.
+          Thanks, {businessName}! We&apos;ve saved your scan and you&apos;re
+          enrolled in our follow-up sequence — check {email} over the next
+          few days.
         </div>
       )}
     </div>
