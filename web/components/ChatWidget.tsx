@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bot, X, Send, MessageCircle, ExternalLink, User, Mic, Volume2, VolumeX } from "lucide-react";
-import { findAnswer } from "@/lib/chat-knowledge";
 import { siteConfig } from "@/lib/site-config";
 import { OPEN_CHAT_EVENT } from "@/lib/chat-events";
 import {
@@ -27,6 +26,17 @@ function whatsappLink(question?: string) {
   return `${base}?text=${encodeURIComponent(text)}`;
 }
 
+function getSessionId() {
+  if (typeof window === "undefined") return "server";
+  const key = "techwokx_chat_session";
+  let id = localStorage.getItem(key);
+  if (!id) {
+    id = "sess_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem(key, id);
+  }
+  return id;
+}
+
 const GREETING: Message = {
   id: "greeting",
   from: "bot",
@@ -40,9 +50,15 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [listening, setListening] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasGreetedRef = useRef(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const sessionIdRef = useRef<string>("");
+
+  useEffect(() => {
+    sessionIdRef.current = getSessionId();
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setShowTeaser(true), 4000);
@@ -75,23 +91,50 @@ export default function ChatWidget() {
     return () => stopSpeaking();
   }, []);
 
-  const sendMessage = (question: string) => {
+  const sendMessage = async (question: string) => {
     if (!question.trim()) return;
     const userMsg: Message = { id: crypto.randomUUID(), from: "user", text: question.trim() };
-    const answer = findAnswer(question);
+    setMessages((m) => [...m, userMsg]);
+    setInput("");
+    setIsTyping(true);
 
-    const botMsg: Message = answer
-      ? { id: crypto.randomUUID(), from: "bot", text: answer }
-      : {
+    try {
+      const res = await fetch(`${siteConfig.apiBaseUrl}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          siteKey: "techwokx",
+          sessionId: sessionIdRef.current,
+          message: question.trim(),
+        }),
+      });
+      const data = await res.json();
+      setIsTyping(false);
+
+      if (!res.ok) {
+        const botMsg: Message = {
           id: crypto.randomUUID(),
           from: "bot",
-          text: "I don't have a confident answer for that yet. Let's get you to a real person on WhatsApp — they can help right away.",
+          text: "I'm having trouble reaching our AI assistant right now. Let's get you to a real person on WhatsApp instead.",
           offerWhatsApp: true,
         };
+        setMessages((m) => [...m, botMsg]);
+        return;
+      }
 
-    setMessages((m) => [...m, userMsg, botMsg]);
-    if (voiceEnabled) speak(botMsg.text);
-    setInput("");
+      const botMsg: Message = { id: crypto.randomUUID(), from: "bot", text: data.reply };
+      setMessages((m) => [...m, botMsg]);
+      if (voiceEnabled) speak(botMsg.text);
+    } catch {
+      setIsTyping(false);
+      const botMsg: Message = {
+        id: crypto.randomUUID(),
+        from: "bot",
+        text: "I'm having trouble connecting right now. Let's get you to a real person on WhatsApp instead.",
+        offerWhatsApp: true,
+      };
+      setMessages((m) => [...m, botMsg]);
+    }
   };
 
   const send = (e: React.FormEvent) => {
@@ -222,6 +265,20 @@ export default function ChatWidget() {
                 </div>
               </div>
             ))}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="flex max-w-[85%] gap-2">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-gradient">
+                    <Bot size={12} className="text-white" />
+                  </span>
+                  <div className="flex items-center gap-1 rounded-2xl bg-navy-700 px-3.5 py-3">
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/50 [animation-delay:-0.3s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/50 [animation-delay:-0.15s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/50" />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <form onSubmit={send} className="flex items-center gap-2 border-t border-white/10 p-3">
