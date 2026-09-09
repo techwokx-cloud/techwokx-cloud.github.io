@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Website AI Scan - Get Personalized Report</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .scan-summary {
+      background: #f3f4f6;
+      border-left: 4px solid #7c3aed;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+    }
+
+    .scan-summary p {
+      margin: 0;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .scan-summary strong {
+      color: #1f2937;
+    }
+
+    .form-section {
+      margin-bottom: 24px;
+    }
+
+    .form-section label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+
+    .goal-options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .goal-option {
+      display: flex;
+      align-items: flex-start;
+      padding: 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .goal-option:hover {
+      border-color: #7c3aed;
+      background: #f8f7ff;
+    }
+
+    .goal-option input[type="radio"] {
+      margin-top: 4px;
+      margin-right: 12px;
+      cursor: pointer;
+      accent-color: #7c3aed;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .goal-option-content {
+      flex: 1;
+    }
+
+    .goal-option-title {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .goal-option-description {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+
+    .goal-option.selected {
+      border-color: #7c3aed;
+      background: #f8f7ff;
+    }
+
+    .form-section input[type="email"],
+    .form-section input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-section input[type="email"]:focus,
+    .form-section input[type="text"]:focus {
+      outline: none;
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 24px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .privacy-notice {
+      text-align: center;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 16px;
+    }
+
+    .success-message {
+      display: none;
+      background: #d1fae5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+      padding: 16px;
+      border-radius: 6px;
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 16px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .opportunity-highlight {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      border-radius: 4px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #92400e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🎯 Your Website AI Scan</h1>
+      <p>We analyzed your website and found opportunities to add AI. Get your personalized report now.</p>
+    </div>
+
+    <!-- Form -->
+    <form id="goalForm">
+      <!-- Website Summary -->
+      <div class="scan-summary" id="scanSummary" style="display: none;">
+        <p>Scanning <strong id="scanUrl">...</strong> for AI opportunities</p>
+      </div>
+
+      <!-- Goal Selection -->
+      <div class="form-section">
+        <label>What's your website's PRIMARY goal?</label>
+        <div class="goal-options">
+          <label class="goal-option">
+            <input type="radio" name="goal" value="lead_generation" required>
+            <div class="goal-option-content">
+              <div class="goal-option-title">💼 Lead Generation</div>
+              <div class="goal-option-description">Capture qualified leads automatically from your website</div>
+            </div>
+          </label>
+
+          <label class="goal-option">
+            <input type="radio" name="goal" value="ecommerce" required>
+            <div class="goal-option-content">
+              <div class="goal-option-title">🛍️ E-commerce / Sales</div>
+              <div class="goal-option-description">Increase online sales and average order value</div>
+            </div>
+          </label>
+
+          <label class="goal-option">
+            <input type="radio" name="goal" value="bookings" required>
+            <div class="goal-option-content">
+              <div class="goal-option-title">📅 Bookings / Appointments</div>
+              <div class="goal-option-description">Automate scheduling and appointment management</div>
+            </div>
+          </label>
+
+          <label class="goal-option">
+            <input type="radio" name="goal" value="support" required>
+            <div class="goal-option-content">
+              <div class="goal-option-title">💬 Customer Support</div>
+              <div class="goal-option-description">Provide 24/7 instant answers to customer questions</div>
+            </div>
+          </label>
+
+          <label class="goal-option">
+            <input type="radio" name="goal" value="knowledge_base" required>
+            <div class="goal-option-content">
+              <div class="goal-option-title">📚 Knowledge Base</div>
+              <div class="goal-option-description">Make documentation searchable with AI</div>
+            </div>
+          </label>
+
+          <label class="goal-option">
+            <input type="radio" name="goal" value="content" required>
+            <div class="goal-option-content">
+              <div class="goal-option-title">✍️ Content Generation</div>
+              <div class="goal-option-description">Create and optimize content faster with AI</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="form-section">
+        <label for="email">Your Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@company.com" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-section">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="John Doe" required>
+        </div>
+
+        <div class="form-section">
+          <label for="company">Company Name</label>
+          <input type="text" id="company" name="company" placeholder="Acme Corp" required>
+        </div>
+      </div>
+
+      <!-- Opportunity Highlight -->
+      <div class="opportunity-highlight" id="opportunityHighlight" style="display: none;">
+        Based on your goal, we identified <strong id="oppCount">3</strong> high-impact opportunities including:
+        <strong id="topOpp"></strong>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn" id="submitBtn">Get Your Personalized Report</button>
+
+      <!-- Privacy Notice -->
+      <div class="privacy-notice">
+        We'll send your personalized AI scan report to your email.
+        <a href="https://techwokx.online/privacy" style="color: #6b7280; text-decoration: none;">Privacy Policy</a>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading" id="loading">
+        Generating your personalized report... ⏳
+      </div>
+
+      <!-- Success State -->
+      <div class="success-message" id="successMessage">
+        ✅ Done! Check your email for your personalized AI scan report.
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('goalForm');
+    const goalOptions = document.querySelectorAll('.goal-option input[type="radio"]');
+    const opportunityHighlight = document.getElementById('opportunityHighlight');
+    const loading = document.getElementById('loading');
+    const successMessage = document.getElementById('successMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Get URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const scanUrl = urlParams.get('url') || 'your-website.com';
+    document.getElementById('scanUrl').textContent = scanUrl;
+    document.getElementById('scanSummary').style.display = 'block';
+
+    // Handle goal selection
+    goalOptions.forEach(option => {
+      option.addEventListener('change', (e) => {
+        document.querySelectorAll('.goal-option').forEach(opt => opt.classList.remove('selected'));
+        e.target.closest('.goal-option').classList.add('selected');
+        
+        // Show opportunity highlight
+        const goalLabel = e.target.closest('.goal-option').querySelector('.goal-option-title').textContent;
+        document.getElementById('topOpp').textContent = goalLabel;
+        opportunityHighlight.style.display = 'block';
+      });
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        url: scanUrl,
+        email: document.getElementById('email').value,
+        name: document.getElementById('name').value,
+        company: document.getElementById('company').value,
+        goal: document.querySelector('input[name="goal"]:checked').value
+      };
+
+      submitBtn.disabled = true;
+      loading.classList.add('show');
+
+      try {
+        // Call API to send personalized report
+        const response = await fetch('/api/scan/send-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          loading.classList.remove('show');
+          successMessage.classList.add('show');
+          form.style.display = 'none';
+        } else {
+          alert('Something went wrong. Please try again.');
+          submitBtn.disabled = false;
+          loading.classList.remove('show');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to send report. Please check your connection and try again.');
+        submitBtn.disabled = false;
+        loading.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>

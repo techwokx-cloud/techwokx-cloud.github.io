@@ -1,0 +1,55 @@
+# TechWokx Caddy Configuration
+# Handles HTTPS termination and reverse proxy routing
+
+# Global settings
+{
+  email admin@techwokx.online
+  acme_ca https://acme-v02.api.letsencrypt.org/directory
+}
+
+# Main website
+techwokx.online {
+  root * /var/www/techwokx
+  file_server
+  
+  # Cache static assets
+  @static {
+    path /assets/* /css/* /js/* /images/*
+  }
+  header @static Cache-Control "public, max-age=31536000"
+  
+  # Try index.html for all other routes (SPA)
+  try_files {path} /index.html
+}
+
+# API Gateway
+api.techwokx.online {
+  # Health check
+  handle /health {
+    respond "OK" 200
+  }
+  
+  # Marketing Dashboard API
+  handle /marketing/* {
+    uri strip_prefix /marketing
+    reverse_proxy localhost:3001 {
+      header_uri Host techwokx.online
+      header_uri X-Forwarded-For {http.request.remote}
+      header_uri X-Forwarded-Proto https
+    }
+  }
+  
+  # Default reverse proxy to gateway
+  reverse_proxy localhost:3000 {
+    header_uri X-Forwarded-For {http.request.remote}
+    header_uri X-Forwarded-Proto https
+  }
+}
+
+# Virtual Assistant Portal
+app.george-jabley.online {
+  reverse_proxy localhost:3002 {
+    header_uri X-Forwarded-For {http.request.remote}
+    header_uri X-Forwarded-Proto https
+  }
+}

@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # Caddy Reverse Proxy & SSL Termination
+  caddy:
+    image: caddy:2-alpine
+    container_name: techwokx-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - /var/www/techwokx:/var/www/techwokx:ro
+    networks:
+      - techwokx-network
+    restart: unless-stopped
+    environment:
+      - ACME_AGREE=true
+
+  # API Gateway
+  gateway:
+    image: node:18-alpine
+    container_name: techwokx-gateway
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    command: sh -c "npm install && npm start"
+    networks:
+      - techwokx-network
+    restart: unless-stopped
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Marketing Dashboard API
+  marketing:
+    image: node:18-alpine
+    container_name: techwokx-marketing
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    environment:
+      - PORT=3001
+      - NODE_ENV=production
+      - META_ACCESS_TOKEN=${META_ACCESS_TOKEN}
+      - META_AD_ACCOUNT_ID=${META_AD_ACCOUNT_ID}
+    command: sh -c "npm install && npm start"
+    networks:
+      - techwokx-network
+    restart: unless-stopped
+    expose:
+      - "3001"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  techwokx-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
