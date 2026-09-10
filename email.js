@@ -8,17 +8,27 @@ function fillTemplate(template, vars) {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key) => (vars[key] ?? ""));
 }
 
-async function sendEmail({ to, subject, bodyTemplate, vars = {} }) {
+async function sendEmail({ to, subject, bodyTemplate, vars = {}, attachments, idempotencyKey }) {
   if (!resend) {
     throw new Error("RESEND_API_KEY is not configured on the server.");
   }
   const text = fillTemplate(bodyTemplate, vars);
-  const result = await resend.emails.send({
-    from: FROM_EMAIL,
-    to,
-    subject: fillTemplate(subject, vars),
-    text,
-  });
+  const options = {};
+  if (idempotencyKey) {
+    // Extra safety net on top of our own DB-level reservation — Resend
+    // will refuse to send a duplicate for the same key within 24h.
+    options.headers = { "Idempotency-Key": idempotencyKey };
+  }
+  const result = await resend.emails.send(
+    {
+      from: FROM_EMAIL,
+      to,
+      subject: fillTemplate(subject, vars),
+      text,
+      ...(attachments ? { attachments } : {}),
+    },
+    options
+  );
   if (result.error) {
     throw new Error(result.error.message || "Resend API error");
   }

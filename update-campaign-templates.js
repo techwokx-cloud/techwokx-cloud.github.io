@@ -1,5 +1,6 @@
-// Run once to upgrade the day-0 email template to include score, package,
-// price, timeline, and projected outcomes:
+// Run once to upgrade all 4 email templates to the new version with
+// report link, unsubscribe link, goal personalization, and (for day 3)
+// a DOCX action plan attachment + real pricing:
 //   docker compose exec gateway node update-campaign-templates.js
 const { db } = require("./db");
 
@@ -12,21 +13,74 @@ if (!campaign) {
   process.exit(0);
 }
 
-const newSubject = "Your AI Readiness Score: {{score}}/100";
-const newBody =
-  "Hi {{business_name}},\n\n" +
-  "Thanks for scanning your website with TechWokx! Here's what we found:\n\n" +
-  "Your AI Readiness Score: {{score}}/100\n\n" +
-  "{{summary}}\n\n" +
-  "Recommended: {{package}} ({{price}}, one-time) — estimated {{timeline}} to launch.\n\n" +
-  "What this means for you: {{outcomes}}\n\n" +
-  "Reply to this email any time if you have questions about what we found.\n\n" +
-  "— TechWokx";
+const steps = [
+  {
+    dayOffset: 0,
+    subject: "Your AI Readiness Score: {{score}}/100",
+    bodyTemplate:
+      "Hi {{business_name}},\n\n" +
+      "Thanks for scanning your website with TechWokx! Here's what we found:\n\n" +
+      "Your AI Readiness Score: {{score}}/100\n\n" +
+      "{{summary}}\n\n" +
+      "You told us your priority right now is: {{goal}}. Good to know — I'll keep that in mind.\n\n" +
+      "Full report (share it with your team if useful): {{report_url}}\n\n" +
+      "Reply to this email any time if you have questions about what we found.\n\n" +
+      "— TechWokx\n\n" +
+      "---\n" +
+      "Don't want these emails? Unsubscribe: {{unsubscribe_link}}",
+  },
+  {
+    dayOffset: 3,
+    subject: "Your AI Action Plan for {{business_name}}",
+    bodyTemplate:
+      "Hi {{business_name}},\n\n" +
+      "Based on your scan and your focus on {{goal}}, I've put together a tailored action plan " +
+      "(attached as a Word doc) — what we found, what we'd recommend first, and real pricing.\n\n" +
+      "Quick version: {{package}} ({{price}}, one-time) would be the right starting point, with an " +
+      "estimated {{timeline}} to launch.\n\n" +
+      "What this means for you: {{outcomes}}\n\n" +
+      "No pressure — take a look, reply with any questions, or we can hop on a quick call to walk " +
+      "through it together.\n\n" +
+      "— TechWokx\n\n" +
+      "---\n" +
+      "Don't want these emails? Unsubscribe: {{unsubscribe_link}}",
+  },
+  {
+    dayOffset: 7,
+    subject: "What AI retrofits look like in practice",
+    bodyTemplate:
+      "Hi {{business_name}},\n\n" +
+      "Here's what businesses like yours typically see after an AI retrofit: faster response times, " +
+      "more qualified leads, and less manual work answering the same questions over and over.\n\n" +
+      "Given you mentioned {{goal}} as your priority, that's usually one of the first things to improve.\n\n" +
+      "Still have your report handy? {{report_url}}\n\n" +
+      "Want to see how this would apply to you specifically? Just reply.\n\n" +
+      "— TechWokx\n\n" +
+      "---\n" +
+      "Don't want these emails? Unsubscribe: {{unsubscribe_link}}",
+  },
+  {
+    dayOffset: 10,
+    subject: "Last check-in from us",
+    bodyTemplate:
+      "Hi {{business_name}},\n\n" +
+      "This is the last note in this sequence — we don't want to clutter your inbox.\n\n" +
+      "If you'd like to revisit your AI Readiness Score ({{report_url}}) or talk through next steps " +
+      "for {{goal}} any time, just reply to this email.\n\n" +
+      "— TechWokx\n\n" +
+      "---\n" +
+      "Don't want these emails? Unsubscribe: {{unsubscribe_link}}",
+  },
+];
 
-const result = db
-  .prepare(
-    "UPDATE email_sequence_steps SET subject = ?, body_template = ? WHERE campaign_id = ? AND day_offset = 0"
-  )
-  .run(newSubject, newBody, campaign.id);
+let updated = 0;
+for (const step of steps) {
+  const result = db
+    .prepare(
+      "UPDATE email_sequence_steps SET subject = ?, body_template = ? WHERE campaign_id = ? AND day_offset = ?"
+    )
+    .run(step.subject, step.bodyTemplate, campaign.id, step.dayOffset);
+  updated += result.changes;
+}
 
-console.log(`Updated ${result.changes} row(s) for campaign #${campaign.id}, day 0.`);
+console.log(`Updated ${updated} row(s) across ${steps.length} steps for campaign #${campaign.id}.`);

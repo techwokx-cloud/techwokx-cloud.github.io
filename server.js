@@ -121,7 +121,7 @@ app.post("/api/scan", rateLimit, async (req, res) => {
 });
 
 app.post("/api/leads", rateLimit, (req, res) => {
-  const { businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl } =
+  const { businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl, goal } =
     req.body || {};
 
   if (!businessName || !email) {
@@ -135,6 +135,7 @@ app.post("/api/leads", rateLimit, (req, res) => {
       whatsappCountryCode,
       whatsappNumber,
       sourceUrl,
+      goal,
     });
 
     // Link the most recent scan for this URL to the new lead, if we have one.
@@ -332,6 +333,95 @@ app.get("/api/admin/social-posts", requireAdmin, (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.get("/report/:scanId", (req, res) => {
+  const scan = db.getScanById(Number(req.params.scanId));
+  if (!scan) {
+    return res.status(404).send("<h1>Report not found</h1>");
+  }
+
+  const pkg = scan.business_case?.recommendedPackage;
+  const rows = scan.opportunities
+    .map(
+      (o) => `
+      <tr>
+        <td style="padding:10px 14px;border-bottom:1px solid #eee;">${o.area}</td>
+        <td style="padding:10px 14px;border-bottom:1px solid #eee;">
+          <span style="font-weight:600;color:${o.level === "HIGH" ? "#dc2626" : o.level === "MEDIUM" ? "#d97706" : "#64748b"}">${o.level}</span>
+        </td>
+        <td style="padding:10px 14px;border-bottom:1px solid #eee;color:#64748b;">${o.reason}</td>
+      </tr>`
+    )
+    .join("");
+
+  const outcomes = (scan.business_case?.projectedOutcomes || [])
+    .map((o) => `<li style="margin-bottom:6px;">${o}</li>`)
+    .join("");
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Readiness Report — ${scan.url}</title>
+</head>
+<body style="margin:0;padding:40px 20px;background:#f8f9fb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a2e;">
+  <div style="max-width:640px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+    <div style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:32px;color:#fff;">
+      <p style="margin:0 0 6px;font-size:13px;opacity:0.85;text-transform:uppercase;letter-spacing:0.05em;">AI Readiness Report</p>
+      <h1 style="margin:0;font-size:24px;">${scan.url.replace(/^https?:\/\//, "")}</h1>
+      <div style="margin-top:20px;display:flex;align-items:baseline;gap:8px;">
+        <span style="font-size:48px;font-weight:800;">${scan.readiness_score}</span>
+        <span style="font-size:16px;opacity:0.85;">/ 100</span>
+      </div>
+    </div>
+    <div style="padding:32px;">
+      ${scan.business_case ? `<p style="font-size:15px;line-height:1.6;color:#334155;">${scan.business_case.summary}</p>` : ""}
+
+      <h2 style="font-size:16px;margin:24px 0 12px;">Opportunity Areas</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        ${rows}
+      </table>
+
+      ${
+        pkg
+          ? `
+      <h2 style="font-size:16px;margin:24px 0 12px;">Recommended Package</h2>
+      <p style="font-size:15px;"><strong>${pkg.name}</strong> — ${pkg.price} (${pkg.period}), estimated ${scan.business_case.estimatedTimeline} to launch.</p>
+      `
+          : ""
+      }
+
+      ${
+        outcomes
+          ? `
+      <h2 style="font-size:16px;margin:24px 0 12px;">What This Means For You</h2>
+      <ul style="font-size:14px;color:#334155;padding-left:20px;">${outcomes}</ul>
+      `
+          : ""
+      }
+
+      <div style="margin-top:32px;padding-top:24px;border-top:1px solid #eee;text-align:center;">
+        <a href="https://techwokx.online/#scan" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;text-decoration:none;padding:12px 28px;border-radius:10px;font-weight:600;font-size:14px;">Scan Another Website</a>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center;color:#94a3b8;font-size:12px;margin-top:20px;">TechWokx AI Solutions · techwokx.online</p>
+</body>
+</html>`;
+
+  res.set("Content-Type", "text/html").send(html);
+});
+
+app.get("/unsubscribe/:enrollmentId", (req, res) => {
+  const ok = db.unsubscribeEnrollment(Number(req.params.enrollmentId));
+  res.set("Content-Type", "text/html").send(`<!DOCTYPE html>
+<html><head><meta charset="UTF-8" /><title>Unsubscribed</title></head>
+<body style="font-family:-apple-system,sans-serif;text-align:center;padding:60px 20px;color:#1a1a2e;">
+  <h2>${ok ? "You've been unsubscribed" : "Nothing to unsubscribe"}</h2>
+  <p style="color:#64748b;">${ok ? "You won't receive any further emails in this sequence." : "This link may have already been used."}</p>
+</body></html>`);
 });
 
 app.listen(PORT, () => {

@@ -136,12 +136,25 @@ try {
 } catch (e) {
   if (!/duplicate column/i.test(e.message)) throw e;
 }
+try {
+  db.exec("ALTER TABLE leads ADD COLUMN goal TEXT");
+} catch (e) {
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
+try {
+  db.exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_email_log_unique ON email_log(enrollment_id, step_id)");
+} catch (e) {
+  // If duplicate rows already exist from the earlier race-condition bug,
+  // this index creation will fail — that's fine, the reservation logic in
+  // campaign-worker.js still protects against NEW duplicates either way.
+  console.error("[db] could not create unique email_log index (likely pre-existing duplicates):", e.message);
+}
 
 // ---- Leads ----
-function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl }) {
+function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl, goal }) {
   const stmt = db.prepare(`
-    INSERT INTO leads (business_name, email, whatsapp_country_code, whatsapp_number, source_url)
-    VALUES (@businessName, @email, @whatsappCountryCode, @whatsappNumber, @sourceUrl)
+    INSERT INTO leads (business_name, email, whatsapp_country_code, whatsapp_number, source_url, goal)
+    VALUES (@businessName, @email, @whatsappCountryCode, @whatsappNumber, @sourceUrl, @goal)
   `);
   const info = stmt.run({
     businessName,
@@ -149,6 +162,7 @@ function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, 
     whatsappCountryCode: whatsappCountryCode || null,
     whatsappNumber: whatsappNumber || null,
     sourceUrl: sourceUrl || null,
+    goal: goal || null,
   });
   return info.lastInsertRowid;
 }
@@ -237,9 +251,12 @@ function getDueSequenceSends(campaignId) {
       e.lead_id,
       l.business_name,
       l.email,
+      l.goal,
       s.id AS step_id,
+      s.day_offset,
       s.subject,
       s.body_template,
+      sc.id AS scan_id,
       sc.readiness_score,
       sc.business_case
     FROM campaign_enrollments e
@@ -260,10 +277,51 @@ function getDueSequenceSends(campaignId) {
     .all(campaignId);
 }
 
+// Reserves a log row BEFORE sending, so if the process is killed mid-send
+// (e.g. a container restart during deploy), the next worker run sees the
+// row already exists and won't send the same email twice. Returns the log
+// id, or null if a row already exists for this (enrollment, step) pair —
+// meaning it's already been sent, failed, or is being sent right now.
+function reserveEmailLog({ enrollmentId, stepId }) {
+  const existing = db
+    .prepare("SELECT id FROM email_log WHERE enrollment_id = ? AND step_id = ?")
+    .get(enrollmentId, stepId);
+  if (existing) return null;
+  const info = db
+    .prepare(
+      `INSERT INTO email_log (enrollment_id, step_id, status) VALUES (?, ?, 'sending')`
+    )
+    .run(enrollmentId, stepId);
+  return info.lastInsertRowid;
+}
+
+function updateEmailLogStatus(logId, { status, resendMessageId }) {
+  db.prepare(
+    `UPDATE email_log SET status = ?, resend_message_id = ? WHERE id = ?`
+  ).run(status, resendMessageId || null, logId);
+}
+
 function logEmailSent({ enrollmentId, stepId, resendMessageId, status = "sent" }) {
   db.prepare(
     `INSERT INTO email_log (enrollment_id, step_id, resend_message_id, status) VALUES (?, ?, ?, ?)`
   ).run(enrollmentId, stepId, resendMessageId || null, status);
+}
+
+function unsubscribeEnrollment(enrollmentId) {
+  const result = db
+    .prepare(`UPDATE campaign_enrollments SET status = 'unsubscribed' WHERE id = ?`)
+    .run(enrollmentId);
+  return result.changes > 0;
+}
+
+function getScanById(scanId) {
+  const scan = db.prepare("SELECT * FROM scans WHERE id = ?").get(scanId);
+  if (!scan) return null;
+  return {
+    ...scan,
+    opportunities: JSON.parse(scan.opportunities),
+    business_case: scan.business_case ? JSON.parse(scan.business_case) : null,
+  };
 }
 
 // ---- Social posts ----
@@ -573,7 +631,11 @@ module.exports = {
   enrollLead,
   getActiveCampaigns,
   getDueSequenceSends,
+  reserveEmailLog,
+  updateEmailLogStatus,
   logEmailSent,
+  unsubscribeEnrollment,
+  getScanById,
   createSocialPost,
   getDueSocialPosts,
   markSocialPostResult,
