@@ -326,6 +326,14 @@ app.get("/api/admin/conversations/:id", requireAdmin, (req, res) => {
   }
 });
 
+app.get("/api/admin/social-posts", requireAdmin, (req, res) => {
+  try {
+    res.json(db.getRecentSocialPosts(50));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`TechWokx gateway listening on port ${PORT}`);
   startCampaignWorker();
