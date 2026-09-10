@@ -17,8 +17,8 @@ import {
   ChevronDown,
   LogOut,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getSession, logout, type DashboardUser } from "@/lib/dashboard-auth";
+import { useState } from "react";
+import { logout } from "@/lib/dashboard-auth";
 
 const navGroups = [
   {
@@ -64,12 +64,7 @@ const navGroups = [
 export default function DashboardSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<DashboardUser | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setUser(getSession());
-  }, []);
 
   const handleLogout = () => {
     logout();
@@ -123,11 +118,11 @@ export default function DashboardSidebar() {
           className="focus-ring flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left hover:bg-white/5"
         >
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-gradient text-xs font-semibold text-white">
-            {(user?.name || "TW").slice(0, 2).toUpperCase()}
+            TW
           </span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm font-medium text-white">
-              {user?.name || "TechWokx Admin"}
+              TechWokx Admin
             </span>
             <span className="block text-xs text-mist">Admin</span>
           </span>

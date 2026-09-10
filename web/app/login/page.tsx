@@ -2,22 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, Mail, Lock } from "lucide-react";
+import { Sparkles, KeyRound, Loader2 } from "lucide-react";
 import { login } from "@/lib/dashboard-auth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      setError("Enter an email and password to continue.");
+    if (!token.trim()) {
+      setError("Enter your dashboard access key to continue.");
       return;
     }
-    login(email.trim());
+    setLoading(true);
+    setError("");
+    const result = await login(token.trim());
+    setLoading(false);
+    if (!result.ok) {
+      setError(result.error || "Something went wrong.");
+      return;
+    }
     router.push("/dashboard");
   };
 
@@ -39,27 +46,18 @@ export default function LoginPage() {
         >
           <h1 className="text-lg font-bold text-white">Log in to your dashboard</h1>
           <p className="mt-1 text-sm text-mist">
-            Placeholder login — any email and password works for now.
+            Enter your dashboard access key (the same key used for admin API access).
           </p>
 
-          <div className="mt-6 space-y-3">
+          <div className="mt-6">
             <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-navy-700 px-3 py-2.5">
-              <Mail size={16} className="shrink-0 text-mist" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
-                className="w-full min-w-0 bg-transparent text-sm text-white placeholder:text-mist focus:outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-navy-700 px-3 py-2.5">
-              <Lock size={16} className="shrink-0 text-mist" />
+              <KeyRound size={16} className="shrink-0 text-mist" />
               <input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+                placeholder="Access key"
+                autoFocus
                 className="w-full min-w-0 bg-transparent text-sm text-white placeholder:text-mist focus:outline-none"
               />
             </div>
@@ -69,10 +67,11 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="btn-gradient focus-ring mt-6 flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm"
+            disabled={loading}
+            className="btn-gradient focus-ring mt-6 flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm disabled:opacity-60"
           >
-            <Sparkles size={16} />
-            Log In
+            {loading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
+            {loading ? "Verifying..." : "Log In"}
           </button>
         </form>
       </div>
