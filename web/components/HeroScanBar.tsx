@@ -31,6 +31,13 @@ const LEVEL_COLOR: Record<string, string> = {
   LOW: "text-slate-400",
 };
 
+const GOAL_OPTIONS = [
+  "Get more customers",
+  "Better bookings & reservations",
+  "Reduce admin work",
+  "Better customer experience",
+];
+
 function normalizeUrl(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return trimmed;
@@ -58,6 +65,7 @@ export default function HeroScanBar() {
   const [email, setEmail] = useState("");
   const [countryCode, setCountryCode] = useState("+233");
   const [whatsapp, setWhatsapp] = useState("");
+  const [goal, setGoal] = useState("");
   const [step, setStep] = useState<Step>("url");
   const [report, setReport] = useState<ScanReport | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
@@ -111,6 +119,7 @@ export default function HeroScanBar() {
           whatsappCountryCode: countryCode,
           whatsappNumber: whatsapp,
           sourceUrl: url,
+          goal,
         }),
       });
     } catch {
@@ -145,6 +154,7 @@ export default function HeroScanBar() {
       setBusinessName("");
       setEmail("");
       setWhatsapp("");
+      setGoal("");
       setReport(null);
     }, 6000);
     return () => clearTimeout(timer);
@@ -324,6 +334,28 @@ export default function HeroScanBar() {
             Where should we send the report for{" "}
             <span className="text-white">{url}</span>?
           </p>
+
+          <div>
+            <p className="mb-2 text-center text-xs text-mist">
+              What matters most to you right now?
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {GOAL_OPTIONS.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setGoal(option)}
+                  className={`focus-ring rounded-lg border px-3 py-2 text-left text-xs transition ${
+                    goal === option
+                      ? "border-violet bg-violet/15 text-white"
+                      : "border-white/10 bg-navy-700 text-mist hover:border-white/20"
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div className="flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5">
             <img src="/icons/building-icon.png" alt="" className="h-[18px] w-[18px] shrink-0 opacity-70" />
