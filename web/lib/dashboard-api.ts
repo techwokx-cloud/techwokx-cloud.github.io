@@ -68,9 +68,35 @@ export type ConversationThread = ConversationSummary & {
   messages: { role: string; content: string; provider: string | null; created_at: string }[];
 };
 
+export type SocialPost = {
+  id: number;
+  campaign_id: number | null;
+  profile_id: string;
+  content: string;
+  scheduled_for: string | null;
+  posted_at: string | null;
+  status: "pending" | "posted" | "failed";
+  buffer_update_id: string | null;
+  created_at: string;
+};
+
+export type MonthlyReport = {
+  id: number;
+  period_start: string;
+  period_end: string;
+  metrics: Record<string, number>;
+  previous_metrics: Record<string, number> | null;
+  recommended_objective: string;
+  reasoning: string;
+  course_of_action: string[];
+  created_at: string;
+};
+
 export const getOverview = () => adminFetch<Overview>("/api/admin/overview");
 export const getLeads = () => adminFetch<Lead[]>("/api/admin/leads");
 export const getScans = () => adminFetch<Scan[]>("/api/admin/scans");
 export const getConversations = () => adminFetch<ConversationSummary[]>("/api/admin/conversations");
 export const getConversationThread = (id: number) =>
   adminFetch<ConversationThread>(`/api/admin/conversations/${id}`);
+export const getSocialPosts = () => adminFetch<SocialPost[]>("/api/admin/social-posts");
+export const getLatestReport = () => adminFetch<MonthlyReport>("/api/reports/latest");
