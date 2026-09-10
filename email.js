@@ -17,7 +17,7 @@ async function sendEmail({ to, subject, bodyTemplate, vars = {}, attachments, id
   if (idempotencyKey) {
     // Extra safety net on top of our own DB-level reservation — Resend
     // will refuse to send a duplicate for the same key within 24h.
-    options.headers = { "Idempotency-Key": idempotencyKey };
+    options.idempotencyKey = idempotencyKey;
   }
   const result = await resend.emails.send(
     {
