@@ -90,6 +90,25 @@ db.exec(`
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lead_id INTEGER REFERENCES leads(id),
+    business_name TEXT NOT NULL,
+    package_name TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'not_started', -- not_started | in_progress | review | live
+    notes TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS content_drafts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    topic TEXT,
+    content TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'draft', -- draft | queued | discarded
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS sites (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     site_key TEXT NOT NULL UNIQUE,   -- public identifier used by the embed script
@@ -494,6 +513,73 @@ function getConversationThread(conversationId) {
   return { ...conversation, messages };
 }
 
+// ---- Projects (clients) ----
+function createProject({ leadId, businessName, packageName, notes }) {
+  const info = db
+    .prepare(
+      `INSERT INTO projects (lead_id, business_name, package_name, notes) VALUES (?, ?, ?, ?)`
+    )
+    .run(leadId || null, businessName, packageName, notes || null);
+  return info.lastInsertRowid;
+}
+
+function getProjects() {
+  return db.prepare("SELECT * FROM projects ORDER BY id DESC").all();
+}
+
+function updateProjectStatus(id, status) {
+  db.prepare(
+    `UPDATE projects SET status = ?, updated_at = datetime('now') WHERE id = ?`
+  ).run(status, id);
+}
+
+function updateProjectNotes(id, notes) {
+  db.prepare(
+    `UPDATE projects SET notes = ?, updated_at = datetime('now') WHERE id = ?`
+  ).run(notes, id);
+}
+
+// ---- Campaign / site controls (for the Automation page) ----
+function getAllCampaignsWithStats() {
+  return db
+    .prepare(
+      `
+    SELECT
+      c.*,
+      (SELECT COUNT(*) FROM email_sequence_steps WHERE campaign_id = c.id) AS step_count,
+      (SELECT COUNT(*) FROM campaign_enrollments WHERE campaign_id = c.id) AS enrollment_count,
+      (SELECT COUNT(*) FROM campaign_enrollments WHERE campaign_id = c.id AND status = 'active') AS active_enrollment_count
+    FROM campaigns c
+    ORDER BY c.id DESC
+  `
+    )
+    .all();
+}
+
+function setCampaignStatus(id, status) {
+  db.prepare("UPDATE campaigns SET status = ? WHERE id = ?").run(status, id);
+}
+
+function setSiteActive(id, isActive) {
+  db.prepare("UPDATE sites SET is_active = ? WHERE id = ?").run(isActive ? 1 : 0, id);
+}
+
+// ---- Content drafts (for the Social & Content page) ----
+function createContentDraft({ topic, content }) {
+  const info = db
+    .prepare("INSERT INTO content_drafts (topic, content) VALUES (?, ?)")
+    .run(topic || null, content);
+  return info.lastInsertRowid;
+}
+
+function getContentDrafts() {
+  return db.prepare("SELECT * FROM content_drafts ORDER BY id DESC LIMIT 50").all();
+}
+
+function updateContentDraftStatus(id, status) {
+  db.prepare("UPDATE content_drafts SET status = ? WHERE id = ?").run(status, id);
+}
+
 // ---- Internal metrics (our own funnel, independent of Buffer) ----
 function getInternalMetrics(startIso, endIso) {
   const scans = db
@@ -656,4 +742,14 @@ module.exports = {
   getScansForDashboard,
   getConversationsList,
   getConversationThread,
+  createProject,
+  getProjects,
+  updateProjectStatus,
+  updateProjectNotes,
+  getAllCampaignsWithStats,
+  setCampaignStatus,
+  setSiteActive,
+  createContentDraft,
+  getContentDrafts,
+  updateContentDraftStatus,
 };

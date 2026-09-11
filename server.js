@@ -336,6 +336,138 @@ app.get("/api/admin/social-posts", requireAdmin, (req, res) => {
   }
 });
 
+app.get("/api/admin/projects", requireAdmin, (req, res) => {
+  try {
+    res.json(db.getProjects());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/projects", requireAdmin, (req, res) => {
+  const { leadId, businessName, packageName, notes } = req.body || {};
+  if (!businessName || !packageName) {
+    return res.status(400).json({ error: "businessName and packageName are required." });
+  }
+  try {
+    const id = db.createProject({ leadId, businessName, packageName, notes });
+    res.status(201).json({ id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch("/api/admin/projects/:id", requireAdmin, (req, res) => {
+  const { status, notes } = req.body || {};
+  try {
+    if (status) db.updateProjectStatus(Number(req.params.id), status);
+    if (notes !== undefined) db.updateProjectNotes(Number(req.params.id), notes);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/admin/automation/campaigns", requireAdmin, (req, res) => {
+  try {
+    res.json(db.getAllCampaignsWithStats());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch("/api/admin/automation/campaigns/:id", requireAdmin, (req, res) => {
+  const { status } = req.body || {};
+  if (!["active", "paused"].includes(status)) {
+    return res.status(400).json({ error: "status must be 'active' or 'paused'." });
+  }
+  try {
+    db.setCampaignStatus(Number(req.params.id), status);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/admin/automation/sites", requireAdmin, (req, res) => {
+  try {
+    res.json(db.getAllSites());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch("/api/admin/automation/sites/:id", requireAdmin, (req, res) => {
+  const { isActive } = req.body || {};
+  try {
+    db.setSiteActive(Number(req.params.id), Boolean(isActive));
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/admin/content-drafts", requireAdmin, (req, res) => {
+  try {
+    res.json(db.getContentDrafts());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/content-drafts/generate", requireAdmin, async (req, res) => {
+  const { topic } = req.body || {};
+  if (!topic) {
+    return res.status(400).json({ error: "topic is required." });
+  }
+  try {
+    const { text } = await chatCompletion({
+      systemPrompt:
+        "You write short, engaging social media posts for TechWokx, a company that adds AI (chat, lead capture, booking) to " +
+        "small business websites. Write ONE post, 2-4 sentences, no hashtags spam (max 2 relevant ones), no emojis unless " +
+        "they genuinely add something. Match the tone of a helpful, confident, not-salesy startup. Output only the post text, nothing else.",
+      history: [],
+      message: `Write a post about: ${topic}`,
+    });
+    const id = db.createContentDraft({ topic, content: text });
+    res.status(201).json({ id, content: text });
+  } catch (err) {
+    res.status(502).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/content-drafts/:id/queue", requireAdmin, (req, res) => {
+  const { profileId, scheduledFor } = req.body || {};
+  if (!profileId) {
+    return res.status(400).json({ error: "profileId is required." });
+  }
+  try {
+    const drafts = db.getContentDrafts();
+    const draft = drafts.find((d) => d.id === Number(req.params.id));
+    if (!draft) return res.status(404).json({ error: "Draft not found." });
+
+    db.createSocialPost({
+      campaignId: null,
+      profileId,
+      content: draft.content,
+      scheduledFor: scheduledFor ? new Date(scheduledFor) : null,
+    });
+    db.updateContentDraftStatus(draft.id, "queued");
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/content-drafts/:id/discard", requireAdmin, (req, res) => {
+  try {
+    db.updateContentDraftStatus(Number(req.params.id), "discarded");
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get("/report/:scanId", (req, res) => {
   const scan = db.getScanById(Number(req.params.scanId));
   if (!scan) {
