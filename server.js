@@ -7,6 +7,7 @@ const { startCampaignWorker } = require("./campaign-worker");
 const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
+const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -424,9 +425,27 @@ app.get("/unsubscribe/:enrollmentId", (req, res) => {
 </body></html>`);
 });
 
+app.get("/api/admin/whatsapp/status", requireAdmin, (req, res) => {
+  res.json({ configured: isWhatsAppConfigured(), status: getWhatsAppStatus() });
+});
+
+app.post("/api/whatsapp/send", requireAdmin, async (req, res) => {
+  const { to, text } = req.body || {};
+  if (!to || !text) {
+    return res.status(400).json({ error: "'to' and 'text' are required." });
+  }
+  try {
+    await sendWhatsAppMessage(to, text);
+    res.json({ status: "sent" });
+  } catch (err) {
+    res.status(502).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`TechWokx gateway listening on port ${PORT}`);
   startCampaignWorker();
   startSocialWorker();
   startReportWorker({ notifyEmail: process.env.ADMIN_NOTIFY_EMAIL });
+  startWhatsApp();
 });

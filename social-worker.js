@@ -1,5 +1,21 @@
 const db = require("./db");
 const social = require("./social");
+const { sendWhatsAppMessage, getStatus, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
+
+const NOTIFY_NUMBER = process.env.ADMIN_WHATSAPP_NUMBER; // digits only, e.g. "233201234567"
+
+async function notifyPosted(post) {
+  if (!isWhatsAppConfigured() || getStatus() !== "connected" || !NOTIFY_NUMBER) return;
+  try {
+    const preview = post.content.length > 100 ? post.content.slice(0, 100) + "..." : post.content;
+    await sendWhatsAppMessage(
+      NOTIFY_NUMBER,
+      `✅ Posted to ${post.profile_id}:\n"${preview}"`
+    );
+  } catch (err) {
+    console.error("[social-worker] WhatsApp notify failed:", err.message);
+  }
+}
 
 async function processSocialPosts() {
   if (!social.isConfigured()) {
@@ -19,6 +35,7 @@ async function processSocialPosts() {
       });
       db.markSocialPostResult(post.id, { status: "posted", bufferUpdateId: result?.id });
       posted += 1;
+      await notifyPosted(post);
     } catch (err) {
       db.markSocialPostResult(post.id, { status: "failed" });
       failed += 1;
