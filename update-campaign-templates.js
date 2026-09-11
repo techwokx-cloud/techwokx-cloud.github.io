@@ -23,7 +23,7 @@ const steps = [
       "Your AI Readiness Score: {{score}}/100\n\n" +
       "{{summary}}\n\n" +
       "You told us your priority right now is: {{goal}}. Good to know — I'll keep that in mind.\n\n" +
-      "Full report (share it with your team if useful): {{report_url}}\n\n" +
+      "Your full report is attached as a PDF — feel free to share it with your team.\n\n" +
       "Reply to this email any time if you have questions about what we found.\n\n" +
       "— TechWokx\n\n" +
       "---\n" +
@@ -53,7 +53,7 @@ const steps = [
       "Here's what businesses like yours typically see after an AI retrofit: faster response times, " +
       "more qualified leads, and less manual work answering the same questions over and over.\n\n" +
       "Given you mentioned {{goal}} as your priority, that's usually one of the first things to improve.\n\n" +
-      "Still have your report handy? {{report_url}}\n\n" +
+      "Still have that PDF report we sent? Worth another look.\n\n" +
       "Want to see how this would apply to you specifically? Just reply.\n\n" +
       "— TechWokx\n\n" +
       "---\n" +
@@ -65,7 +65,7 @@ const steps = [
     bodyTemplate:
       "Hi {{business_name}},\n\n" +
       "This is the last note in this sequence — we don't want to clutter your inbox.\n\n" +
-      "If you'd like to revisit your AI Readiness Score ({{report_url}}) or talk through next steps " +
+      "If you'd like to revisit your AI Readiness Score (check the PDF from our first email) or talk through next steps " +
       "for {{goal}} any time, just reply to this email.\n\n" +
       "— TechWokx\n\n" +
       "---\n" +

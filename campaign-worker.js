@@ -1,40 +1,64 @@
 const db = require("./db");
 const { sendEmail, isConfigured } = require("./email");
 const { buildActionPlanDocx } = require("./docx-generator");
+const { buildScanReportPdf } = require("./pdf-generator");
 
 const API_BASE = process.env.PUBLIC_API_BASE || "https://api.techwokx.online";
 
-// Which day_offset gets the DOCX action plan attached. Matches the
-// "Action Plan + Pricing" step in the 5-email sequence.
-const ACTION_PLAN_DAY_OFFSET = 3;
+// Which day_offset gets which attachment.
+const SCAN_REPORT_DAY_OFFSET = 0; // PDF of the scan result — attached directly, no link
+const ACTION_PLAN_DAY_OFFSET = 3; // DOCX action plan
 
 async function buildAttachments(item) {
-  if (item.day_offset !== ACTION_PLAN_DAY_OFFSET) return undefined;
-  if (!item.scan_id) return undefined; // no scan on file, nothing to build a plan from
+  if (!item.scan_id) return undefined; // no scan on file, nothing to attach
 
-  try {
-    const scan = db.getScanById(item.scan_id);
-    if (!scan || !scan.business_case) return undefined;
+  const scan = db.getScanById(item.scan_id);
+  if (!scan || !scan.business_case) return undefined;
 
-    const buffer = await buildActionPlanDocx({
-      businessName: item.business_name,
-      websiteUrl: scan.url,
-      score: scan.readiness_score,
-      opportunities: scan.opportunities,
-      businessCase: scan.business_case,
-      goal: item.goal,
-    });
-
-    return [
-      {
-        filename: `TechWokx-Action-Plan-${item.business_name.replace(/[^a-z0-9]+/gi, "-")}.docx`,
-        content: buffer.toString("base64"),
-      },
-    ];
-  } catch (err) {
-    console.error(`[campaign-worker] failed to build action plan for enrollment ${item.enrollment_id}:`, err.message);
-    return undefined; // send the email anyway, just without the attachment
+  if (item.day_offset === SCAN_REPORT_DAY_OFFSET) {
+    try {
+      const buffer = await buildScanReportPdf({
+        businessName: item.business_name,
+        websiteUrl: scan.url,
+        score: scan.readiness_score,
+        opportunities: scan.opportunities,
+        businessCase: scan.business_case,
+      });
+      return [
+        {
+          filename: `TechWokx-AI-Readiness-Report-${item.business_name.replace(/[^a-z0-9]+/gi, "-")}.pdf`,
+          content: buffer.toString("base64"),
+        },
+      ];
+    } catch (err) {
+      console.error(`[campaign-worker] failed to build scan report PDF for enrollment ${item.enrollment_id}:`, err.message);
+      return undefined;
+    }
   }
+
+  if (item.day_offset === ACTION_PLAN_DAY_OFFSET) {
+    try {
+      const buffer = await buildActionPlanDocx({
+        businessName: item.business_name,
+        websiteUrl: scan.url,
+        score: scan.readiness_score,
+        opportunities: scan.opportunities,
+        businessCase: scan.business_case,
+        goal: item.goal,
+      });
+      return [
+        {
+          filename: `TechWokx-Action-Plan-${item.business_name.replace(/[^a-z0-9]+/gi, "-")}.docx`,
+          content: buffer.toString("base64"),
+        },
+      ];
+    } catch (err) {
+      console.error(`[campaign-worker] failed to build action plan for enrollment ${item.enrollment_id}:`, err.message);
+      return undefined;
+    }
+  }
+
+  return undefined;
 }
 
 async function processCampaigns() {
@@ -75,7 +99,6 @@ async function processCampaigns() {
             outcomes: businessCase?.projectedOutcomes?.join("; ") ?? "",
             summary: businessCase?.summary ?? "",
             goal: item.goal || "growing your business with AI",
-            report_url: item.scan_id ? `${API_BASE}/report/${item.scan_id}` : `${API_BASE}`,
             unsubscribe_link: `${API_BASE}/unsubscribe/${item.enrollment_id}`,
           },
           attachments,
