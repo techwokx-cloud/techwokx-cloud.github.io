@@ -537,6 +537,14 @@ function createAppointment({ siteId, conversationId, leadId, clientName, clientC
   return info.lastInsertRowid;
 }
 
+function getAppointmentById(id) {
+  return db
+    .prepare(
+      `SELECT a.*, s.name AS site_name FROM appointments a JOIN sites s ON s.id = a.site_id WHERE a.id = ?`
+    )
+    .get(id);
+}
+
 function getAppointments() {
   return db
     .prepare(
@@ -789,6 +797,7 @@ module.exports = {
   getContentDrafts,
   updateContentDraftStatus,
   createAppointment,
+  getAppointmentById,
   getAppointments,
   updateAppointmentStatus,
 };

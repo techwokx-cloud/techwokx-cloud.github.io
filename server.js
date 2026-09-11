@@ -7,6 +7,7 @@ const { startCampaignWorker } = require("./campaign-worker");
 const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
+const { sendEmail, isConfigured: isEmailConfigured } = require("./email");
 const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
 const { extractBooking } = require("./booking-parser");
 
@@ -301,6 +302,40 @@ app.post("/api/chat", chatRateLimit, async (req, res) => {
 
 const ADMIN_WHATSAPP_NUMBER = process.env.ADMIN_WHATSAPP_NUMBER;
 
+function isEmailAddress(contact) {
+  return /\S+@\S+\.\S+/.test(contact);
+}
+
+async function notifyClientOfAppointmentStatus(appointment) {
+  const { client_name, client_contact, requested_time, site_name, status } = appointment;
+
+  const message =
+    status === "confirmed"
+      ? `Hi ${client_name}, your booking with ${site_name} for ${requested_time} is confirmed! We look forward to speaking with you. — TechWokx`
+      : `Hi ${client_name}, unfortunately we're unable to confirm your booking for ${requested_time} with ${site_name} right now. Please reach out if you'd like to find another time. — TechWokx`;
+
+  if (isEmailAddress(client_contact)) {
+    if (!isEmailConfigured()) return;
+    try {
+      await sendEmail({
+        to: client_contact,
+        subject: status === "confirmed" ? "Your booking is confirmed" : "About your booking request",
+        bodyTemplate: message,
+        vars: {},
+      });
+    } catch (err) {
+      console.error("[appointments] failed to email client:", err.message);
+    }
+  } else {
+    if (!isWhatsAppConfigured() || getWhatsAppStatus() !== "connected") return;
+    try {
+      await sendWhatsAppMessage(client_contact, message);
+    } catch (err) {
+      console.error("[appointments] failed to WhatsApp client:", err.message);
+    }
+  }
+}
+
 async function notifyNewBooking({ appointmentId, site, booking }) {
   if (!isWhatsAppConfigured() || getWhatsAppStatus() !== "connected" || !ADMIN_WHATSAPP_NUMBER) return;
   await sendWhatsAppMessage(
@@ -322,7 +357,7 @@ app.get("/api/admin/appointments", requireAdmin, (req, res) => {
   }
 });
 
-app.patch("/api/admin/appointments/:id", requireAdmin, (req, res) => {
+app.patch("/api/admin/appointments/:id", requireAdmin, async (req, res) => {
   const { status } = req.body || {};
   if (!["pending", "confirmed", "cancelled"].includes(status)) {
     return res.status(400).json({ error: "status must be pending, confirmed, or cancelled." });
@@ -330,6 +365,15 @@ app.patch("/api/admin/appointments/:id", requireAdmin, (req, res) => {
   try {
     db.updateAppointmentStatus(Number(req.params.id), status);
     res.json({ ok: true });
+
+    if (status === "confirmed" || status === "cancelled") {
+      const appointment = db.getAppointmentById(Number(req.params.id));
+      if (appointment) {
+        notifyClientOfAppointmentStatus(appointment).catch((err) =>
+          console.error("[appointments] client notify failed:", err.message)
+        );
+      }
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
