@@ -1,4 +1,5 @@
 const { Resend } = require("resend");
+const { textToHtmlEmail } = require("./email-html");
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -13,6 +14,7 @@ async function sendEmail({ to, subject, bodyTemplate, vars = {}, attachments, id
     throw new Error("RESEND_API_KEY is not configured on the server.");
   }
   const text = fillTemplate(bodyTemplate, vars);
+  const html = textToHtmlEmail(text);
   const options = {};
   if (idempotencyKey) {
     // Extra safety net on top of our own DB-level reservation — Resend
@@ -25,6 +27,7 @@ async function sendEmail({ to, subject, bodyTemplate, vars = {}, attachments, id
       to,
       subject: fillTemplate(subject, vars),
       text,
+      html,
       ...(attachments ? { attachments } : {}),
     },
     options
