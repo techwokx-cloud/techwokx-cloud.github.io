@@ -186,3 +186,21 @@ export const queueContentDraft = (id: number, profileId: string) =>
   adminFetchWithBody<{ ok: true }>(`/api/admin/content-drafts/${id}/queue`, "POST", { profileId });
 export const discardContentDraft = (id: number) =>
   adminFetchWithBody<{ ok: true }>(`/api/admin/content-drafts/${id}/discard`, "POST");
+
+export type Appointment = {
+  id: number;
+  site_id: number;
+  site_name: string;
+  conversation_id: number | null;
+  lead_id: number | null;
+  client_name: string;
+  client_contact: string;
+  requested_time: string;
+  note: string | null;
+  status: "pending" | "confirmed" | "cancelled";
+  created_at: string;
+};
+
+export const getAppointments = () => adminFetch<Appointment[]>("/api/admin/appointments");
+export const updateAppointmentStatus = (id: number, status: string) =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/appointments/${id}`, "PATCH", { status });
