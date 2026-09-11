@@ -1,13 +1,6 @@
-// Run once to create the default site record for techwokx.online's own
-// chat widget:
-//   docker compose exec gateway node seed-site.js
-const db = require("./db");
-
-const existing = db.getSiteByKey("techwokx");
-if (existing) {
-  console.log("Site 'techwokx' already exists:", existing.id);
-  process.exit(0);
-}
+// Run once to add booking-agent capability to the existing techwokx site:
+//   docker compose exec gateway node update-site-prompt.js
+const { db } = require("./db");
 
 const systemPrompt = `You are the AI assistant on TechWokx's website (techwokx.online). Answer naturally and conversationally, in 2-4 sentences unless more detail is genuinely needed. Never invent information not in this brief.
 
@@ -35,11 +28,8 @@ If someone wants to book a call, demo, or consultation, collect three things thr
 TONE
 Warm, concise, helpful — not salesy. If someone asks something outside this scope (unrelated topics, requests for code/other tasks), politely redirect to what TechWokx can help with. If a question needs a human, offer to connect them via WhatsApp or email.`;
 
-const siteId = db.createSite({
-  siteKey: "techwokx",
-  name: "TechWokx (own site)",
-  domain: "techwokx.online",
-  systemPrompt,
-});
+const result = db
+  .prepare("UPDATE sites SET system_prompt = ? WHERE site_key = 'techwokx'")
+  .run(systemPrompt);
 
-console.log("Created site 'techwokx':", siteId);
+console.log(`Updated ${result.changes} site(s) with booking-agent capability.`);

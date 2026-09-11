@@ -8,6 +8,7 @@ const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
 const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
+const { extractBooking } = require("./booking-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -266,19 +267,71 @@ app.post("/api/chat", chatRateLimit, async (req, res) => {
       message,
     });
 
+    const { cleanedText, booking } = extractBooking(text);
+
     db.saveMessage({
       conversationId: conversation.id,
       role: "assistant",
-      content: text,
+      content: cleanedText,
       provider,
     });
 
-    res.json({ reply: text, provider });
+    if (booking) {
+      const appointmentId = db.createAppointment({
+        siteId: site.id,
+        conversationId: conversation.id,
+        clientName: booking.clientName,
+        clientContact: booking.clientContact,
+        requestedTime: booking.requestedTime,
+        note: booking.note,
+      });
+      notifyNewBooking({ appointmentId, site, booking }).catch((err) =>
+        console.error("[chat] booking notify failed:", err.message)
+      );
+    }
+
+    res.json({ reply: cleanedText, provider });
   } catch (err) {
     res.status(502).json({
       error: "The AI assistant is temporarily unavailable. Please try again shortly, or reach us on WhatsApp.",
     });
     console.error("[chat] error:", err.message);
+  }
+});
+
+const ADMIN_WHATSAPP_NUMBER = process.env.ADMIN_WHATSAPP_NUMBER;
+
+async function notifyNewBooking({ appointmentId, site, booking }) {
+  if (!isWhatsAppConfigured() || getWhatsAppStatus() !== "connected" || !ADMIN_WHATSAPP_NUMBER) return;
+  await sendWhatsAppMessage(
+    ADMIN_WHATSAPP_NUMBER,
+    `📅 New booking request via ${site.name}\n` +
+      `Name: ${booking.clientName}\n` +
+      `Contact: ${booking.clientContact}\n` +
+      `Requested: ${booking.requestedTime}\n` +
+      (booking.note ? `Note: ${booking.note}\n` : "") +
+      `\nConfirm or cancel in the dashboard (appointment #${appointmentId}).`
+  );
+}
+
+app.get("/api/admin/appointments", requireAdmin, (req, res) => {
+  try {
+    res.json(db.getAppointments());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch("/api/admin/appointments/:id", requireAdmin, (req, res) => {
+  const { status } = req.body || {};
+  if (!["pending", "confirmed", "cancelled"].includes(status)) {
+    return res.status(400).json({ error: "status must be pending, confirmed, or cancelled." });
+  }
+  try {
+    db.updateAppointmentStatus(Number(req.params.id), status);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

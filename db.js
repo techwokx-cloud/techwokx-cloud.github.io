@@ -90,6 +90,19 @@ db.exec(`
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS appointments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    site_id INTEGER NOT NULL REFERENCES sites(id),
+    conversation_id INTEGER REFERENCES conversations(id),
+    lead_id INTEGER REFERENCES leads(id),
+    client_name TEXT NOT NULL,
+    client_contact TEXT NOT NULL,
+    requested_time TEXT NOT NULL,   -- human-readable, e.g. "Tuesday 10am" — no calendar system yet
+    note TEXT,
+    status TEXT NOT NULL DEFAULT 'pending', -- pending | confirmed | cancelled
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     lead_id INTEGER REFERENCES leads(id),
@@ -513,7 +526,30 @@ function getConversationThread(conversationId) {
   return { ...conversation, messages };
 }
 
-// ---- Projects (clients) ----
+// ---- Appointments (AI booking agent) ----
+function createAppointment({ siteId, conversationId, leadId, clientName, clientContact, requestedTime, note }) {
+  const info = db
+    .prepare(
+      `INSERT INTO appointments (site_id, conversation_id, lead_id, client_name, client_contact, requested_time, note)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`
+    )
+    .run(siteId, conversationId || null, leadId || null, clientName, clientContact, requestedTime, note || null);
+  return info.lastInsertRowid;
+}
+
+function getAppointments() {
+  return db
+    .prepare(
+      `SELECT a.*, s.name AS site_name FROM appointments a JOIN sites s ON s.id = a.site_id ORDER BY a.id DESC`
+    )
+    .all();
+}
+
+function updateAppointmentStatus(id, status) {
+  db.prepare("UPDATE appointments SET status = ? WHERE id = ?").run(status, id);
+}
+
+
 function createProject({ leadId, businessName, packageName, notes }) {
   const info = db
     .prepare(
@@ -752,4 +788,7 @@ module.exports = {
   createContentDraft,
   getContentDrafts,
   updateContentDraftStatus,
+  createAppointment,
+  getAppointments,
+  updateAppointmentStatus,
 };
