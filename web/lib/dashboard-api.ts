@@ -100,3 +100,89 @@ export const getConversationThread = (id: number) =>
   adminFetch<ConversationThread>(`/api/admin/conversations/${id}`);
 export const getSocialPosts = () => adminFetch<SocialPost[]>("/api/admin/social-posts");
 export const getLatestReport = () => adminFetch<MonthlyReport>("/api/reports/latest");
+
+export type Project = {
+  id: number;
+  lead_id: number | null;
+  business_name: string;
+  package_name: string;
+  status: "not_started" | "in_progress" | "review" | "live";
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Campaign = {
+  id: number;
+  name: string;
+  status: "draft" | "active" | "paused" | "completed";
+  duration_days: number;
+  cadence_days: number;
+  step_count: number;
+  enrollment_count: number;
+  active_enrollment_count: number;
+};
+
+export type Site = {
+  id: number;
+  site_key: string;
+  name: string;
+  domain: string | null;
+  is_active: number;
+};
+
+export type ContentDraft = {
+  id: number;
+  topic: string | null;
+  content: string;
+  status: "draft" | "queued" | "discarded";
+  created_at: string;
+};
+
+async function adminFetchWithBody<T>(
+  path: string,
+  method: "POST" | "PATCH",
+  body?: unknown
+): Promise<T> {
+  const token = getToken();
+  const res = await fetch(`${siteConfig.apiBaseUrl}${path}`, {
+    method,
+    headers: { "Content-Type": "application/json", "x-admin-token": token || "" },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || `Request failed (${res.status})`);
+  }
+  return res.json();
+}
+
+export const getProjects = () => adminFetch<Project[]>("/api/admin/projects");
+export const createProject = (body: {
+  leadId?: number;
+  businessName: string;
+  packageName: string;
+  notes?: string;
+}) => adminFetchWithBody<{ id: number }>("/api/admin/projects", "POST", body);
+export const updateProject = (id: number, body: { status?: string; notes?: string }) =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/projects/${id}`, "PATCH", body);
+
+export const getCampaigns = () => adminFetch<Campaign[]>("/api/admin/automation/campaigns");
+export const setCampaignStatus = (id: number, status: "active" | "paused") =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/automation/campaigns/${id}`, "PATCH", { status });
+
+export const getSites = () => adminFetch<Site[]>("/api/admin/automation/sites");
+export const setSiteActive = (id: number, isActive: boolean) =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/automation/sites/${id}`, "PATCH", { isActive });
+
+export const getContentDrafts = () => adminFetch<ContentDraft[]>("/api/admin/content-drafts");
+export const generateContentDraft = (topic: string) =>
+  adminFetchWithBody<{ id: number; content: string }>(
+    "/api/admin/content-drafts/generate",
+    "POST",
+    { topic }
+  );
+export const queueContentDraft = (id: number, profileId: string) =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/content-drafts/${id}/queue`, "POST", { profileId });
+export const discardContentDraft = (id: number) =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/content-drafts/${id}/discard`, "POST");
