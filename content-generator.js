@@ -14,6 +14,9 @@ const SYSTEM_PROMPT =
   "letters, or logos in the image description>\n\n" +
   "Output only the post text and the IMAGE line, nothing else.";
 
+const CTA_TEXT = "Scan Your Website Free — techwokx.online";
+const CTA_LINE = "\n\nScan your website free at techwokx.online.";
+
 function parseGeneration(raw) {
   const match = raw.match(/\nIMAGE:\s*(.+)$/is);
   if (!match) return { content: raw.trim(), imagePrompt: null };
@@ -48,10 +51,18 @@ async function generateContentDraft({ topic } = {}) {
   });
 
   const { content, imagePrompt } = parseGeneration(raw);
-  const imageUrl = imagePrompt ? await buildVerifiedImageUrl(imagePrompt) : null;
 
-  const id = db.createContentDraft({ topic: resolvedTopic, content, imageUrl });
-  return { id, topic: resolvedTopic, content, imageUrl };
+  // Guarantee a real, working CTA regardless of what the LLM actually
+  // wrote — don't just hope it included one. Only append if it's not
+  // already clearly there, to avoid a redundant double CTA.
+  const finalContent = content.toLowerCase().includes("techwokx.online")
+    ? content
+    : content + CTA_LINE;
+
+  const imageUrl = imagePrompt ? await buildVerifiedImageUrl(imagePrompt, CTA_TEXT) : null;
+
+  const id = db.createContentDraft({ topic: resolvedTopic, content: finalContent, imageUrl });
+  return { id, topic: resolvedTopic, content: finalContent, imageUrl };
 }
 
 module.exports = { generateContentDraft };

@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/generated-images", express.static(require("./image-generator").GENERATED_DIR));
 
 // Very small in-memory rate limit: max 5 scans per IP per 10 minutes.
 const rateLimitWindowMs = 10 * 60 * 1000;
