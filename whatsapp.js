@@ -84,7 +84,7 @@ async function getQrDataUrl() {
 }
 
 // Accepts a number as digits only (country code + number, no + or spaces),
-// e.g. "233201234567" — matches the format already used elsewhere in this
+// e.g. "233555087407" — matches the format already used elsewhere in this
 // codebase for whatsapp_country_code + whatsapp_number.
 async function sendWhatsAppMessage(toNumber, text) {
   if (!sock || connectionStatus !== "connected") {

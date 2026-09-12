@@ -2,7 +2,7 @@ const db = require("./db");
 const social = require("./social");
 const { sendWhatsAppMessage, getStatus, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
 
-const NOTIFY_NUMBER = process.env.ADMIN_WHATSAPP_NUMBER; // digits only, e.g. "233201234567"
+const NOTIFY_NUMBER = process.env.ADMIN_WHATSAPP_NUMBER; // digits only, e.g. "233555087407"
 
 async function notifyPosted(post) {
   if (!isWhatsAppConfigured() || getStatus() !== "connected" || !NOTIFY_NUMBER) return;
