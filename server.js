@@ -8,7 +8,7 @@ const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
 const { sendEmail, isConfigured: isEmailConfigured } = require("./email");
-const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
+const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, getQrDataUrl, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
 const { extractBooking } = require("./booking-parser");
 
 const app = express();
@@ -682,8 +682,10 @@ app.get("/unsubscribe/:enrollmentId", (req, res) => {
 </body></html>`);
 });
 
-app.get("/api/admin/whatsapp/status", requireAdmin, (req, res) => {
-  res.json({ configured: isWhatsAppConfigured(), status: getWhatsAppStatus() });
+app.get("/api/admin/whatsapp/status", requireAdmin, async (req, res) => {
+  const status = getWhatsAppStatus();
+  const qrDataUrl = status === "qr_pending" ? await getQrDataUrl() : null;
+  res.json({ configured: isWhatsAppConfigured(), status, qrDataUrl });
 });
 
 app.post("/api/whatsapp/send", requireAdmin, async (req, res) => {

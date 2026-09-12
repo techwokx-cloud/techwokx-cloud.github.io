@@ -1,6 +1,7 @@
 const path = require("path");
 const pino = require("pino");
 const qrcodeTerminal = require("qrcode-terminal");
+const QRCode = require("qrcode");
 const {
   default: makeWASocket,
   useMultiFileAuthState,
@@ -16,6 +17,7 @@ const logger = pino({ level: "silent" }); // Baileys is very chatty at default l
 
 let sock = null;
 let connectionStatus = "disconnected"; // disconnected | connecting | qr_pending | connected
+let currentQr = null; // raw QR string, valid only while status === "qr_pending"
 
 async function connect() {
   connectionStatus = "connecting";
@@ -37,12 +39,14 @@ async function connect() {
 
     if (qr) {
       connectionStatus = "qr_pending";
-      console.log("\n[whatsapp] Scan this QR code with WhatsApp (Linked Devices):\n");
+      currentQr = qr;
+      console.log("\n[whatsapp] Scan this QR code with WhatsApp (Linked Devices) — also available in the dashboard:\n");
       qrcodeTerminal.generate(qr, { small: true });
     }
 
     if (connection === "close") {
       connectionStatus = "disconnected";
+      currentQr = null;
       const statusCode = lastDisconnect?.error?.output?.statusCode;
       const loggedOut = statusCode === DisconnectReason.loggedOut;
       console.log(
@@ -55,6 +59,7 @@ async function connect() {
       }
     } else if (connection === "open") {
       connectionStatus = "connected";
+      currentQr = null;
       console.log("[whatsapp] connected successfully.");
     }
   });
@@ -66,6 +71,16 @@ function isConfigured() {
 
 function getStatus() {
   return connectionStatus;
+}
+
+async function getQrDataUrl() {
+  if (!currentQr) return null;
+  try {
+    return await QRCode.toDataURL(currentQr, { width: 300, margin: 1 });
+  } catch (err) {
+    console.error("[whatsapp] failed to generate QR image:", err.message);
+    return null;
+  }
 }
 
 // Accepts a number as digits only (country code + number, no + or spaces),
@@ -90,4 +105,4 @@ function startWhatsApp() {
   });
 }
 
-module.exports = { startWhatsApp, sendWhatsAppMessage, getStatus, isConfigured };
+module.exports = { startWhatsApp, sendWhatsAppMessage, getStatus, getQrDataUrl, isConfigured };
