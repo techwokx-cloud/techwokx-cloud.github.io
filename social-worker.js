@@ -32,6 +32,7 @@ async function processSocialPosts() {
         channelId: post.profile_id,
         text: post.content,
         mode: "addToQueue",
+        imageUrl: post.image_url,
       });
       db.markSocialPostResult(post.id, { status: "posted", bufferUpdateId: result?.id });
       posted += 1;

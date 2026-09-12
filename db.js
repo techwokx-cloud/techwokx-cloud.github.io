@@ -191,6 +191,16 @@ try {
 } catch (e) {
   if (!/duplicate column/i.test(e.message)) throw e;
 }
+try {
+  db.exec("ALTER TABLE social_posts ADD COLUMN image_url TEXT");
+} catch (e) {
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
+try {
+  db.exec("ALTER TABLE content_drafts ADD COLUMN image_url TEXT");
+} catch (e) {
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
 
 // ---- Leads ----
 function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl, goal }) {
@@ -367,16 +377,17 @@ function getScanById(scanId) {
 }
 
 // ---- Social posts ----
-function createSocialPost({ campaignId, profileId, content, scheduledFor }) {
+function createSocialPost({ campaignId, profileId, content, scheduledFor, imageUrl }) {
   const stmt = db.prepare(`
-    INSERT INTO social_posts (campaign_id, profile_id, content, scheduled_for)
-    VALUES (@campaignId, @profileId, @content, @scheduledFor)
+    INSERT INTO social_posts (campaign_id, profile_id, content, scheduled_for, image_url)
+    VALUES (@campaignId, @profileId, @content, @scheduledFor, @imageUrl)
   `);
   const info = stmt.run({
     campaignId: campaignId || null,
     profileId,
     content,
     scheduledFor: scheduledFor ? scheduledFor.toISOString() : null,
+    imageUrl: imageUrl || null,
   });
   return info.lastInsertRowid;
 }
@@ -628,11 +639,18 @@ function setSiteActive(id, isActive) {
 }
 
 // ---- Content drafts (for the Social & Content page) ----
-function createContentDraft({ topic, content }) {
+function createContentDraft({ topic, content, imageUrl }) {
   const info = db
-    .prepare("INSERT INTO content_drafts (topic, content) VALUES (?, ?)")
-    .run(topic || null, content);
+    .prepare("INSERT INTO content_drafts (topic, content, image_url) VALUES (?, ?, ?)")
+    .run(topic || null, content, imageUrl || null);
   return info.lastInsertRowid;
+}
+
+function getRecentContentTopics(limit = 10) {
+  return db
+    .prepare("SELECT topic FROM content_drafts WHERE topic IS NOT NULL ORDER BY id DESC LIMIT ?")
+    .all(limit)
+    .map((r) => r.topic);
 }
 
 function getContentDrafts() {
@@ -836,6 +854,7 @@ module.exports = {
   setCampaignStatus,
   setSiteActive,
   createContentDraft,
+  getRecentContentTopics,
   getContentDrafts,
   updateContentDraftStatus,
   createAppointment,

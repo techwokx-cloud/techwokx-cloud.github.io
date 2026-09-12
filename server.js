@@ -7,8 +7,10 @@ const { startCampaignWorker } = require("./campaign-worker");
 const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
+const { generateContentDraft } = require("./content-generator");
 const { sendEmail, isConfigured: isEmailConfigured } = require("./email");
 const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, getQrDataUrl, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
+const { startContentWorker } = require("./content-worker");
 const { extractBooking } = require("./booking-parser");
 
 const app = express();
@@ -566,21 +568,10 @@ app.get("/api/admin/content-drafts", requireAdmin, (req, res) => {
 });
 
 app.post("/api/admin/content-drafts/generate", requireAdmin, async (req, res) => {
-  const { topic } = req.body || {};
-  if (!topic) {
-    return res.status(400).json({ error: "topic is required." });
-  }
   try {
-    const { text } = await chatCompletion({
-      systemPrompt:
-        "You write short, engaging social media posts for TechWokx, a company that adds AI (chat, lead capture, booking) to " +
-        "small business websites. Write ONE post, 2-4 sentences, no hashtags spam (max 2 relevant ones), no emojis unless " +
-        "they genuinely add something. Match the tone of a helpful, confident, not-salesy startup. Output only the post text, nothing else.",
-      history: [],
-      message: `Write a post about: ${topic}`,
-    });
-    const id = db.createContentDraft({ topic, content: text });
-    res.status(201).json({ id, content: text });
+    const { topic } = req.body || {};
+    const result = await generateContentDraft({ topic });
+    res.status(201).json(result);
   } catch (err) {
     res.status(502).json({ error: err.message });
   }
@@ -601,6 +592,7 @@ app.post("/api/admin/content-drafts/:id/queue", requireAdmin, (req, res) => {
       profileId,
       content: draft.content,
       scheduledFor: scheduledFor ? new Date(scheduledFor) : null,
+      imageUrl: draft.image_url,
     });
     db.updateContentDraftStatus(draft.id, "queued");
     res.json({ ok: true });
@@ -732,4 +724,5 @@ app.listen(PORT, () => {
   startSocialWorker();
   startReportWorker({ notifyEmail: process.env.ADMIN_NOTIFY_EMAIL });
   startWhatsApp();
+  startContentWorker();
 });

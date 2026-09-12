@@ -57,9 +57,15 @@ async function getChannels() {
 
 // mode: "addToQueue" (next open slot) | "shareNow" (immediately) |
 // "customScheduled" (needs dueAt, an ISO 8601 UTC timestamp)
-async function createPost({ channelId, text, mode = "addToQueue", dueAt }) {
+async function createPost({ channelId, text, mode = "addToQueue", dueAt, imageUrl }) {
   const dueAtField =
     mode === "customScheduled" && dueAt ? `dueAt: "${dueAt.toISOString()}"` : "";
+
+  // CreatePostInput.assets is a required non-null list — must always be
+  // present, even as an empty array for text-only posts.
+  const assetsField = imageUrl
+    ? `assets: [{ image: { url: ${JSON.stringify(imageUrl)} } }]`
+    : `assets: []`;
 
   const query = `
     mutation {
@@ -68,6 +74,7 @@ async function createPost({ channelId, text, mode = "addToQueue", dueAt }) {
         channelId: "${channelId}"
         schedulingType: automatic
         mode: ${mode}
+        ${assetsField}
         ${dueAtField}
       }) {
         ... on PostActionSuccess {
