@@ -256,6 +256,16 @@ app.post("/api/chat", chatRateLimit, async (req, res) => {
     return res.status(404).json({ error: "Unknown siteKey." });
   }
 
+  if (!isOriginAllowed(req.headers.origin, site.domain)) {
+    return res.status(403).json({ error: "This site is not permitted to use this key from this origin." });
+  }
+
+  if (db.getTodayMessageCount(site.id) >= site.daily_message_limit) {
+    return res.status(429).json({
+      error: "This site has reached its daily message limit. Please try again tomorrow.",
+    });
+  }
+
   try {
     const conversation = db.getOrCreateConversation({ siteId: site.id, sessionId });
     const history = db.getConversationHistory(conversation.id, 20);
@@ -301,6 +311,21 @@ app.post("/api/chat", chatRateLimit, async (req, res) => {
 });
 
 const ADMIN_WHATSAPP_NUMBER = process.env.ADMIN_WHATSAPP_NUMBER;
+
+// If a site has a domain configured, only allow /api/chat calls whose
+// browser-sent Origin matches it (or www.<domain>). A site with no domain
+// configured is unrestricted — used for initial setup/testing before a
+// business's real domain is known.
+function isOriginAllowed(origin, allowedDomain) {
+  if (!allowedDomain) return true;
+  if (!origin) return false;
+  try {
+    const hostname = new URL(origin).hostname;
+    return hostname === allowedDomain || hostname === `www.${allowedDomain}`;
+  } catch {
+    return false;
+  }
+}
 
 function isEmailAddress(contact) {
   return /\S+@\S+\.\S+/.test(contact);
@@ -495,9 +520,12 @@ app.get("/api/admin/automation/sites", requireAdmin, (req, res) => {
 });
 
 app.patch("/api/admin/automation/sites/:id", requireAdmin, (req, res) => {
-  const { isActive } = req.body || {};
+  const { isActive, domain, dailyMessageLimit } = req.body || {};
   try {
-    db.setSiteActive(Number(req.params.id), Boolean(isActive));
+    if (isActive !== undefined) db.setSiteActive(Number(req.params.id), Boolean(isActive));
+    if (domain !== undefined || dailyMessageLimit !== undefined) {
+      db.updateSiteSecurity(Number(req.params.id), { domain, dailyMessageLimit });
+    }
     res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });

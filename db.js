@@ -181,6 +181,11 @@ try {
   // campaign-worker.js still protects against NEW duplicates either way.
   console.error("[db] could not create unique email_log index (likely pre-existing duplicates):", e.message);
 }
+try {
+  db.exec("ALTER TABLE sites ADD COLUMN daily_message_limit INTEGER NOT NULL DEFAULT 500");
+} catch (e) {
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
 
 // ---- Leads ----
 function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl, goal }) {
@@ -708,6 +713,26 @@ function getSiteByKey(siteKey) {
   return db.prepare("SELECT * FROM sites WHERE site_key = ? AND is_active = 1").get(siteKey);
 }
 
+function getTodayMessageCount(siteId) {
+  const row = db
+    .prepare(
+      `SELECT COUNT(*) AS n FROM messages m
+       JOIN conversations c ON c.id = m.conversation_id
+       WHERE c.site_id = ? AND m.role = 'user' AND m.created_at >= date('now')`
+    )
+    .get(siteId);
+  return row.n || 0;
+}
+
+function updateSiteSecurity(id, { domain, dailyMessageLimit }) {
+  if (domain !== undefined) {
+    db.prepare("UPDATE sites SET domain = ? WHERE id = ?").run(domain || null, id);
+  }
+  if (dailyMessageLimit !== undefined) {
+    db.prepare("UPDATE sites SET daily_message_limit = ? WHERE id = ?").run(dailyMessageLimit, id);
+  }
+}
+
 function getAllSites() {
   return db.prepare("SELECT * FROM sites ORDER BY id ASC").all();
 }
@@ -777,6 +802,8 @@ module.exports = {
   createSite,
   getSiteByKey,
   getAllSites,
+  getTodayMessageCount,
+  updateSiteSecurity,
   getOrCreateConversation,
   getConversationHistory,
   saveMessage,
