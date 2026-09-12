@@ -77,6 +77,9 @@ export type SocialPost = {
   posted_at: string | null;
   status: "pending" | "posted" | "failed";
   buffer_update_id: string | null;
+  error_message: string | null;
+  channel_name: string | null;
+  channel_service: string | null;
   created_at: string;
 };
 
@@ -99,6 +102,8 @@ export const getConversations = () => adminFetch<ConversationSummary[]>("/api/ad
 export const getConversationThread = (id: number) =>
   adminFetch<ConversationThread>(`/api/admin/conversations/${id}`);
 export const getSocialPosts = () => adminFetch<SocialPost[]>("/api/admin/social-posts");
+export const retrySocialPost = (id: number) =>
+  adminFetchWithBody<{ ok: true }>(`/api/admin/social-posts/${id}/retry`, "POST");
 export const getLatestReport = () => adminFetch<MonthlyReport>("/api/reports/latest");
 
 export type Project = {

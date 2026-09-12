@@ -10,12 +10,14 @@ import {
   AlertTriangle,
   Sparkles,
   TrendingUp,
+  RotateCcw,
 } from "lucide-react";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
 import StatCard from "@/components/dashboard/StatCard";
 import {
   getSocialPosts,
   getLatestReport,
+  retrySocialPost,
   type SocialPost,
   type MonthlyReport,
 } from "@/lib/dashboard-api";
@@ -40,16 +42,33 @@ export default function MarketingPage() {
   const [report, setReport] = useState<MonthlyReport | null>(null);
   const [reportError, setReportError] = useState(false);
   const [error, setError] = useState("");
+  const [retryingId, setRetryingId] = useState<number | null>(null);
 
-  useEffect(() => {
+  const loadPosts = () => {
     getSocialPosts()
       .then(setPosts)
       .catch((err) => setError(err.message));
+  };
+
+  useEffect(() => {
+    loadPosts();
 
     getLatestReport()
       .then(setReport)
       .catch(() => setReportError(true)); // 404 = no report generated yet, not a hard error
   }, []);
+
+  const handleRetry = async (id: number) => {
+    setRetryingId(id);
+    try {
+      await retrySocialPost(id);
+      loadPosts();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to retry.");
+    } finally {
+      setRetryingId(null);
+    }
+  };
 
   if (error) {
     return (
@@ -155,14 +174,32 @@ export default function MarketingPage() {
                     <div className="min-w-0 flex-1">
                       <p className="line-clamp-2 text-sm text-navy">{p.content}</p>
                       <p className="mt-1 text-xs text-slate-400">
-                        {p.profile_id} · {timeAgo(p.created_at)}
+                        {p.channel_name || p.profile_id}
+                        {p.channel_service && ` (${p.channel_service})`} · {timeAgo(p.created_at)}
                       </p>
+                      {p.status === "failed" && p.error_message && (
+                        <p className="mt-1.5 rounded bg-rose-50 px-2 py-1 text-xs text-rose-600">
+                          {p.error_message}
+                        </p>
+                      )}
                     </div>
-                    <span
-                      className={`flex shrink-0 items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold ${statusColor(p.status)}`}
-                    >
-                      <Icon size={12} /> {p.status}
-                    </span>
+                    <div className="flex shrink-0 flex-col items-end gap-2">
+                      <span
+                        className={`flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold ${statusColor(p.status)}`}
+                      >
+                        <Icon size={12} /> {p.status}
+                      </span>
+                      {p.status === "failed" && (
+                        <button
+                          onClick={() => handleRetry(p.id)}
+                          disabled={retryingId === p.id}
+                          className="focus-ring flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200 disabled:opacity-50"
+                        >
+                          <RotateCcw size={11} className={retryingId === p.id ? "animate-spin" : ""} />
+                          Retry
+                        </button>
+                      )}
+                    </div>
                   </div>
                 );
               })}
