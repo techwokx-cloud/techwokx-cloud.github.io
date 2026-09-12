@@ -179,6 +179,9 @@ export default function MarketingPage() {
                           src={p.image_url}
                           alt=""
                           className="mt-2 h-24 w-24 rounded-lg object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
                         />
                       )}
                       <p className="mt-1 text-xs text-slate-400">

@@ -136,6 +136,9 @@ export default function ContentPage() {
                           src={d.image_url}
                           alt=""
                           className="mt-2 h-40 w-40 rounded-lg object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
                         />
                       )}
                     </div>
