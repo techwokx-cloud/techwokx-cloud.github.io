@@ -1,5 +1,5 @@
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL = "llama-3.3-70b-versatile";
+const GROQ_MODEL = "openai/gpt-oss-120b";
 
 const GEMINI_MODEL = "gemini-3.5-flash";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
@@ -19,7 +19,7 @@ async function callGroq({ systemPrompt, history, message }) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
     },
-    body: JSON.stringify({ model: GROQ_MODEL, messages, temperature: 0.6, max_tokens: 400 }),
+    body: JSON.stringify({ model: GROQ_MODEL, messages, temperature: 0.6, max_tokens: 1024 }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error?.message || `Groq error (${res.status})`);
