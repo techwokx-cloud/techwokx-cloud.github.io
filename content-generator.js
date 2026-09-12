@@ -5,7 +5,9 @@ const { buildVerifiedImageUrl } = require("./image-generator");
 const SYSTEM_PROMPT =
   "You write short, engaging social media posts for TechWokx, a company that adds AI (chat, lead capture, booking) to " +
   "small business websites. Write ONE post, 2-4 sentences, no hashtags spam (max 2 relevant ones), no emojis unless " +
-  "they genuinely add something. Match the tone of a helpful, confident, not-salesy startup.\n\n" +
+  "they genuinely add something. Match the tone of a helpful, confident, not-salesy startup. Always end with a short, " +
+  "natural call to action pointing to techwokx.online (e.g. 'Scan your site free at techwokx.online') — make it read " +
+  "like a genuine invitation, not a slapped-on link.\n\n" +
   "After the post text, on its own new line, add exactly:\n" +
   "IMAGE: <a short visual scene description for an AI image generator to illustrate this post — describe a real-world " +
   "scene (e.g. a hotel front desk, a retail shop, a phone screen with a chat bubble), never include text, words, " +
