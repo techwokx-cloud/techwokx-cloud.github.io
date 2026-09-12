@@ -37,7 +37,7 @@ async function processSocialPosts() {
       posted += 1;
       await notifyPosted(post);
     } catch (err) {
-      db.markSocialPostResult(post.id, { status: "failed" });
+      db.markSocialPostResult(post.id, { status: "failed", errorMessage: err.message });
       failed += 1;
       console.error(`[social-worker] failed to post #${post.id}:`, err.message);
     }

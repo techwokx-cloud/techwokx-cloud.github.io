@@ -450,9 +450,34 @@ app.get("/api/admin/conversations/:id", requireAdmin, (req, res) => {
   }
 });
 
-app.get("/api/admin/social-posts", requireAdmin, (req, res) => {
+app.get("/api/admin/social-posts", requireAdmin, async (req, res) => {
   try {
-    res.json(db.getRecentSocialPosts(50));
+    const posts = db.getRecentSocialPosts(50);
+    let channels = [];
+    try {
+      channels = await social.getChannels();
+    } catch {
+      // If Buffer isn't reachable right now, still show posts — just
+      // without friendly channel names, falling back to raw IDs.
+    }
+    const channelMap = Object.fromEntries(channels.map((c) => [c.id, c]));
+    res.json(
+      posts.map((p) => ({
+        ...p,
+        channel_name: channelMap[p.profile_id]?.name || null,
+        channel_service: channelMap[p.profile_id]?.service || null,
+      }))
+    );
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/social-posts/:id/retry", requireAdmin, (req, res) => {
+  try {
+    const ok = db.retrySocialPost(Number(req.params.id));
+    if (!ok) return res.status(400).json({ error: "Post not found or not in a failed state." });
+    res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

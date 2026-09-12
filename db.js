@@ -186,6 +186,11 @@ try {
 } catch (e) {
   if (!/duplicate column/i.test(e.message)) throw e;
 }
+try {
+  db.exec("ALTER TABLE social_posts ADD COLUMN error_message TEXT");
+} catch (e) {
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
 
 // ---- Leads ----
 function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl, goal }) {
@@ -390,10 +395,19 @@ function getDueSocialPosts() {
     .all();
 }
 
-function markSocialPostResult(id, { status, bufferUpdateId }) {
+function markSocialPostResult(id, { status, bufferUpdateId, errorMessage }) {
   db.prepare(
-    `UPDATE social_posts SET status = ?, buffer_update_id = ?, posted_at = datetime('now') WHERE id = ?`
-  ).run(status, bufferUpdateId || null, id);
+    `UPDATE social_posts SET status = ?, buffer_update_id = ?, error_message = ?, posted_at = datetime('now') WHERE id = ?`
+  ).run(status, bufferUpdateId || null, errorMessage || null, id);
+}
+
+function retrySocialPost(id) {
+  const result = db
+    .prepare(
+      `UPDATE social_posts SET status = 'pending', error_message = NULL, posted_at = NULL WHERE id = ? AND status = 'failed'`
+    )
+    .run(id);
+  return result.changes > 0;
 }
 
 function getRecentSocialPosts(limit = 50) {
@@ -794,6 +808,7 @@ module.exports = {
   createSocialPost,
   getDueSocialPosts,
   markSocialPostResult,
+  retrySocialPost,
   getRecentSocialPosts,
   getInternalMetrics,
   saveMonthlyReport,
