@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Megaphone, Bot, Loader2, AlertTriangle, Play, Pause, Power } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Megaphone, Bot, Loader2, AlertTriangle, Play, Pause, Power, MessageCircle, CheckCircle2 } from "lucide-react";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
 import StatCard from "@/components/dashboard/StatCard";
 import {
@@ -9,9 +9,94 @@ import {
   getSites,
   setCampaignStatus,
   setSiteActive,
+  getWhatsAppStatus,
   type Campaign,
   type Site,
+  type WhatsAppStatus,
 } from "@/lib/dashboard-api";
+
+function WhatsAppPanel() {
+  const [status, setStatus] = useState<WhatsAppStatus | null>(null);
+  const [error, setError] = useState("");
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const poll = () => {
+      getWhatsAppStatus()
+        .then(setStatus)
+        .catch((err) => setError(err instanceof Error ? err.message : "Failed to load status."));
+    };
+    poll();
+    pollRef.current = setInterval(poll, 4000);
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">
+        {error}
+      </div>
+    );
+  }
+
+  if (!status) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white p-6">
+        <div className="flex justify-center py-4">
+          <Loader2 size={20} className="animate-spin text-violet-400" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-6">
+      <div className="flex items-center gap-2">
+        <MessageCircle size={18} className="text-emerald-600" />
+        <h3 className="text-base font-bold text-navy">WhatsApp Connection</h3>
+      </div>
+
+      {!status.configured && (
+        <p className="mt-3 text-sm text-slate-500">
+          Not enabled yet. Set <code className="rounded bg-slate-100 px-1.5 py-0.5">WHATSAPP_ENABLED=true</code> and{" "}
+          <code className="rounded bg-slate-100 px-1.5 py-0.5">ADMIN_WHATSAPP_NUMBER</code> in the server&apos;s{" "}
+          <code className="rounded bg-slate-100 px-1.5 py-0.5">.env</code>, then restart the gateway.
+        </p>
+      )}
+
+      {status.configured && status.status === "connected" && (
+        <div className="mt-3 flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+          <CheckCircle2 size={16} /> Connected — booking notifications and confirmations are live.
+        </div>
+      )}
+
+      {status.configured && status.status === "connecting" && (
+        <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
+          <Loader2 size={14} className="animate-spin" /> Connecting...
+        </div>
+      )}
+
+      {status.configured && status.status === "disconnected" && (
+        <p className="mt-3 text-sm text-slate-500">
+          Disconnected. Restart the gateway to trigger a new pairing attempt.
+        </p>
+      )}
+
+      {status.configured && status.status === "qr_pending" && status.qrDataUrl && (
+        <div className="mt-4 flex flex-col items-center gap-3 rounded-xl border border-violet-100 bg-violet-50 p-6">
+          <p className="text-sm text-slate-600">
+            Open WhatsApp → <strong>Settings → Linked Devices → Link a Device</strong>, then scan:
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={status.qrDataUrl} alt="WhatsApp pairing QR code" className="h-56 w-56 rounded-lg bg-white p-2" />
+          <p className="text-xs text-slate-400">Refreshes automatically — this page checks every few seconds.</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AutomationPage() {
   const [campaigns, setCampaigns] = useState<Campaign[] | null>(null);
@@ -95,6 +180,8 @@ export default function AutomationPage() {
           <StatCard icon={Bot} iconBg="bg-blue-50" iconColor="text-blue-600" label="Active AI Sites" value={String(activeSites)} trend={`of ${sites.length} total`} />
           <StatCard icon={Play} iconBg="bg-emerald-50" iconColor="text-emerald-600" label="Leads in Active Sequences" value={String(totalEnrollments)} trend="Currently enrolled" />
         </div>
+
+        <WhatsAppPanel />
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
           <h3 className="text-base font-bold text-navy">Email Campaigns</h3>

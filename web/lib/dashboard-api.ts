@@ -204,3 +204,11 @@ export type Appointment = {
 export const getAppointments = () => adminFetch<Appointment[]>("/api/admin/appointments");
 export const updateAppointmentStatus = (id: number, status: string) =>
   adminFetchWithBody<{ ok: true }>(`/api/admin/appointments/${id}`, "PATCH", { status });
+
+export type WhatsAppStatus = {
+  configured: boolean;
+  status: "disconnected" | "connecting" | "qr_pending" | "connected";
+  qrDataUrl: string | null;
+};
+
+export const getWhatsAppStatus = () => adminFetch<WhatsAppStatus>("/api/admin/whatsapp/status");
