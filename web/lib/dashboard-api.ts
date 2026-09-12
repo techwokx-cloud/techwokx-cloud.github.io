@@ -78,6 +78,7 @@ export type SocialPost = {
   status: "pending" | "posted" | "failed";
   buffer_update_id: string | null;
   error_message: string | null;
+  image_url: string | null;
   channel_name: string | null;
   channel_service: string | null;
   created_at: string;
@@ -141,6 +142,7 @@ export type ContentDraft = {
   topic: string | null;
   content: string;
   status: "draft" | "queued" | "discarded";
+  image_url: string | null;
   created_at: string;
 };
 

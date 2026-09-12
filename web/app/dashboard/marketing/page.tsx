@@ -173,6 +173,14 @@ export default function MarketingPage() {
                   >
                     <div className="min-w-0 flex-1">
                       <p className="line-clamp-2 text-sm text-navy">{p.content}</p>
+                      {p.image_url && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={p.image_url}
+                          alt=""
+                          className="mt-2 h-24 w-24 rounded-lg object-cover"
+                        />
+                      )}
                       <p className="mt-1 text-xs text-slate-400">
                         {p.channel_name || p.profile_id}
                         {p.channel_service && ` (${p.channel_service})`} · {timeAgo(p.created_at)}

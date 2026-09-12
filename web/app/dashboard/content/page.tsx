@@ -130,6 +130,14 @@ export default function ContentPage() {
                     <div className="min-w-0">
                       {d.topic && <p className="text-xs font-medium text-violet-600">{d.topic}</p>}
                       <p className="mt-1 whitespace-pre-wrap text-sm text-navy">{d.content}</p>
+                      {d.image_url && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={d.image_url}
+                          alt=""
+                          className="mt-2 h-40 w-40 rounded-lg object-cover"
+                        />
+                      )}
                     </div>
                     <span className={`shrink-0 rounded px-2 py-0.5 text-xs font-semibold ${statusColor(d.status)}`}>
                       {d.status}
