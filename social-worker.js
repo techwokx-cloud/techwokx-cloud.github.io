@@ -26,6 +26,18 @@ async function processSocialPosts() {
   let posted = 0;
   let failed = 0;
 
+  let serviceByChannelId = {};
+  if (due.length > 0) {
+    try {
+      const channels = await social.getChannels();
+      serviceByChannelId = Object.fromEntries(channels.map((c) => [c.id, c.service]));
+    } catch (err) {
+      console.error("[social-worker] could not fetch channels for service lookup:", err.message);
+      // Continue anyway — posts to non-Facebook channels still work fine
+      // without a service hint; only Facebook posts would fail below.
+    }
+  }
+
   for (const post of due) {
     try {
       const result = await social.createPost({
@@ -33,6 +45,7 @@ async function processSocialPosts() {
         text: post.content,
         mode: "addToQueue",
         imageUrl: post.image_url,
+        service: serviceByChannelId[post.profile_id],
       });
       db.markSocialPostResult(post.id, { status: "posted", bufferUpdateId: result?.id });
       posted += 1;

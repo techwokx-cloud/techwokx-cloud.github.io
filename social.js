@@ -57,7 +57,7 @@ async function getChannels() {
 
 // mode: "addToQueue" (next open slot) | "shareNow" (immediately) |
 // "customScheduled" (needs dueAt, an ISO 8601 UTC timestamp)
-async function createPost({ channelId, text, mode = "addToQueue", dueAt, imageUrl }) {
+async function createPost({ channelId, text, mode = "addToQueue", dueAt, imageUrl, service }) {
   const dueAtField =
     mode === "customScheduled" && dueAt ? `dueAt: "${dueAt.toISOString()}"` : "";
 
@@ -67,6 +67,11 @@ async function createPost({ channelId, text, mode = "addToQueue", dueAt, imageUr
     ? `assets: [{ image: { url: ${JSON.stringify(imageUrl)} } }]`
     : `assets: []`;
 
+  // Facebook requires an explicit post type (post, story, reel, etc.) —
+  // without it the API rejects the post outright. Other networks don't
+  // have this field, so only include it for Facebook channels.
+  const metadataField = service === "facebook" ? `metadata: { facebook: { type: post } }` : "";
+
   const query = `
     mutation {
       createPost(input: {
@@ -75,6 +80,7 @@ async function createPost({ channelId, text, mode = "addToQueue", dueAt, imageUr
         schedulingType: automatic
         mode: ${mode}
         ${assetsField}
+        ${metadataField}
         ${dueAtField}
       }) {
         ... on PostActionSuccess {
