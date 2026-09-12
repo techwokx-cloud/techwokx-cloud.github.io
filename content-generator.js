@@ -1,6 +1,6 @@
 const db = require("./db");
 const { chatCompletion } = require("./llm");
-const { buildImageUrl } = require("./image-generator");
+const { buildVerifiedImageUrl } = require("./image-generator");
 
 const SYSTEM_PROMPT =
   "You write short, engaging social media posts for TechWokx, a company that adds AI (chat, lead capture, booking) to " +
@@ -46,7 +46,7 @@ async function generateContentDraft({ topic } = {}) {
   });
 
   const { content, imagePrompt } = parseGeneration(raw);
-  const imageUrl = imagePrompt ? buildImageUrl(imagePrompt) : null;
+  const imageUrl = imagePrompt ? await buildVerifiedImageUrl(imagePrompt) : null;
 
   const id = db.createContentDraft({ topic: resolvedTopic, content, imageUrl });
   return { id, topic: resolvedTopic, content, imageUrl };
