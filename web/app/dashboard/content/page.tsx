@@ -151,7 +151,7 @@ export default function ContentPage() {
                       <select
                         value={channelChoice[d.id] || CHANNELS[0].id}
                         onChange={(e) => setChannelChoice((c) => ({ ...c, [d.id]: e.target.value }))}
-                        className="focus-ring rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs text-navy"
+                        className="focus-ring rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-navy"
                       >
                         {CHANNELS.map((c) => (
                           <option key={c.id} value={c.id}>{c.label}</option>
