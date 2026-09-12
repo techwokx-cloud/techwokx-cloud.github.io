@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { siteConfig } from "@/lib/site-config";
 
 const SITE_URL = "https://techwokx.online";
 const OG_IMAGE = `${SITE_URL}/og-image.png`;
@@ -88,7 +89,7 @@ const organizationJsonLd = {
   logo: `${SITE_URL}/Techwokx_Logo_full_final.png`,
   description: DEFAULT_DESCRIPTION,
   email: "hello@techwokx.com",
-  telephone: "+233201234567",
+  telephone: `+${siteConfig.whatsappNumber}`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Accra",

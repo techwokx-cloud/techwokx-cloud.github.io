@@ -10,9 +10,12 @@ export const siteConfig = {
   /** WhatsApp number the AI assistant hands off to when it can't answer
    *  a question. Include the country code, digits only (no +, spaces,
    *  or dashes) — this is the format wa.me links require.
-   *  Example Ghana number shown in the footer: +233 20 123 4567 -> "233201234567"
    */
-  whatsappNumber: "233201234567",
+  whatsappNumber: "233555087407",
+
+  /** Same number, formatted for display (footer, contact info, etc.) —
+   *  keep in sync with whatsappNumber above. */
+  whatsappDisplayNumber: "+233 55 508 7407",
 
   /** Default message pre-filled when a visitor is handed off to WhatsApp. */
   whatsappFallbackMessage:

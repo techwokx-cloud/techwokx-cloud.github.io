@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Linkedin, Twitter, Youtube, Facebook, MessageSquare, Mail, Phone, MapPin, ShieldCheck, ChevronRight } from "lucide-react";
 import ScanBar from "@/components/ScanBar";
 import { openChatWidget } from "@/lib/chat-events";
+import { siteConfig } from "@/lib/site-config";
 
 const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -136,7 +137,7 @@ export default function Footer() {
           <Phone size={18} className="mt-0.5 shrink-0 text-violet" />
           <div>
             <div className="text-sm font-semibold">Phone</div>
-            <div className="text-sm text-mist">+233 20 123 4567</div>
+            <div className="text-sm text-mist">{siteConfig.whatsappDisplayNumber}</div>
           </div>
         </div>
         <div className="flex items-start gap-3">
