@@ -143,6 +143,7 @@ export type ContentDraft = {
   content: string;
   status: "draft" | "queued" | "discarded";
   image_url: string | null;
+  channel_service: string | null;
   created_at: string;
 };
 
@@ -183,14 +184,20 @@ export const setSiteActive = (id: number, isActive: boolean) =>
   adminFetchWithBody<{ ok: true }>(`/api/admin/automation/sites/${id}`, "PATCH", { isActive });
 
 export const getContentDrafts = () => adminFetch<ContentDraft[]>("/api/admin/content-drafts");
-export const generateContentDraft = (topic: string) =>
-  adminFetchWithBody<{ id: number; content: string }>(
+export const generateContentDraft = (topic?: string) =>
+  adminFetchWithBody<{ id: number; content: string; imageUrl: string | null }>(
     "/api/admin/content-drafts/generate",
     "POST",
-    { topic }
+    topic ? { topic } : {}
   );
-export const queueContentDraft = (id: number, profileId: string) =>
-  adminFetchWithBody<{ ok: true }>(`/api/admin/content-drafts/${id}/queue`, "POST", { profileId });
+export const generateContentBatch = (topic?: string) =>
+  adminFetchWithBody<{ objective: string; topic: string; drafts: unknown[] }>(
+    "/api/admin/content-drafts/generate-batch",
+    "POST",
+    topic ? { topic } : {}
+  );
+export const queueContentDraft = (id: number, profileId?: string) =>
+  adminFetchWithBody<{ ok: true; scheduledFor: string }>(`/api/admin/content-drafts/${id}/queue`, "POST", profileId ? { profileId } : {});
 export const discardContentDraft = (id: number) =>
   adminFetchWithBody<{ ok: true }>(`/api/admin/content-drafts/${id}/discard`, "POST");
 
