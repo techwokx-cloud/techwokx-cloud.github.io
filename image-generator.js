@@ -1,13 +1,13 @@
-// Two image providers:
-//  - Fal.ai (FAL_API_KEY): paid, production-grade, fast — used when configured.
-//  - Pollinations: free, no key, no SLA — automatic fallback.
-//  - Local image library: categorized stock images, used as a last
-//    resort if both providers fail (see image-library.js).
+// Image sources, in order:
+//  1. Pexels (PEXELS_API_KEY) — real stock photography, free API.
+//  2. Pixabay (PIXABAY_API_KEY) — same, second source for coverage.
+//  3. Pollinations — free, no key, AI-generated, last-resort live source.
+//  4. Local categorized library (image-library.js) — manually uploaded
+//     or pre-seeded images, used if all live sources fail.
 //
 // After getting a base image, we composite a real branded overlay onto
 // it ourselves with sharp + SVG: a colored CTA banner (color varies by
-// objective), the TechWokx logo in a corner, and dynamically-sized text
-// — rather than trusting the AI model to render any of this reliably.
+// objective), the TechWokx logo in a corner, and dynamically-sized text.
 
 const sharp = require("sharp");
 const fs = require("fs");
@@ -28,8 +28,6 @@ function getLogoBase64() {
   return logoBase64Cache;
 }
 
-// A few brand-consistent banner colors, rotated by objective so posts
-// don't all look identical while staying on-brand.
 const BANNER_THEMES = {
   engagement: "rgba(124,58,237,0.82)", // violet
   followers: "rgba(30,64,175,0.82)", // deep blue
@@ -45,31 +43,39 @@ function seedFromString(str) {
   return Math.abs(hash) % 1000000;
 }
 
-function isFalConfigured() {
-  return Boolean(process.env.FAL_API_KEY);
+function isPexelsConfigured() {
+  return Boolean(process.env.PEXELS_API_KEY);
+}
+function isPixabayConfigured() {
+  return Boolean(process.env.PIXABAY_API_KEY);
 }
 
-async function callFalAi(prompt) {
-  const res = await fetch("https://fal.run/fal-ai/flux/schnell", {
-    method: "POST",
-    headers: {
-      Authorization: `Key ${process.env.FAL_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt,
-      image_size: "square_hd",
-      num_images: 1,
-      enable_safety_checker: true,
-    }),
-  });
+// Pexels' own docs explicitly warn: do NOT prefix the key with "Bearer".
+async function searchPexels(query) {
+  if (!isPexelsConfigured()) throw new Error("PEXELS_API_KEY not configured");
+  const res = await fetch(
+    `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=5&orientation=square`,
+    { headers: { Authorization: process.env.PEXELS_API_KEY } }
+  );
   const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.detail || data.message || `Fal.ai error (${res.status})`);
-  }
-  const url = data.images?.[0]?.url;
-  if (!url) throw new Error("Fal.ai returned no image URL");
-  return url;
+  if (!res.ok) throw new Error(data.error || `Pexels error (${res.status})`);
+  const photos = data.photos || [];
+  if (photos.length === 0) throw new Error("Pexels returned no results");
+  const chosen = photos[Math.floor(Math.random() * photos.length)];
+  return chosen.src.large;
+}
+
+async function searchPixabay(query) {
+  if (!isPixabayConfigured()) throw new Error("PIXABAY_API_KEY not configured");
+  const res = await fetch(
+    `https://pixabay.com/api/?key=${process.env.PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&per_page=5&safesearch=true`
+  );
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `Pixabay error (${res.status})`);
+  const hits = data.hits || [];
+  if (hits.length === 0) throw new Error("Pixabay returned no results");
+  const chosen = hits[Math.floor(Math.random() * hits.length)];
+  return chosen.largeImageURL;
 }
 
 function buildPollinationsUrl(prompt, { width = 1024, height = 1024 } = {}) {
@@ -101,8 +107,6 @@ function escapeXml(str) {
     .replace(/"/g, "&quot;");
 }
 
-// Wraps text onto lines so it doesn't overflow the banner — SVG <text>
-// doesn't wrap on its own. maxCharsPerLine scales with font size.
 function wrapLines(text, maxCharsPerLine) {
   const words = text.split(" ");
   const lines = [];
@@ -116,11 +120,9 @@ function wrapLines(text, maxCharsPerLine) {
     }
   }
   if (current) lines.push(current);
-  return lines.slice(0, 2); // cap at 2 lines, keep the banner a bounded height
+  return lines.slice(0, 2);
 }
 
-// Shorter text gets a bigger, punchier font; longer text scales down so
-// it still fits within 2 lines.
 function fontSizeFor(text) {
   if (text.length <= 20) return 46;
   if (text.length <= 40) return 38;
@@ -142,8 +144,6 @@ function buildOverlaySvg(text, width, height, theme) {
     )
     .join("");
 
-  // Logo badge, top-right — a white rounded card since the logo itself
-  // has a solid white background (not transparent).
   const logoW = 150;
   const logoH = 43;
   const pad = 22;
@@ -177,27 +177,33 @@ function saveGeneratedImage(buffer) {
   return `${API_BASE}/generated-images/${filename}`;
 }
 
-async function getBaseImageUrl(prompt) {
-  if (isFalConfigured()) {
+// Tries each live source in order, returns the first working image URL.
+async function getBaseImageUrl(query) {
+  const sources = [
+    { name: "Pexels", fn: searchPexels, configured: isPexelsConfigured() },
+    { name: "Pixabay", fn: searchPixabay, configured: isPixabayConfigured() },
+  ];
+  for (const source of sources) {
+    if (!source.configured) continue;
     try {
-      return await callFalAi(prompt);
+      return await source.fn(query);
     } catch (err) {
-      console.error("[image-generator] Fal.ai failed, falling back to Pollinations:", err.message);
+      console.error(`[image-generator] ${source.name} failed:`, err.message);
     }
   }
-  return buildPollinationsUrl(prompt);
+  // Neither stock source configured or both failed — free AI fallback.
+  return buildPollinationsUrl(query);
 }
 
-// ctaText is optional — when provided, a real branded overlay
-// (banner + logo + text) is composited via sharp. objective picks the
-// banner color theme. Falls back to the local categorized image library
-// (see image-library.js) if live generation fails after retries, and
-// only returns null if that also has nothing usable.
-async function buildVerifiedImageUrl(prompt, ctaText, { objective, libraryCategory } = {}) {
+// ctaText is optional — when provided, a real branded overlay (banner +
+// logo + text) is composited via sharp. objective picks the banner
+// color theme. Falls back to the local categorized image library if
+// every live source fails, and only returns null if that's also empty.
+async function buildVerifiedImageUrl(query, ctaText, { objective, libraryCategory } = {}) {
   for (let attempt = 0; attempt < 3; attempt++) {
-    const variedPrompt = attempt === 0 ? prompt : `${prompt} (v${attempt})`;
+    const variedQuery = attempt === 0 ? query : `${query} ${attempt}`;
     try {
-      const baseUrl = await getBaseImageUrl(variedPrompt);
+      const baseUrl = await getBaseImageUrl(variedQuery);
       const buffer = await fetchImageBuffer(baseUrl);
       const finalBuffer = ctaText ? await overlayTextOnImage(buffer, ctaText, objective) : buffer;
       return saveGeneratedImage(finalBuffer);
@@ -207,7 +213,6 @@ async function buildVerifiedImageUrl(prompt, ctaText, { objective, libraryCatego
     }
   }
 
-  // Live generation exhausted — fall back to the local library.
   try {
     const { pickLibraryImage } = require("./image-library");
     const libraryBuffer = pickLibraryImage(libraryCategory);
@@ -224,7 +229,8 @@ async function buildVerifiedImageUrl(prompt, ctaText, { objective, libraryCatego
 
 module.exports = {
   buildVerifiedImageUrl,
-  isFalConfigured,
+  isPexelsConfigured,
+  isPixabayConfigured,
   overlayTextOnImage,
   getBaseImageUrl,
   fetchImageBuffer,

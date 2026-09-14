@@ -13,54 +13,14 @@ const { getBaseImageUrl, fetchImageBuffer } = require("./image-generator");
 const { CATEGORIES, LIBRARY_DIR } = require("./image-library");
 
 const PROMPTS = {
-  hospitality: [
-    "a modern hotel lobby with warm lighting, professional photo",
-    "a boutique hotel reception desk, professional photo",
-    "a restaurant table set for dinner service, professional photo",
-    "a relaxing spa interior with soft natural light, professional photo",
-  ],
-  healthcare: [
-    "a clean modern medical clinic waiting room, professional photo",
-    "a friendly healthcare reception area, professional photo",
-    "a dental office interior, bright and modern, professional photo",
-    "a wellness center interior, calm and welcoming, professional photo",
-  ],
-  retail: [
-    "a modern retail store interior with product displays, professional photo",
-    "a boutique shop checkout counter, professional photo",
-    "a clothing store interior, well lit, professional photo",
-    "an online shopping concept, laptop and packages, professional photo",
-  ],
-  "professional-services": [
-    "a modern office meeting room, professional photo",
-    "a consulting firm office interior, professional photo",
-    "a lawyer's office desk with documents, professional photo",
-    "a professional handshake in an office setting, professional photo",
-  ],
-  education: [
-    "a modern classroom with students learning, professional photo",
-    "a university lecture hall, professional photo",
-    "an online learning setup, laptop and notebook, professional photo",
-    "a school library interior, professional photo",
-  ],
-  "real-estate": [
-    "a modern house exterior with a for-sale sign, professional photo",
-    "a bright apartment living room, professional photo",
-    "a real estate agent showing a property, professional photo",
-    "a modern kitchen in a house listing, professional photo",
-  ],
-  technology: [
-    "a laptop showing a chat interface on a desk, professional photo",
-    "a modern tech office with computer screens, professional photo",
-    "a smartphone displaying a mobile app, professional photo",
-    "an abstract technology concept, clean and modern, professional photo",
-  ],
-  general: [
-    "a modern small business storefront, professional photo",
-    "a professional working at a desk with a laptop, professional photo",
-    "a customer service representative smiling, professional photo",
-    "a busy small business owner in their shop, professional photo",
-  ],
+  hospitality: ["hotel lobby", "hotel reception desk", "restaurant table setting", "spa interior"],
+  healthcare: ["medical clinic waiting room", "healthcare reception", "dental office", "wellness center"],
+  retail: ["retail store interior", "shop checkout counter", "clothing store", "online shopping"],
+  "professional-services": ["office meeting room", "consulting office", "lawyer desk documents", "business handshake"],
+  education: ["classroom students", "university lecture hall", "online learning laptop", "school library"],
+  "real-estate": ["house for sale", "apartment living room", "real estate agent property", "modern kitchen"],
+  technology: ["laptop chat interface", "tech office computers", "smartphone mobile app", "technology abstract"],
+  general: ["small business storefront", "professional desk laptop", "customer service representative", "small business owner shop"],
 };
 
 async function buildLibrary() {

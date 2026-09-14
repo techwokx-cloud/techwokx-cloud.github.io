@@ -45,8 +45,8 @@ function buildSystemPrompt({ objective, maxChars }) {
     "No hashtag spam (max 2 relevant ones). No emojis unless they genuinely add something. Match the tone of a " +
     "helpful, confident, not-salesy startup.\n\n" +
     "After the post text, on its own new line, add exactly:\n" +
-    "IMAGE: <a short visual scene description for an AI image generator to illustrate this post — describe a " +
-    "real-world scene, never include text, words, letters, or logos in the image description>\n\n" +
+    "IMAGE: <2-4 short search keywords to find a real stock photo illustrating this post — e.g. \"hotel reception desk\" " +
+    "or \"retail store checkout\". Real-world nouns only, no adjectives-only phrases, never include text/words/logos>\n\n" +
     "Output only the post text and the IMAGE line, nothing else."
   );
 }
@@ -162,7 +162,7 @@ async function generateDailyBatch({ topic } = {}) {
   const objective = pickObjective();
 
   const sharedImageUrl = await buildVerifiedImageUrl(
-    `A real-world scene representing: ${resolvedTopic}, professional photo style`,
+    resolvedTopic,
     CTA_TEXT,
     { objective, libraryCategory: getCategoryForTopic(resolvedTopic) }
   );

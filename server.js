@@ -8,6 +8,15 @@ const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
 const { generateContentDraft, generateDailyBatch } = require("./content-generator");
+const { CATEGORIES } = require("./image-library");
+const multer = require("multer");
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 8 * 1024 * 1024 }, // 8MB
+  fileFilter: (req, file, cb) => {
+    cb(null, /^image\/(png|jpe?g)$/.test(file.mimetype));
+  },
+});
 const { nextBestTime } = require("./best-posting-times");
 const { sendEmail, isConfigured: isEmailConfigured } = require("./email");
 const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, getQrDataUrl, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
@@ -576,6 +585,47 @@ app.post("/api/admin/content-drafts/generate", requireAdmin, async (req, res) =>
     res.status(201).json(result);
   } catch (err) {
     res.status(502).json({ error: err.message });
+  }
+});
+
+app.get("/api/admin/image-library", requireAdmin, (req, res) => {
+  try {
+    const { LIBRARY_DIR } = require("./image-library");
+    const fs = require("fs");
+    const path = require("path");
+    const result = {};
+    for (const category of Object.keys(CATEGORIES)) {
+      const dir = path.join(LIBRARY_DIR, category);
+      result[category] = fs.existsSync(dir)
+        ? fs.readdirSync(dir).filter((f) => /\.(png|jpe?g)$/i.test(f))
+        : [];
+    }
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/admin/image-library/upload", requireAdmin, upload.single("image"), (req, res) => {
+  const { category } = req.body || {};
+  if (!category || !CATEGORIES[category]) {
+    return res.status(400).json({ error: `category must be one of: ${Object.keys(CATEGORIES).join(", ")}` });
+  }
+  if (!req.file) {
+    return res.status(400).json({ error: "No image file uploaded (or file type not allowed — PNG/JPG only)." });
+  }
+  try {
+    const { LIBRARY_DIR } = require("./image-library");
+    const fs = require("fs");
+    const path = require("path");
+    const dir = path.join(LIBRARY_DIR, category);
+    fs.mkdirSync(dir, { recursive: true });
+    const ext = req.file.mimetype === "image/png" ? "png" : "jpg";
+    const filename = `manual-${Date.now()}.${ext}`;
+    fs.writeFileSync(path.join(dir, filename), req.file.buffer);
+    res.status(201).json({ ok: true, category, filename });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
