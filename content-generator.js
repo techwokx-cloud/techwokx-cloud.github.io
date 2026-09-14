@@ -1,6 +1,7 @@
 const db = require("./db");
 const { chatCompletion } = require("./llm");
 const { buildVerifiedImageUrl } = require("./image-generator");
+const { getCategoryForTopic } = require("./image-library");
 const social = require("./social");
 
 const CTA_TEXT = "Scan Your Website Free — techwokx.online";
@@ -128,7 +129,12 @@ async function generateForChannel({ channelService, topic, objective, sharedImag
 
   let imageUrl = sharedImageUrl;
   if (imageUrl === undefined) {
-    imageUrl = imagePrompt ? await buildVerifiedImageUrl(imagePrompt, CTA_TEXT) : null;
+    imageUrl = imagePrompt
+      ? await buildVerifiedImageUrl(imagePrompt, CTA_TEXT, {
+          objective,
+          libraryCategory: getCategoryForTopic(topic),
+        })
+      : null;
   }
 
   // Instagram cannot post without media — if there's genuinely no image,
@@ -157,7 +163,8 @@ async function generateDailyBatch({ topic } = {}) {
 
   const sharedImageUrl = await buildVerifiedImageUrl(
     `A real-world scene representing: ${resolvedTopic}, professional photo style`,
-    CTA_TEXT
+    CTA_TEXT,
+    { objective, libraryCategory: getCategoryForTopic(resolvedTopic) }
   );
 
   const results = [];

@@ -60,9 +60,12 @@ async function processSocialPosts() {
   return { skipped: false, checked: due.length, posted, failed };
 }
 
-function startSocialWorker(intervalMs = 5 * 60 * 1000) {
+function startSocialWorker() {
+  const cron = require("node-cron");
+  const schedule = process.env.SOCIAL_CRON_SCHEDULE || "*/5 * * * *"; // every 5 minutes
   setTimeout(() => processSocialPosts().then(logResult), 15_000);
-  setInterval(() => processSocialPosts().then(logResult), intervalMs);
+  cron.schedule(schedule, () => processSocialPosts().then(logResult), { timezone: "UTC" });
+  console.log(`[social-worker] scheduled: "${schedule}" (UTC)`);
 }
 
 function logResult(result) {
