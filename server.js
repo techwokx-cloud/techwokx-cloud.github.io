@@ -7,7 +7,8 @@ const { startCampaignWorker } = require("./campaign-worker");
 const { startSocialWorker } = require("./social-worker");
 const { generateMonthlyReport, startReportWorker } = require("./report-generator");
 const { chatCompletion } = require("./llm");
-const { generateContentDraft } = require("./content-generator");
+const { generateContentDraft, generateDailyBatch } = require("./content-generator");
+const { nextBestTime } = require("./best-posting-times");
 const { sendEmail, isConfigured: isEmailConfigured } = require("./email");
 const { startWhatsApp, sendWhatsAppMessage, getStatus: getWhatsAppStatus, getQrDataUrl, isConfigured: isWhatsAppConfigured } = require("./whatsapp");
 const { startContentWorker } = require("./content-worker");
@@ -570,33 +571,59 @@ app.get("/api/admin/content-drafts", requireAdmin, (req, res) => {
 
 app.post("/api/admin/content-drafts/generate", requireAdmin, async (req, res) => {
   try {
-    const { topic } = req.body || {};
-    const result = await generateContentDraft({ topic });
+    const { topic, channelService } = req.body || {};
+    const result = await generateContentDraft({ topic, channelService });
     res.status(201).json(result);
   } catch (err) {
     res.status(502).json({ error: err.message });
   }
 });
 
-app.post("/api/admin/content-drafts/:id/queue", requireAdmin, (req, res) => {
-  const { profileId, scheduledFor } = req.body || {};
-  if (!profileId) {
-    return res.status(400).json({ error: "profileId is required." });
+app.post("/api/admin/content-drafts/generate-batch", requireAdmin, async (req, res) => {
+  try {
+    const { topic } = req.body || {};
+    const result = await generateDailyBatch({ topic });
+    res.status(201).json(result);
+  } catch (err) {
+    res.status(502).json({ error: err.message });
   }
+});
+
+app.post("/api/admin/content-drafts/:id/queue", requireAdmin, async (req, res) => {
+  const { profileId, scheduledFor } = req.body || {};
   try {
     const drafts = db.getContentDrafts();
     const draft = drafts.find((d) => d.id === Number(req.params.id));
     if (!draft) return res.status(404).json({ error: "Draft not found." });
 
+    // Use the explicit profileId if given, otherwise look up the current
+    // channel ID for the platform this draft was generated for (looked
+    // up fresh each time rather than stored, since Buffer channel IDs
+    // could change).
+    let resolvedProfileId = profileId;
+    if (!resolvedProfileId && draft.channel_service) {
+      const channels = await social.getChannels();
+      resolvedProfileId = channels.find((c) => c.service === draft.channel_service)?.id;
+    }
+    if (!resolvedProfileId) {
+      return res.status(400).json({ error: "profileId is required (couldn't resolve a channel for this draft)." });
+    }
+
+    // Default to this channel's best posting time unless the admin
+    // explicitly picked one.
+    const when = scheduledFor
+      ? new Date(scheduledFor)
+      : nextBestTime(draft.channel_service || "facebook");
+
     db.createSocialPost({
       campaignId: null,
-      profileId,
+      profileId: resolvedProfileId,
       content: draft.content,
-      scheduledFor: scheduledFor ? new Date(scheduledFor) : null,
+      scheduledFor: when,
       imageUrl: draft.image_url,
     });
     db.updateContentDraftStatus(draft.id, "queued");
-    res.json({ ok: true });
+    res.json({ ok: true, scheduledFor: when.toISOString() });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

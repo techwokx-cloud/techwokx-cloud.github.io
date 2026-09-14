@@ -201,6 +201,11 @@ try {
 } catch (e) {
   if (!/duplicate column/i.test(e.message)) throw e;
 }
+try {
+  db.exec("ALTER TABLE content_drafts ADD COLUMN channel_service TEXT");
+} catch (e) {
+  if (!/duplicate column/i.test(e.message)) throw e;
+}
 
 // ---- Leads ----
 function createLead({ businessName, email, whatsappCountryCode, whatsappNumber, sourceUrl, goal }) {
@@ -639,10 +644,10 @@ function setSiteActive(id, isActive) {
 }
 
 // ---- Content drafts (for the Social & Content page) ----
-function createContentDraft({ topic, content, imageUrl }) {
+function createContentDraft({ topic, content, imageUrl, channelService }) {
   const info = db
-    .prepare("INSERT INTO content_drafts (topic, content, image_url) VALUES (?, ?, ?)")
-    .run(topic || null, content, imageUrl || null);
+    .prepare("INSERT INTO content_drafts (topic, content, image_url, channel_service) VALUES (?, ?, ?, ?)")
+    .run(topic || null, content, imageUrl || null, channelService || null);
   return info.lastInsertRowid;
 }
 
