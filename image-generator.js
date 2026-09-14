@@ -124,12 +124,32 @@ function wrapLines(text, maxCharsPerLine) {
 }
 
 function fontSizeFor(text) {
-  if (text.length <= 20) return 46;
-  if (text.length <= 40) return 38;
-  return 30;
+  if (text.length <= 20) return 58;
+  if (text.length <= 40) return 48;
+  return 38;
 }
 
-function buildOverlaySvg(text, width, height, theme) {
+const ACCENT_COLORS = {
+  engagement: "#FBBF24", // amber — pops against the violet banner
+  followers: "#38BDF8", // cyan — pops against the deep blue banner
+  leads: "#34D399", // emerald — pops against the navy banner
+};
+const DEFAULT_ACCENT = "#34D399";
+
+// Highlights "techwokx.online" in a distinct accent color within an
+// otherwise-white line of text, via <tspan> — real color variation in
+// the typography itself, not just the banner background.
+function buildColoredLine(line, accentColor) {
+  const escaped = escapeXml(line);
+  const idx = escaped.toLowerCase().indexOf("techwokx.online");
+  if (idx === -1) return escaped;
+  const before = escaped.slice(0, idx);
+  const match = escaped.slice(idx, idx + "techwokx.online".length);
+  const after = escaped.slice(idx + "techwokx.online".length);
+  return `${before}<tspan fill="${accentColor}">${match}</tspan>${after}`;
+}
+
+function buildOverlaySvg(text, width, height, theme, objective) {
   const fontSize = fontSizeFor(text);
   const maxCharsPerLine = Math.round(width / (fontSize * 0.62));
   const lines = wrapLines(text, maxCharsPerLine);
@@ -137,10 +157,11 @@ function buildOverlaySvg(text, width, height, theme) {
   const bannerHeight = 70 + lines.length * lineHeight;
   const startY = height - bannerHeight + fontSize + 20;
 
+  const accentColor = ACCENT_COLORS[objective] || DEFAULT_ACCENT;
   const textLines = lines
     .map(
       (line, i) =>
-        `<text x="${width / 2}" y="${startY + i * lineHeight}" font-family="Arial, 'DejaVu Sans', sans-serif, 'Noto Emoji'" font-size="${fontSize}" font-weight="700" fill="#ffffff" text-anchor="middle">${escapeXml(line)}</text>`
+        `<text x="${width / 2}" y="${startY + i * lineHeight}" font-family="Arial, 'DejaVu Sans', sans-serif, 'Noto Emoji'" font-size="${fontSize}" font-weight="700" fill="#ffffff" text-anchor="middle">${buildColoredLine(line, accentColor)}</text>`
     )
     .join("");
 
@@ -166,7 +187,7 @@ async function overlayTextOnImage(imageBuffer, text, objective) {
   const width = metadata.width || 1024;
   const height = metadata.height || 1024;
   const theme = BANNER_THEMES[objective] || DEFAULT_THEME;
-  const svg = buildOverlaySvg(text, width, height, theme);
+  const svg = buildOverlaySvg(text, width, height, theme, objective);
   return base.composite([{ input: Buffer.from(svg), top: 0, left: 0 }]).png().toBuffer();
 }
 
