@@ -226,3 +226,34 @@ export type WhatsAppStatus = {
 };
 
 export const getWhatsAppStatus = () => adminFetch<WhatsAppStatus>("/api/admin/whatsapp/status");
+
+export const IMAGE_LIBRARY_CATEGORIES = [
+  "hospitality",
+  "healthcare",
+  "retail",
+  "professional-services",
+  "education",
+  "real-estate",
+  "technology",
+  "general",
+] as const;
+
+export const getImageLibrary = () =>
+  adminFetch<Record<string, string[]>>("/api/admin/image-library");
+
+export async function uploadLibraryImage(category: string, file: File) {
+  const token = getToken();
+  const form = new FormData();
+  form.append("category", category);
+  form.append("image", file);
+  const res = await fetch(`${siteConfig.apiBaseUrl}/api/admin/image-library/upload`, {
+    method: "POST",
+    headers: { "x-admin-token": token || "" },
+    body: form,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || `Upload failed (${res.status})`);
+  }
+  return res.json() as Promise<{ ok: true; category: string; filename: string }>;
+}

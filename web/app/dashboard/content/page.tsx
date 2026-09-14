@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Sparkles, Loader2, AlertTriangle, Send, Trash2, Wand2, CalendarClock, Facebook, Instagram, Twitter } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Sparkles, Loader2, AlertTriangle, Send, Trash2, Wand2, CalendarClock, Facebook, Instagram, Twitter, Upload, ImagePlus } from "lucide-react";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
 import {
   getContentDrafts,
@@ -9,6 +9,9 @@ import {
   generateContentBatch,
   queueContentDraft,
   discardContentDraft,
+  getImageLibrary,
+  uploadLibraryImage,
+  IMAGE_LIBRARY_CATEGORIES,
   type ContentDraft,
 } from "@/lib/dashboard-api";
 
@@ -35,11 +38,22 @@ export default function ContentPage() {
   const [error, setError] = useState("");
   const [genError, setGenError] = useState("");
   const [queuedInfo, setQueuedInfo] = useState<Record<number, string>>({});
+  const [library, setLibrary] = useState<Record<string, string[]> | null>(null);
+  const [uploadCategory, setUploadCategory] = useState<string>(IMAGE_LIBRARY_CATEGORIES[0]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadMsg, setUploadMsg] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const load = () => {
     getContentDrafts().then(setDrafts).catch((err) => setError(err.message));
   };
-  useEffect(load, []);
+  const loadLibrary = () => {
+    getImageLibrary().then(setLibrary).catch(() => {});
+  };
+  useEffect(() => {
+    load();
+    loadLibrary();
+  }, []);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +101,23 @@ export default function ContentPage() {
       load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to discard.");
+    }
+  };
+
+  const handleUpload = async () => {
+    const file = fileInputRef.current?.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setUploadMsg("");
+    try {
+      await uploadLibraryImage(uploadCategory, file);
+      setUploadMsg(`✓ Added to ${uploadCategory}`);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      loadLibrary();
+    } catch (err) {
+      setUploadMsg(err instanceof Error ? err.message : "Upload failed.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -143,6 +174,44 @@ export default function ContentPage() {
             </button>
           </form>
           {genError && <p className="mt-2 text-xs text-rose-600">{genError}</p>}
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-6">
+          <div className="flex items-center gap-2">
+            <ImagePlus size={16} className="text-violet-600" />
+            <h3 className="text-sm font-bold text-navy">Fallback Image Library</h3>
+          </div>
+          <p className="mt-1 text-xs text-slate-500">
+            Used automatically when live photo search (Pexels/Pixabay) fails. Upload your own images per category.
+          </p>
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+            <select
+              value={uploadCategory}
+              onChange={(e) => setUploadCategory(e.target.value)}
+              className="focus-ring rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs text-navy"
+            >
+              {IMAGE_LIBRARY_CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c} {library ? `(${library[c]?.length ?? 0})` : ""}
+                </option>
+              ))}
+            </select>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg"
+              className="text-xs text-slate-500 file:mr-2 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-slate-600"
+            />
+            <button
+              onClick={handleUpload}
+              disabled={uploading}
+              className="focus-ring flex shrink-0 items-center gap-1.5 rounded-lg bg-violet-50 px-3 py-2 text-xs font-semibold text-violet-700 hover:bg-violet-100 disabled:opacity-60"
+            >
+              {uploading ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
+              Upload
+            </button>
+          </div>
+          {uploadMsg && <p className="mt-2 text-xs text-slate-500">{uploadMsg}</p>}
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
