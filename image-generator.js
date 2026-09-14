@@ -140,7 +140,7 @@ function buildOverlaySvg(text, width, height, theme) {
   const textLines = lines
     .map(
       (line, i) =>
-        `<text x="${width / 2}" y="${startY + i * lineHeight}" font-family="'Noto Emoji', Arial, sans-serif" font-size="${fontSize}" font-weight="700" fill="#ffffff" text-anchor="middle">${escapeXml(line)}</text>`
+        `<text x="${width / 2}" y="${startY + i * lineHeight}" font-family="Arial, 'DejaVu Sans', sans-serif, 'Noto Emoji'" font-size="${fontSize}" font-weight="700" fill="#ffffff" text-anchor="middle">${escapeXml(line)}</text>`
     )
     .join("");
 
