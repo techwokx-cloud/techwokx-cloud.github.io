@@ -152,9 +152,9 @@ export default function Footer() {
       <div className="container-page flex flex-col items-center justify-between gap-4 border-t border-white/5 py-6 text-xs text-mist sm:flex-row">
         <div className="flex flex-wrap items-center gap-4">
           <span>© {new Date().getFullYear()} TechWokx. All rights reserved.</span>
-          <Link href="#" className="hover:text-white">Privacy Policy</Link>
-          <Link href="#" className="hover:text-white">Terms of Service</Link>
-          <Link href="#" className="hover:text-white">Cookies Policy</Link>
+          <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+          <Link href="/cookies" className="hover:text-white">Cookies Policy</Link>
         </div>
         <div className="flex items-center gap-1.5">
           <ShieldCheck size={14} className="text-violet" />
