@@ -223,18 +223,6 @@ export default function TermsOfService() {
             <p className="mt-4 text-mist">The Company may amend these Terms of Service at any time. Continued use of our services constitutes acceptance of amended terms. We recommend reviewing these terms periodically.</p>
           </section>
 
-          {/* Contact Section */}
-          <section className="rounded-xl border border-violet/20 bg-navy-800 p-6 sm:p-8">
-            <h2 className="text-2xl font-bold text-white">Contact Us</h2>
-            <p className="mt-3 text-mist">For questions about these Terms of Service or disputes:</p>
-            <div className="mt-6 space-y-2 text-sm text-mist">
-              <p><strong className="text-white">Email:</strong> <a href="mailto:hello@techwokx.com" className="text-violet hover:underline">hello@techwokx.com</a> | <a href="mailto:techwokx@gmail.com" className="text-violet hover:underline">techwokx@gmail.com</a></p>
-              <p><strong className="text-white">Phone:</strong> +233 55 508 7407</p>
-            <p><strong className="text-white">Location:</strong> Accra, Ghana</p>
-              
-            </div>
-          </section>
-
           {/* Footer Links */}
           <div className="mt-12 flex gap-4 border-t border-white/10 pt-8 text-sm">
             <Link href="/" className="text-mist hover:text-white">Home</Link>
