@@ -228,9 +228,10 @@ export default function TermsOfService() {
             <h2 className="text-2xl font-bold text-white">Contact Us</h2>
             <p className="mt-3 text-mist">For questions about these Terms of Service or disputes:</p>
             <div className="mt-6 space-y-2 text-sm text-mist">
-              <p><strong className="text-white">Email:</strong> <a href="mailto:george.jabley@gmail.com" className="text-violet hover:underline">george.jabley@gmail.com</a></p>
-              <p><strong className="text-white">Website:</strong> <Link href="/" className="text-violet hover:underline">techwokx.online</Link></p>
-              <p><strong className="text-white">LinkedIn:</strong> <a href="https://linkedin.com/in/georgejabley" className="text-violet hover:underline" target="_blank" rel="noopener noreferrer">linkedin.com/in/georgejabley</a></p>
+              <p><strong className="text-white">Email:</strong> <a href="mailto:hello@techwokx.com" className="text-violet hover:underline">hello@techwokx.com</a> | <a href="mailto:techwokx@gmail.com" className="text-violet hover:underline">techwokx@gmail.com</a></p>
+              <p><strong className="text-white">Phone:</strong> +233 55 508 7407</p>
+            <p><strong className="text-white">Location:</strong> Accra, Ghana</p>
+              
             </div>
           </section>
 
