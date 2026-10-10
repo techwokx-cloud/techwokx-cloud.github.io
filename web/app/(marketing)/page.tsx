@@ -143,17 +143,17 @@ export default function HomePage() {
                     href={client.url}
                     target={client.url.startsWith("http") ? "_blank" : undefined}
                     rel={client.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="focus-ring group flex h-11 w-32 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] transition hover:border-violet/30 hover:bg-white/5"
+                    className="focus-ring group flex h-24 w-40 items-center justify-center rounded-lg border border-white/20 bg-white transition hover:border-violet/50 hover:shadow-lg"
                     title={client.description}
                   >
                     {client.logo ? (
                       <img
                         src={client.logo}
                         alt={client.name}
-                        className="h-8 max-w-[90%] object-contain"
+                        className="h-16 max-w-[85%] object-contain"
                       />
                     ) : (
-                      <span className="text-center text-[11px] font-semibold text-white/60 group-hover:text-white/80">
+                      <span className="text-center text-sm font-semibold text-navy">
                         {client.name}
                       </span>
                     )}
