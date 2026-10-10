@@ -22,13 +22,20 @@ export default function WhatsAppConnectionCard() {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch(`${siteConfig.apiBaseUrl}/status`, {
+      const response = await fetch(`${siteConfig.apiBaseUrl}/api/admin/whatsapp/status`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''
+        }
       });
 
+      if (response.status === 401) {
+        throw new Error('Authentication failed - admin token not configured');
+      }
+
       if (response.status === 404) {
-        throw new Error('Gateway endpoint not found - verify the service is running at ' + siteConfig.apiBaseUrl);
+        throw new Error('Gateway endpoint not found');
       }
 
       if (!response.ok) {
@@ -36,10 +43,15 @@ export default function WhatsAppConnectionCard() {
       }
 
       const data = await response.json();
-      if (data.success) {
-        setStatus(data.whatsapp || { status: 'disconnected' });
+      if (data.connected !== undefined) {
+        setStatus({
+          status: data.connected ? 'connected' : 'disconnected',
+          lastError: data.error
+        });
+      } else if (data.status) {
+        setStatus(data);
       } else {
-        setStatus({ status: 'error', lastError: data.error || 'Unknown error' });
+        setStatus({ status: 'error', lastError: 'Invalid response format' });
       }
     } catch (error) {
       console.error('Failed to fetch status:', error);
@@ -55,10 +67,17 @@ export default function WhatsAppConnectionCard() {
   const handleRestart = async () => {
     setRestarting(true);
     try {
-      const response = await fetch(`${siteConfig.apiBaseUrl}/restart/whatsapp`, {
+      const response = await fetch(`${siteConfig.apiBaseUrl}/api/admin/whatsapp/restart`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''
+        }
       });
+
+      if (response.status === 401) {
+        throw new Error('Authentication failed - admin token not configured');
+      }
 
       if (!response.ok) {
         throw new Error(`API returned ${response.status}`);
