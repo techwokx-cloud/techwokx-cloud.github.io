@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sparkles, Menu, X, LayoutDashboard } from "lucide-react";
 
 const navLinks = [
@@ -15,10 +15,37 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Show navbar when scrolling up, hide when scrolling down
+      if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      } else if (currentScrollY > 100) {
+        // Scrolling down (but only after scrolling past 100px)
+        setIsVisible(false);
+      } else {
+        // Near top
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className="sticky top-0 z-50 bg-ink/80 backdrop-blur-md">
+    <header className={`sticky top-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 ${
+      isVisible ? "translate-y-0" : "-translate-y-full"
+    }`}>
       <div className="container-page flex h-24 items-center justify-between">
         <Link href="/" className="focus-ring flex items-center gap-2">
           <img
