@@ -27,6 +27,10 @@ export default function WhatsAppConnectionCard() {
         headers: { 'Content-Type': 'application/json' }
       });
 
+      if (response.status === 404) {
+        throw new Error('Gateway endpoint not found - verify the service is running at ' + siteConfig.apiBaseUrl);
+      }
+
       if (!response.ok) {
         throw new Error(`API returned ${response.status}`);
       }
