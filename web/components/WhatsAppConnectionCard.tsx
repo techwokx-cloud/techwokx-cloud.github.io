@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AlertCircle, RotateCcw, Wifi, WifiOff } from 'lucide-react';
+import { siteConfig } from '@/lib/site-config';
 
 interface ConnectionStatus {
   status: 'connected' | 'disconnected' | 'connecting' | 'error';
@@ -21,11 +22,27 @@ export default function WhatsAppConnectionCard() {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch('/api/status');
+      const response = await fetch(`${siteConfig.apiBaseUrl}/status`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`);
+      }
+
       const data = await response.json();
-      if (data.success) setStatus(data.whatsapp);
+      if (data.success) {
+        setStatus(data.whatsapp || { status: 'disconnected' });
+      } else {
+        setStatus({ status: 'error', lastError: data.error || 'Unknown error' });
+      }
     } catch (error) {
       console.error('Failed to fetch status:', error);
+      setStatus({
+        status: 'error',
+        lastError: error instanceof Error ? error.message : 'Connection failed'
+      });
     } finally {
       setLoading(false);
     }
@@ -34,16 +51,27 @@ export default function WhatsAppConnectionCard() {
   const handleRestart = async () => {
     setRestarting(true);
     try {
-      const response = await fetch('/api/restart/whatsapp', { method: 'POST' });
+      const response = await fetch(`${siteConfig.apiBaseUrl}/restart/whatsapp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`);
+      }
+
       const data = await response.json();
       if (data.success) {
         setStatus({ status: 'connecting' });
         setTimeout(fetchStatus, 3000);
       } else {
-        setStatus({ status: 'error', lastError: data.error });
+        setStatus({ status: 'error', lastError: data.error || 'Restart failed' });
       }
     } catch (error) {
-      setStatus({ status: 'error', lastError: String(error) });
+      setStatus({
+        status: 'error',
+        lastError: error instanceof Error ? error.message : 'Restart failed'
+      });
     } finally {
       setRestarting(false);
     }
