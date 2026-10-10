@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Star,
   UserCheck,
@@ -12,6 +13,7 @@ import Typewriter from "@/components/Typewriter";
 import CircuitLines from "@/components/CircuitLines";
 import BookingMiniDemo from "@/components/BookingMiniDemo";
 import ScannerShowcase from "@/components/ScannerShowcase";
+import { clients } from "@/lib/clients-config";
 
 export const metadata: Metadata = {
   title: "AI For Your Website — Free Website Scan & AI Retrofit",
@@ -20,8 +22,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: { url: "/", title: "TechWokx — Your Website. Now Intelligent." },
 };
-
-const logoSlots = [1, 2, 3, 4, 5, 6];
 
 export default function HomePage() {
   return (
@@ -137,19 +137,31 @@ export default function HomePage() {
                 Trusted by forward-thinking businesses
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-                {logoSlots.map((i) => (
-                  <div
-                    key={i}
-                    className="flex h-11 w-32 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03]"
+                {clients.map((client) => (
+                  <Link
+                    key={client.id}
+                    href={client.url}
+                    target={client.url.startsWith("http") ? "_blank" : undefined}
+                    rel={client.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="focus-ring group flex h-11 w-32 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] transition hover:border-violet/30 hover:bg-white/5"
+                    title={client.description}
                   >
-                    <span className="text-[10px] uppercase tracking-wide text-white/25">
-                      Client logo
-                    </span>
-                  </div>
+                    {client.logo ? (
+                      <img
+                        src={client.logo}
+                        alt={client.name}
+                        className="h-8 max-w-[90%] object-contain"
+                      />
+                    ) : (
+                      <span className="text-center text-[11px] font-semibold text-white/60 group-hover:text-white/80">
+                        {client.name}
+                      </span>
+                    )}
+                  </Link>
                 ))}
               </div>
               <p className="mt-3 text-center text-[11px] text-white/30">
-                Client logos manageable from the dashboard — placeholders for now.
+                Portfolio of projects and platforms powered by TechWokx
               </p>
             </div>
           </Reveal>
