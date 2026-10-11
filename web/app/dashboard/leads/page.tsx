@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, TrendingUp, Megaphone, Loader2, AlertTriangle, ExternalLink } from "lucide-react";
+import { Users, TrendingUp, Megaphone, Loader2, AlertTriangle, ExternalLink, Plus } from "lucide-react";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
 import StatCard from "@/components/dashboard/StatCard";
+import LeadsImportModal from "@/components/dashboard/LeadsImportModal";
 import { getLeads, type Lead } from "@/lib/dashboard-api";
 
 const scoreColor = (s: number | null) =>
@@ -24,11 +25,16 @@ function timeAgo(iso: string) {
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[] | null>(null);
   const [error, setError] = useState("");
+  const [importModalOpen, setImportModalOpen] = useState(false);
 
-  useEffect(() => {
+  const fetchLeads = () => {
     getLeads()
       .then(setLeads)
       .catch((err) => setError(err.message));
+  };
+
+  useEffect(() => {
+    fetchLeads();
   }, []);
 
   if (error) {
@@ -73,10 +79,27 @@ export default function LeadsPage() {
   return (
     <>
       <DashboardTopbar title="Leads" />
+      <LeadsImportModal
+        isOpen={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        onImportSuccess={() => {
+          setImportModalOpen(false);
+          fetchLeads();
+        }}
+      />
       <div className="flex-1 space-y-6 overflow-y-auto p-5 lg:p-8">
-        <p className="text-sm text-slate-500">
-          Every lead captured from a website scan, with their readiness score and campaign status.
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-slate-500">
+            Every lead captured from a website scan, with their readiness score and campaign status.
+          </p>
+          <button
+            onClick={() => setImportModalOpen(true)}
+            className="flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 font-medium text-white hover:bg-violet-700 transition-colors shrink-0"
+          >
+            <Plus size={18} />
+            Import Leads
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {stats.map((s) => (

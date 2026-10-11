@@ -257,3 +257,57 @@ export async function uploadLibraryImage(category: string, file: File) {
   }
   return res.json() as Promise<{ ok: true; category: string; filename: string }>;
 }
+
+// Leads Import APIs
+export type ImportResult = {
+  success: boolean;
+  imported: number;
+  errors?: string[];
+  error?: string;
+};
+
+export async function importLeadsFromFile(file: File): Promise<ImportResult> {
+  const token = getToken();
+  const form = new FormData();
+  form.append("file", file);
+  const res = await fetch(`${siteConfig.apiBaseUrl}/api/admin/leads/import-csv`, {
+    method: "POST",
+    headers: { "x-admin-token": token || "" },
+    body: form,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || `Import failed (${res.status})`);
+  }
+  return res.json();
+}
+
+export async function getGoogleSheetsAuthUrl(): Promise<{ authUrl: string }> {
+  return adminFetchWithBody<{ authUrl: string }>(
+    "/api/admin/leads/google-sheets/auth",
+    "POST"
+  );
+}
+
+export async function getFacebookAuthUrl(): Promise<{ authUrl: string }> {
+  return adminFetchWithBody<{ authUrl: string }>(
+    "/api/admin/leads/facebook/auth",
+    "POST"
+  );
+}
+
+export async function importLeadsFromGoogleSheets(spreadsheetId: string, range: string): Promise<ImportResult> {
+  return adminFetchWithBody<ImportResult>(
+    "/api/admin/leads/import-google-sheets",
+    "POST",
+    { spreadsheetId, range }
+  );
+}
+
+export async function importLeadsFromFacebook(formId: string): Promise<ImportResult> {
+  return adminFetchWithBody<ImportResult>(
+    "/api/admin/leads/import-facebook",
+    "POST",
+    { formId }
+  );
+}
